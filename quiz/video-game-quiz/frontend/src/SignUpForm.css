@@ -1,0 +1,30 @@
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  max-width: 300px;
+  margin: 2rem auto;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.signup-form input {
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+}
+
+.signup-form button {
+  padding: 0.5rem;
+  cursor: pointer;
+}
+.signup-form button2 {
+  padding: 0.3rem;
+  cursor: pointer;
+}
+
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
