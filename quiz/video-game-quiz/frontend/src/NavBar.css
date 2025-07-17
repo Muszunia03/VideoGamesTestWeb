@@ -1,0 +1,351 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Press+Start+2P&display=swap');
+
+.navbar {
+    background: linear-gradient(90deg, #12121e, #1a1a2e, #12121e); 
+    padding: 10px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.7);
+    border-bottom: 2px solid rgba(0, 224, 255, 0.3); 
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    box-sizing: border-box;
+    min-height: 70px; 
+}
+
+.navbar-brand {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1.8em;
+    color: #00e0ff;
+    text-shadow: 0 0 15px rgba(0, 224, 255, 0.8);
+    text-decoration: none;
+    letter-spacing: 1.5px;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.navbar-brand:hover {
+    color: #33ffff;
+    text-shadow: 0 0 20px rgba(51, 255, 255, 1);
+}
+
+.navbar-nav {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 25px; 
+    flex-grow: 1; 
+    justify-content: center;
+}
+
+.navbar-nav-item a {
+    text-decoration: none;
+    color: #c0c0c0;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.05em; 
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: color 0.3s ease, background 0.3s ease, transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.navbar-nav-item a .icon {
+    font-size: 1.2em; 
+    line-height: 1; 
+}
+
+.navbar-nav-item a:hover {
+    color: #00e0ff;
+    background: rgba(0, 188, 212, 0.15);
+    transform: translateY(-2px);
+    box-shadow: 0 0 10px rgba(0, 188, 212, 0.4);
+}
+
+.navbar-nav-item a.active {
+    color: #ffeb3b;
+    background: rgba(255, 235, 59, 0.1);
+    box-shadow: 0 0 12px rgba(255, 235, 59, 0.6);
+    border-bottom: 2px solid #ffeb3b;
+}
+
+.navbar-actions {
+    display: flex;
+    gap: 15px;
+}
+
+.logout-btn {
+    padding: 10px 25px;
+    background: linear-gradient(45deg, #e91e63, #d81b60);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1em;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 15px rgba(233, 30, 99, 0.5);
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.logout-btn:hover {
+    background: linear-gradient(45deg, #d81b60, #c2185b);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(233, 30, 99, 0.7);
+}
+
+.primary-btn {
+    padding: 10px 25px;
+    background: linear-gradient(45deg, #00b0ff, #0089dc); 
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1em;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 15px rgba(0, 176, 255, 0.5);
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.primary-btn:hover {
+    background: linear-gradient(45deg, #0089dc, #005a8d);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 176, 255, 0.7);
+}
+
+.secondary-btn { 
+    padding: 10px 25px;
+    background: rgba(0, 224, 255, 0.2);
+    color: #00e0ff;
+    border: 1px solid #00e0ff;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1em;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    box-shadow: 0 3px 10px rgba(0, 224, 255, 0.3);
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease, color 0.3s ease;
+}
+
+.secondary-btn:hover {
+    background: rgba(0, 224, 255, 0.4);
+    color: white;
+    border-color: #33ffff;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 224, 255, 0.6);
+}
+
+.navbar-nav-placeholder {
+    flex-grow: 1;
+}
+
+@media (max-width: 992px) {
+    .navbar {
+        padding: 10px 20px;
+    }
+    .navbar-brand {
+        font-size: 1.5em;
+    }
+    .navbar-nav {
+        gap: 15px;
+    }
+    .navbar-nav-item a {
+        font-size: 0.95em;
+        padding: 6px 10px;
+    }
+    .navbar-nav-item a .icon {
+        font-size: 1em;
+    }
+    .logout-btn, .primary-btn, .secondary-btn {
+        padding: 8px 20px;
+        font-size: 0.9em;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        flex-wrap: wrap; 
+        justify-content: center; 
+        padding: 8px 15px;
+        min-height: 90px; 
+    }
+    .navbar-brand {
+        width: 100%; 
+        text-align: center;
+        margin-bottom: 5px;
+        font-size: 1.3em;
+    }
+    .navbar-nav {
+        width: 100%;
+        justify-content: space-around;
+        gap: 8px; 
+        margin-bottom: 8px;
+    }
+    .navbar-nav-item a {
+        font-size: 0.85em;
+        padding: 5px 8px;
+    }
+    .navbar-nav-item a span:last-child {
+        display: none;
+    }
+    .navbar-nav-item a .icon {
+        font-size: 1.1em;
+        margin: 0 auto;
+    }
+    .navbar-actions {
+        width: 100%;
+        justify-content: center;
+        gap: 10px;
+    }
+    .logout-btn, .primary-btn, .secondary-btn {
+        padding: 7px 15px;
+        font-size: 0.8em;
+    }
+    .navbar-nav-placeholder {
+        display: none; 
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar {
+        padding: 5px 10px;
+        min-height: 80px;
+    }
+    .navbar-brand {
+        font-size: 1.1em;
+    }
+    .navbar-nav-item a {
+        font-size: 0.75em;
+        padding: 4px 6px;
+    }
+    .logout-btn, .primary-btn, .secondary-btn {
+        padding: 6px 12px;
+        font-size: 0.75em;
+    }
+}
+.username-display {
+    font-family: 'Orbitron', sans-serif;
+    color: #ffeb3b; 
+    font-size: 1.1em;
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px; 
+    text-shadow: 0 0 10px rgba(255, 235, 59, 0.5);
+}
+
+.username-display .icon {
+    font-size: 1.2em;
+    line-height: 1;
+}
+
+@media (max-width: 992px) {
+    .username-display {
+        font-size: 1em;
+        margin-right: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    .username-display {
+        font-size: 0.9em;
+        margin-right: 8px;
+    }
+
+}
+
+@media (max-width: 480px) {
+    .username-display {
+        font-size: 0.8em;
+        margin-right: 5px;
+    }
+}
+
+.navbar-brand {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1.8em;
+    color: #00e0ff;
+    text-decoration: none;
+    margin-right: auto; /* Push other items to the right */
+    transition: color 0.3s ease;
+    text-shadow: 0 0 10px rgba(0, 224, 255, 0.7);
+}
+
+.navbar-brand:hover {
+    color: #33ffff;
+    text-shadow: 0 0 15px rgba(0, 224, 255, 0.9);
+}
+
+.navbar-nav {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar-nav-item {
+    margin: 0 15px;
+}
+
+.navbar-nav-item a {
+    color: #c0c0c0;
+    text-decoration: none;
+    font-size: 1.1em;
+    font-family: 'Orbitron', sans-serif;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Spacing between icon and text */
+}
+
+.navbar-nav-item a:hover {
+    color: #ffeb3b;
+    text-shadow: 0 0 12px rgba(255, 235, 59, 0.7);
+}
+
+.navbar-nav-item a.active {
+    color: #ffeb3b;
+    text-shadow: 0 0 15px rgba(255, 235, 59, 0.9);
+    border-bottom: 2px solid #ffeb3b;
+    padding-bottom: 3px;
+}
+
+.navbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.username-display {
+    color: #00e0ff; /* Domyślny kolor nicku */
+    font-size: 1.1em;
+    font-weight: bold;
+    font-family: 'Orbitron', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer; /* Kursor, aby pokazać, że jest klikalny */
+    text-decoration: none; /* Usuń podkreślenie dla linku */
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.username-display:hover {
+    color: #ffeb3b; /* Zmiana koloru na najazd myszką */
+    text-shadow: 0 0 15px rgba(255, 235, 59, 0.7);
+}
+
+.username-display.active { /* Styl dla aktywnego linku (gdy jesteś na stronie profilu) */
+    color: #ffeb3b;
+    text-shadow: 0 0 15px rgba(255, 235, 59, 0.9);
+    border-bottom: 2px solid #ffeb3b;
+    padding-bottom: 3px;
+}

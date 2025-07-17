@@ -1,0 +1,380 @@
+/* src/HomePage.css */
+
+/* General Body and Root Adjustments */
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+#root {
+    margin: 0;
+    padding: 0;
+}
+
+/* Kontener całej strony głównej */
+.home-page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 1400px;
+    width: 100%;
+    padding: 30px 20px;
+    box-sizing: border-box;
+    margin: 0 auto;
+    margin-top: 80px;
+    /* Zmieniamy 'ease-out' na płynniejsze 'cubic-bezier' dla całego kontenera */
+    animation: fadeIn 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Bardziej płynny 'ease-out' */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); } /* Zwiększamy początkowe przesunięcie */
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Sekcja "bohatera" (główna sekcja z tytułem i obrazkiem) */
+.home-hero-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    padding: 40px 0;
+    width: 100%;
+    max-width: 1100px;
+    margin-bottom: 80px;
+}
+
+.hero-content {
+    text-align: center;
+    max-width: 750px;
+}
+
+.site-main-title {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 4.2em;
+    color: #00e0ff;
+    text-align: center;
+    margin-bottom: 1.2rem;
+    text-shadow: 0 0 35px rgba(0, 224, 255, 1), 0 0 60px rgba(0, 224, 255, 0.7);
+    letter-spacing: 3px;
+    /* Zwiększamy czas i zmieniamy funkcję przejścia */
+    animation: fadeIn 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.site-welcome-message {
+    font-size: 1.4em;
+    color: #c0c0c0;
+    text-align: center;
+    margin-bottom: 2.5rem;
+    line-height: 1.7;
+    /* Zwiększamy czas i zmieniamy funkcję przejścia */
+    animation: fadeIn 1.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.hero-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 18px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6), 0 0 25px rgba(255, 235, 59, 0.5);
+    /* Zwiększamy czas i zmieniamy funkcję przejścia */
+    animation: fadeInScale 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+@keyframes fadeInScale {
+    from { opacity: 0; transform: scale(0.85); } /* Zwiększamy początkowe zmniejszenie */
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* --- */
+
+/* Sekcja Funkcji */
+.features-section {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 80px;
+}
+
+.features-section h2, .testimonials-section h2, .call-to-action-section h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.8em;
+    color: #ffeb3b;
+    margin-bottom: 50px;
+    text-shadow: 0 0 18px rgba(255, 235, 59, 0.7);
+    /* Używamy AOS fade-up, więc nie potrzebujemy tu bezpośredniej animacji */
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 35px;
+    padding: 0 20px;
+}
+
+.feature-card {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 6px 22px rgba(0, 0, 0, 0.45);
+    border: 1px solid rgba(0, 188, 212, 0.15);
+    /* Zmieniamy 'ease' na płynniejsze 'cubic-bezier' dla transform i box-shadow */
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                box-shadow 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.feature-card:hover {
+    transform: translateY(-12px); /* Delikatnie zwiększamy uniesienie */
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 188, 212, 0.7); /* Mocniejszy cień/blask */
+}
+
+.feature-card h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.7em;
+    color: #00e0ff;
+    margin-bottom: 12px;
+    text-shadow: 0 0 10px rgba(0, 224, 255, 0.6);
+}
+
+.feature-card p {
+    font-size: 1.05em;
+    color: #e0e0e0;
+    line-height: 1.6;
+}
+
+/* --- */
+
+/* Sekcja Opinii */
+.testimonials-section {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 100px;
+}
+
+.testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 35px;
+    padding: 0 20px;
+}
+
+.testimonial-card {
+    background: rgba(26, 26, 46, 0.95);
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 6px 22px rgba(0, 0, 0, 0.45);
+    border: 1px solid rgba(233, 30, 99, 0.15);
+    /* Zmieniamy 'ease' na płynniejsze 'cubic-bezier' dla transform i box-shadow */
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                box-shadow 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.testimonial-card:hover {
+    transform: translateY(-12px); /* Delikatnie zwiększamy uniesienie */
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(233, 30, 99, 0.7); /* Mocniejszy cień/blask */
+}
+
+.testimonial-card p {
+    font-style: italic;
+    font-size: 1.15em;
+    color: #e0e0e0;
+    margin-bottom: 18px;
+    line-height: 1.6;
+}
+
+.testimonial-author {
+    font-weight: bold;
+    color: #ffeb3b;
+    font-size: 1em;
+    text-align: right;
+    display: block;
+    margin-top: 10px;
+}
+
+/* --- */
+
+/* Sekcja Call To Action */
+.call-to-action-section {
+    width: 100%;
+    text-align: center;
+    padding: 60px 30px;
+    background: linear-gradient(135deg, rgba(0, 188, 212, 0.15), rgba(233, 30, 99, 0.15));
+    border-radius: 18px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.6);
+    margin-bottom: 60px;
+}
+
+/* Style przycisków */
+.primary-btn {
+    padding: 16px 40px;
+    background: linear-gradient(45deg, #e91e63, #d81b60);
+    color: white;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 1.3em;
+    font-weight: bold;
+    /* Zmieniamy 'ease' na płynniejsze 'cubic-bezier' dla wszystkich przejść */
+    transition: background 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                box-shadow 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 1px;
+    box-shadow: 0 6px 20px rgba(233, 30, 99, 0.6);
+}
+
+.primary-btn:hover {
+    background: linear-gradient(45deg, #d81b60, #c2185b);
+    transform: translateY(-7px); /* Zwiększamy uniesienie na hover */
+    box-shadow: 0 10px 35px rgba(233, 30, 99, 0.9); /* Mocniejszy cień na hover */
+}
+
+/* --- Responsywne dostosowania dla całej HomePage --- */
+@media (min-width: 992px) {
+    .home-hero-section {
+        flex-direction: row;
+        text-align: left;
+        justify-content: space-between;
+    }
+    .hero-content {
+        text-align: left;
+        flex: 1;
+        padding-right: 40px;
+    }
+    .hero-image {
+        flex-shrink: 0;
+        width: 45%;
+        margin-left: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .site-main-title, .site-welcome-message {
+        text-align: left;
+    }
+}
+
+@media (max-width: 991px) {
+    .home-page-container {
+        padding: 25px 18px;
+        margin-top: 70px;
+    }
+    .site-main-title {
+        font-size: 3.2em;
+        letter-spacing: 2.5px;
+    }
+    .site-welcome-message {
+        font-size: 1.3em;
+    }
+    .features-section h2, .testimonials-section h2, .call-to-action-section h2 {
+        font-size: 2.4em;
+        margin-bottom: 40px;
+    }
+    .features-grid, .testimonial-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 25px;
+    }
+    .feature-card, .testimonial-card {
+        padding: 25px;
+    }
+    .feature-card h3 {
+        font-size: 1.5em;
+    }
+    .testimonial-card p {
+        font-size: 1.05em;
+    }
+    .primary-btn {
+        padding: 14px 35px;
+        font-size: 1.2em;
+    }
+    .call-to-action-section {
+        padding: 50px 25px;
+    }
+}
+
+@media (max-width: 767px) {
+    .home-page-container {
+        padding: 20px 15px;
+        margin-top: 60px;
+    }
+    .site-main-title {
+        font-size: 2.6em;
+        letter-spacing: 2px;
+    }
+    .site-welcome-message {
+        font-size: 1.15em;
+    }
+    .features-section h2, .testimonials-section h2, .call-to-action-section h2 {
+        font-size: 2em;
+        margin-bottom: 30px;
+    }
+    .features-grid, .testimonial-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    .feature-card, .testimonial-card {
+        padding: 20px;
+    }
+    .feature-card h3 {
+        font-size: 1.3em;
+    }
+    .feature-card p {
+        font-size: 1em;
+    }
+    .testimonial-card p {
+        font-size: 1em;
+    }
+    .primary-btn {
+        padding: 12px 30px;
+        font-size: 1.1em;
+    }
+    .home-hero-section {
+        margin-bottom: 60px;
+    }
+    .testimonials-section {
+        margin-bottom: 80px;
+    }
+}
+
+@media (max-width: 480px) {
+    .home-page-container {
+        padding: 15px 10px;
+        margin-top: 50px;
+    }
+    .site-main-title {
+        font-size: 2.2em;
+        letter-spacing: 1.5px;
+    }
+    .site-welcome-message {
+        font-size: 1em;
+    }
+    .features-section h2, .testimonials-section h2, .call-to-action-section h2 {
+        font-size: 1.8em;
+        margin-bottom: 25px;
+    }
+    .feature-card h3 {
+        font-size: 1.2em;
+    }
+    .feature-card p {
+        font-size: 0.9em;
+    }
+    .testimonial-card p {
+        font-size: 0.95em;
+    }
+    .primary-btn {
+        padding: 10px 25px;
+        font-size: 1em;
+    }
+    .home-hero-section {
+        gap: 30px;
+        padding: 30px 0;
+    }
+    .hero-image img {
+        border-radius: 12px;
+    }
+    .feature-card, .testimonial-card {
+        border-radius: 10px;
+        padding: 18px;
+    }
+    .call-to-action-section {
+        padding: 40px 20px;
+        border-radius: 12px;
+    }
+}

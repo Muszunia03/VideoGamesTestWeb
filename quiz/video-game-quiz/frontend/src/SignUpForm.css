@@ -1,30 +1,251 @@
-.signup-form {
-  display: flex;
-  flex-direction: column;
-  max-width: 300px;
-  margin: 2rem auto;
-  padding: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+/* src/SignUpForm.css */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Press+Start+2P&display=swap');
+
+/* Ten wrapper jest wspólny dla LoginForm i SignUpForm, powinien być w App.css lub podobnym pliku */
+.form-page-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 70px); /* Cała wysokość widoczna minus wysokość navbaru */
+    padding-top: 70px; /* Odsunięcie od navbaru */
+    box-sizing: border-box;
+    padding-bottom: 20px; /* Dodatkowy padding na dole, żeby nic nie było zbyt ściśnięte */
 }
 
-.signup-form input {
-  margin: 0.5rem 0;
-  padding: 0.5rem;
+.sign-up-form {
+    display: flex;
+    flex-direction: column;
+    max-width: 450px; /* Nieco szerszy niż LoginForm, aby pomieścić więcej pól */
+    width: 90%;
+    padding: 3rem; /* Większy padding */
+    background: rgba(17, 24, 39, 0.95); /* Ciemniejsze, lekko przezroczyste tło */
+    border-radius: 20px; /* Bardziej zaokrąglone rogi */
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 224, 255, 0.4); /* Mocniejszy cień z poświatą */
+    border: 2px solid rgba(0, 224, 255, 0.2); /* Neonowa ramka */
+    backdrop-filter: blur(10px); /* Większe rozmycie tła */
+    -webkit-backdrop-filter: blur(10px);
+    animation: formFadeIn 0.8s ease-out; /* Animacja pojawienia się */
 }
 
-.signup-form button {
-  padding: 0.5rem;
-  cursor: pointer;
+@keyframes formFadeIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
 }
-.signup-form button2 {
-  padding: 0.3rem;
-  cursor: pointer;
+
+.sign-up-form h2 {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 2.2em; /* Większy tytuł */
+    color: #00e0ff;
+    text-align: center;
+    margin-bottom: 2.5rem; /* Większy odstęp */
+    text-shadow: 0 0 20px rgba(0, 224, 255, 0.8);
+    letter-spacing: 1.5px;
 }
+
+/* Grupa inputów z komunikatem błędu */
+.input-group {
+    margin-bottom: 1.5rem; /* Odstęp między grupami inputów */
+}
+
+.sign-up-form input {
+    width: 100%;
+    padding: 1.2rem 1.5rem; /* Większe paddingi */
+    border: 1px solid #00bcd4; /* Standardowa ramka */
+    border-radius: 10px; /* Bardziej zaokrąglone rogi */
+    background: rgba(0, 0, 0, 0.5); /* Ciemniejsze tło inputów */
+    color: #e0e0e0;
+    font-size: 1.1em; /* Większa czcionka */
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-sizing: border-box; /* Upewnij się, że padding nie dodaje do szerokości */
+}
+
+.sign-up-form input::placeholder {
+    color: #a0a0a0; /* Jaśniejszy placeholder */
+}
+
+.sign-up-form input:focus {
+    border-color: #ffeb3b; /* Neonowo-żółta ramka po focusie */
+    box-shadow: 0 0 20px rgba(255, 235, 59, 0.6); /* Poświata po focusie */
+}
+
+/* Styl dla inputów z błędem walidacji */
+.sign-up-form input.input-error {
+    border-color: #ff4d4d; /* Czerwona ramka */
+    box-shadow: 0 0 15px rgba(255, 77, 77, 0.6); /* Czerwona poświata */
+}
+
+.error-message {
+    color: #ff4d4d; /* Czerwony tekst błędu */
+    font-size: 0.9em;
+    margin-top: 5px; /* Odstęp od inputa */
+    margin-bottom: -10px; /* Zmniejsz odstęp od następnego elementu, by pasował do input-group */
+    text-align: left;
+}
+
+/* NOWE STYLE: Kontener dla pola hasła z oczkiem */
+.password-input-group {
+    position: relative; /* Kluczowe dla pozycjonowania "oczka" */
+}
+
+/* NOWE STYLE: Styl dla ikony oczka */
+.password-toggle {
+    position: absolute;
+    right: 15px; /* Odległość od prawej krawędzi inputa */
+    top: 50%; /* Wyśrodkuj pionowo */
+    transform: translateY(-50%); /* Dokładne wyśrodkowanie pionowe */
+    cursor: pointer;
+    color: #a0a0a0; /* Kolor oczka, możesz użyć neonowego koloru dla spójności */
+    font-size: 1.3em; /* Rozmiar ikony */
+    transition: color 0.3s ease;
+    user-select: none; /* Zapobiega zaznaczaniu tekstu ikony */
+    display: flex; /* Aby ikona była zawsze wyśrodkowana, jeśli ma zmienny rozmiar */
+    align-items: center;
+    justify-content: center;
+    width: 25px; /* Nadaj stałą szerokość dla lepszego wyrównania */
+    height: 25px; /* Nadaj stałą wysokość */
+}
+
+.password-toggle:hover {
+    color: #00e0ff; /* Kolor po najechaniu, neonowy niebieski */
+}
+
+/* NOWE STYLE: Dostosuj padding inputa, aby tekst nie zachodził na oczko */
+.password-input-group input {
+    padding-right: 45px; /* Zwiększ padding po prawej, aby zrobić miejsce na oczko */
+}
+
 
 .button-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem; /* Odstęp między przyciskami */
+    margin-top: 2rem; /* Większy odstęp od inputów */
 }
 
+/* Pamiętaj, że style dla .primary-btn i .secondary-btn
+   powinny być zdefiniowane globalnie (np. w App.css, NavBar.css lub HomePage.css)
+   dla spójności w całej aplikacji. */
+
+/* Poniżej przykład globalnych styli dla przycisków, jeśli nie masz ich gdzie indziej: */
+/*
+.primary-btn {
+    padding: 15px 30px;
+    background: linear-gradient(45deg, #e91e63, #d81b60);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 5px 18px rgba(233, 30, 99, 0.5);
+    letter-spacing: 0.8px;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.primary-btn:hover {
+    background: linear-gradient(45deg, #d81b60, #c2185b);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(233, 30, 99, 0.7);
+}
+
+.secondary-btn {
+    padding: 15px 30px;
+    background: rgba(0, 188, 212, 0.2);
+    color: #00e0ff;
+    border: 2px solid #00e0ff;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
+    transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 188, 212, 0.3);
+    letter-spacing: 0.8px;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.secondary-btn:hover {
+    background: rgba(0, 188, 212, 0.4);
+    color: white;
+    border-color: #00ffff;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 188, 212, 0.6);
+}
+*/
+
+/* Responsywne dostosowania dla formularza rejestracji */
+@media (max-width: 768px) {
+    .sign-up-form {
+        padding: 2rem;
+        max-width: 90%;
+    }
+    .sign-up-form h2 {
+        font-size: 1.8em;
+        margin-bottom: 2rem;
+    }
+    .sign-up-form input {
+        padding: 1rem 1.2rem;
+        font-size: 1em;
+    }
+    .input-group {
+        margin-bottom: 1.2rem;
+    }
+    .button-group {
+        gap: 0.8rem;
+        margin-top: 1.5rem;
+    }
+    .primary-btn, .secondary-btn {
+        padding: 12px 25px;
+        font-size: 1em;
+    }
+    /* NOWE STYLE RESPONSYWNE: */
+    .password-input-group input {
+        padding-right: 40px; /* Dostosuj padding na mniejszych ekranach */
+    }
+    .password-toggle {
+        right: 12px;
+        font-size: 1.2em;
+    }
+}
+
+@media (max-width: 480px) {
+    .form-page-wrapper {
+        padding-top: 60px; /* Mniejszy odstęp od navbaru na małych ekranach */
+    }
+    .sign-up-form {
+        padding: 1.5rem;
+        border-radius: 15px;
+    }
+    .sign-up-form h2 {
+        font-size: 1.5em;
+        margin-bottom: 1.5rem;
+    }
+    .sign-up-form input {
+        padding: 0.8rem 1rem;
+        font-size: 0.9em;
+        border-radius: 8px;
+    }
+    .input-group {
+        margin-bottom: 1rem;
+    }
+    .error-message {
+        font-size: 0.8em;
+    }
+    .button-group {
+        gap: 0.6rem;
+        margin-top: 1rem;
+    }
+    .primary-btn, .secondary-btn {
+        padding: 10px 20px;
+        font-size: 0.9em;
+    }
+    /* NOWE STYLE RESPONSYWNE: */
+    .password-input-group input {
+        padding-right: 35px; /* Dostosuj padding na najmniejszych ekranach */
+    }
+    .password-toggle {
+        right: 10px;
+        font-size: 1.1em;
+    }
+}

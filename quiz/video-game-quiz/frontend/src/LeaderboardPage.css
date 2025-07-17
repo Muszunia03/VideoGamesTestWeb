@@ -1,0 +1,208 @@
+/* src/LeaderboardPage.css */
+
+.leaderboard-page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 1400px;
+    width: 100%;
+    padding: 30px 20px;
+    box-sizing: border-box;
+    margin: 0 auto;
+    margin-top: 80px; /* Consistent with HomePage to clear Navbar */
+    min-height: calc(100vh - 80px - 60px); /* Adjust based on footer height if applicable */
+    animation: fadeIn 1s ease-out; /* Reusing existing animation */
+}
+
+/* Reusing fadeIn from HomePage.css, ensure it's accessible or defined here if not global */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.leaderboard-main-title {
+    font-family: 'Orbitron', sans-serif; /* Using a consistent font for headings */
+    font-size: 3.8em;
+    color: #ffeb3b; /* Consistent highlight color */
+    text-align: center;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 0 20px rgba(255, 235, 59, 0.7), 0 0 35px rgba(255, 235, 59, 0.5);
+    letter-spacing: 2px;
+}
+
+.leaderboard-description {
+    font-size: 1.3em;
+    color: #c0c0c0;
+    text-align: center;
+    max-width: 800px;
+    margin-bottom: 50px;
+    line-height: 1.6;
+}
+
+.leaderboard-grid-wrapper {
+    width: 100%;
+    max-width: 900px; /* Max width for the leaderboard table */
+    background: rgba(255, 255, 255, 0.05); /* Slightly transparent background */
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 188, 212, 0.2); /* Soft blue glow */
+    border: 1px solid rgba(0, 188, 212, 0.1);
+    overflow: hidden; /* Ensures rounded corners clip content */
+    margin-bottom: 60px;
+}
+
+.leaderboard-grid {
+    display: grid;
+    /* Define columns for Rank, Player, Score, Quizzes */
+    grid-template-columns: 0.8fr 2fr 1.2fr 1.2fr; 
+    gap: 1px; /* Small gap to create lines if background is darker */
+    background: rgba(0, 0, 0, 0.3); /* Background for the grid lines */
+}
+
+.leaderboard-header, .leaderboard-row {
+    display: contents; /* Allows grid items to be direct children of .leaderboard-grid */
+}
+
+.leaderboard-header span, .leaderboard-row span {
+    padding: 18px 25px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1em;
+    font-family: 'Orbitron', sans-serif;
+    white-space: nowrap; /* Prevent text wrapping */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Add ellipsis for overflow */
+}
+
+/* Header specific styles */
+.leaderboard-header span {
+    background: linear-gradient(90deg, rgba(0, 188, 212, 0.2), rgba(233, 30, 99, 0.2));
+    color: #ffeb3b; /* Yellow for headers */
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid rgba(0, 188, 212, 0.3); /* Separator */
+    text-shadow: 0 0 8px rgba(255, 235, 59, 0.4);
+}
+
+/* Row specific styles */
+.leaderboard-row span {
+    background: rgba(26, 26, 46, 0.7); /* Darker background for rows */
+    color: #e0e0e0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2); /* Subtle row separator */
+}
+
+/* Striped rows for better readability */
+.leaderboard-row:nth-child(odd) span {
+    background: rgba(26, 26, 46, 0.85); /* Slightly different shade for odd rows */
+}
+
+/* Highlight top players */
+.leaderboard-row.top-player .player-rank {
+    font-size: 1.3em;
+    font-weight: bold;
+    color: #00e0ff; /* Blue for top ranks */
+    text-shadow: 0 0 10px rgba(0, 224, 255, 0.6);
+}
+
+.leaderboard-row.top-player .player-username {
+    color: #ffeb3b; /* Yellow for top usernames */
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(255, 235, 59, 0.6);
+}
+
+.leaderboard-row.top-player .player-score {
+    color: #e91e63; /* Pink for top scores */
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(233, 30, 99, 0.6);
+}
+
+/* Last row border fix */
+.leaderboard-row:last-child span {
+    border-bottom: none;
+}
+
+.leaderboard-footer-note {
+    font-size: 1.1em;
+    color: #a0a0a0;
+    margin-top: 30px;
+    text-align: center;
+}
+
+/* --- Responsive Adjustments for LeaderboardPage --- */
+@media (max-width: 991px) {
+    .leaderboard-main-title {
+        font-size: 3em;
+    }
+    .leaderboard-description {
+        font-size: 1.2em;
+        margin-bottom: 40px;
+    }
+    .leaderboard-grid-wrapper {
+        max-width: 700px;
+    }
+    .leaderboard-header span, .leaderboard-row span {
+        padding: 15px 20px;
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 767px) {
+    .leaderboard-page-container {
+        padding: 25px 15px;
+        margin-top: 60px;
+    }
+    .leaderboard-main-title {
+        font-size: 2.5em;
+        margin-bottom: 1rem;
+    }
+    .leaderboard-description {
+        font-size: 1.1em;
+        margin-bottom: 30px;
+    }
+    .leaderboard-grid-wrapper {
+        max-width: 100%; /* Allow grid to take full width on smaller screens */
+        border-radius: 10px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+    }
+    .leaderboard-grid {
+        /* Adjust column sizes for smaller screens or switch to fewer columns */
+        grid-template-columns: 0.7fr 1.8fr 1.2fr 1.2fr; /* Slightly adjust columns */
+        overflow-x: auto; /* Allow horizontal scroll if content overflows */
+    }
+    .leaderboard-header span, .leaderboard-row span {
+        padding: 12px 15px;
+        font-size: 0.9em;
+    }
+    .leaderboard-row.top-player .player-rank {
+        font-size: 1.2em;
+    }
+}
+
+@media (max-width: 480px) {
+    .leaderboard-page-container {
+        padding: 20px 10px;
+        margin-top: 50px;
+    }
+    .leaderboard-main-title {
+        font-size: 2em;
+        letter-spacing: 1.5px;
+    }
+    .leaderboard-description {
+        font-size: 0.95em;
+        margin-bottom: 20px;
+    }
+    .leaderboard-grid {
+        /* Make columns flexible but perhaps not too small */
+        grid-template-columns: 0.6fr 1.5fr 1fr 1fr; /* Further adjust column sizes */
+    }
+    .leaderboard-header span, .leaderboard-row span {
+        padding: 10px 12px;
+        font-size: 0.85em;
+    }
+    .leaderboard-footer-note {
+        font-size: 1em;
+        margin-top: 20px;
+    }
+}
