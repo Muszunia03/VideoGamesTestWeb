@@ -1,6 +1,5 @@
-// src/NavBar.jsx
 import React from 'react';
-import { useNavigate, useLocation, Link } from 'react-router-dom'; // Importujemy 'Link'
+import { useNavigate, useLocation, Link } from 'react-router-dom'; 
 import './NavBar.css'; 
 
 function NavBar({ isLoggedIn, username, onLogout }) { 
@@ -13,13 +12,11 @@ function NavBar({ isLoggedIn, username, onLogout }) {
   };
 
   const isActive = (path) => location.pathname === path;
-  
-  // Funkcja do sprawdzania, czy aktualna ścieżka to '/profile/:username'
   const isProfileActive = () => location.pathname.startsWith('/profile/');
 
   return (
     <nav className="navbar">
-      <Link to="/" className="navbar-brand"> {/* Używamy Link zamiast a + onClick */}
+      <Link to="/" className="navbar-brand">
         GameQuiz Central
       </Link>
 
@@ -38,6 +35,14 @@ function NavBar({ isLoggedIn, username, onLogout }) {
               <span>Leaderboard</span>
             </Link>
           </li>
+
+          {/* NOWY LINK DO REGULAMINU */}
+          <li className="navbar-nav-item">
+            <Link to="/regulations" className={isActive('/regulations') ? 'active' : ''}>
+              <span className="icon">📜</span> {/* Ikona dla regulaminu */}
+              <span>Regulations</span>
+            </Link>
+          </li>
         </ul>
       ) : ( 
         <div className="navbar-nav-placeholder"></div> 
@@ -46,8 +51,6 @@ function NavBar({ isLoggedIn, username, onLogout }) {
       <div className="navbar-actions">
         {isLoggedIn ? (
           <>
-            {/* Tutaj zmieniamy span na Link, aby nick był klikalny */}
-            {/* Używamy backticków dla stringa z zmienną: `/profile/${username}` */}
             <Link to={`/profile/${username}`} className={`username-display ${isProfileActive() ? 'active' : ''}`}>
               <span className="icon">👋</span> {username}
             </Link>

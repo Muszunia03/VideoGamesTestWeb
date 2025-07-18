@@ -1,17 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import AOS from 'aos'; 
+import AOS from 'aos';
 import 'aos/dist/aos.css';
 
-import NavBar from './NavBar'; 
+import NavBar from './NavBar';
 import LoginForm from './LoginForm';
 import SignUpForm from './SignUpForm';
-import QuizPage from './QuizPage'; 
-import HomePage from './HomePage'; 
+import QuizPage from './QuizPage';
+import HomePage from './HomePage';
 import LeaderboardPage from './LeaderboardPage';
-import UserProfilePage from './UserProfilePage'; 
+import UserProfilePage from './UserProfilePage';
+import Footer from './Footer';
 
-import './App.css'; 
+// Importy wszystkich stron quizów
+import RetroQuizPage from './RetroQuizPage';
+import LatestQuizPage from './LatestQuizPage';
+import ImagesQuizPage from './ImagesQuizPage';
+import GenreQuizPage from './GenreQuizPage';
+import DailyQuizPage from './DailyQuizPage';
+import SpeedrunQuizPage from './SpeedrunQuizPage';
+import PlatformMatchQuizPage from './PlatformMatchQuizPage';
+import RatingQuizPage from './RatingQuizPage';
+import MultiFactQuizPage from './MultiFactQuizPage';
+
+// Importy pozostałych stron
+import RegulationsPage from './RegulationsPage';
+import NotFoundPage from './NotFoundPage'; // <-- Nowy import dla strony 404
+
+import './App.css';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -20,14 +36,13 @@ function App() {
   useEffect(() => {
     AOS.init({
       duration: 1000,
-      once: true, 
-      mirror: false, 
+      once: true,
+      mirror: false,
     });
-  }, []); 
+  }, []);
 
   useEffect(() => {
     const storedUsername = localStorage.getItem('username');
-
     if (storedUsername && localStorage.getItem('isLoggedIn') === 'true') {
       setIsLoggedIn(true);
       setUsername(storedUsername);
@@ -40,42 +55,66 @@ function App() {
   const handleLoginSuccess = (user) => {
     setIsLoggedIn(true);
     setUsername(user);
-    localStorage.setItem('username', user); 
-    localStorage.setItem('isLoggedIn', 'true'); 
+    localStorage.setItem('username', user);
+    localStorage.setItem('isLoggedIn', 'true');
   };
 
   const handleLogout = () => {
     setIsLoggedIn(false);
     setUsername('');
-    localStorage.removeItem('username'); 
+    localStorage.removeItem('username');
     localStorage.removeItem('isLoggedIn');
   };
 
   return (
     <Router>
-      <NavBar 
-        isLoggedIn={isLoggedIn} 
-        username={username} 
-        onLogout={handleLogout} 
-      />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route 
-            path="/login" 
-            element={isLoggedIn ? <Navigate to="/profile" /> : <LoginForm onLoginSuccess={handleLoginSuccess} />} 
+      <div className="app-container">
+        <NavBar
+          isLoggedIn={isLoggedIn}
+          username={username}
+          onLogout={handleLogout}
         />
-        <Route path="/leaderboard" element={<LeaderboardPage />} /> 
-        <Route path="/signup" element={<SignUpForm />} />
-        <Route path="/quiz" element={<QuizPage />} />
-        <Route 
-          path="/profile/:username" 
-          element={isLoggedIn ? <UserProfilePage /> : <Navigate to="/login" />} 
-        />
-        <Route 
-          path="/profile" 
-          element={isLoggedIn ? <Navigate to={`/profile/${username}`} /> : <Navigate to="/login" />} 
-        />
-      </Routes>
+        <main className="content-wrapper">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route
+              path="/login"
+              element={isLoggedIn ? <Navigate to="/profile" /> : <LoginForm onLoginSuccess={handleLoginSuccess} />}
+            />
+            <Route path="/leaderboard" element={<LeaderboardPage />} />
+            <Route path="/signup" element={<SignUpForm />} />
+            <Route path="/quiz" element={<QuizPage />} />
+
+            {/* Trasy dla stron quizów */}
+            <Route path="/quiz/retro" element={<RetroQuizPage />} />
+            <Route path="/quiz/latest" element={<LatestQuizPage />} />
+            <Route path="/quiz/images" element={<ImagesQuizPage />} />
+            <Route path="/quiz/genre" element={<GenreQuizPage />} />
+            <Route path="/quiz/daily" element={<DailyQuizPage />} />
+            <Route path="/quiz/speedrun" element={<SpeedrunQuizPage />} />
+            <Route path="/quiz/platformmatch" element={<PlatformMatchQuizPage />} />
+            <Route path="/quiz/rating" element={<RatingQuizPage />} />
+            <Route path="/quiz/multifact" element={<MultiFactQuizPage />} />
+
+            {/* Trasy dla profilu użytkownika */}
+            <Route
+              path="/profile/:username"
+              element={isLoggedIn ? <UserProfilePage /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/profile"
+              element={isLoggedIn ? <Navigate to={`/profile/${username}`} /> : <Navigate to="/login" />}
+            />
+
+            {/* Inne stałe trasy */}
+            <Route path="/regulations" element={<RegulationsPage />} />
+
+            {/* TRASA DLA STRONY 404 - MUSI BYĆ OSTATNIA NA LIŚCIE! */}
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
     </Router>
   );
 }

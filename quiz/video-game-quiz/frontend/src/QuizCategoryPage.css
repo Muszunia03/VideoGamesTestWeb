@@ -1,0 +1,108 @@
+/* src/QuizCategoryPage.css */
+
+.quiz-category-page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 1200px;
+    width: 100%;
+    padding: 40px 20px;
+    box-sizing: border-box;
+    margin: 0 auto;
+    margin-top: 80px; /* Odstęp od navbaru */
+    min-height: calc(100vh - 80px - 60px); /* Wysokość minus navbar i footer */
+    text-align: center;
+    animation: fadeIn 1s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.quiz-category-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3.5em;
+    color: #ffeb3b; /* Kolor pasujący do innych nagłówków */
+    text-shadow: 0 0 20px rgba(255, 235, 59, 0.7);
+    margin-bottom: 20px;
+}
+
+.quiz-category-description {
+    font-size: 1.3em;
+    color: #c0c0c0;
+    max-width: 800px;
+    margin-bottom: 50px;
+    line-height: 1.6;
+}
+
+.quiz-placeholder-content {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 15px;
+    padding: 40px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 224, 255, 0.3);
+    border: 1px solid rgba(0, 224, 255, 0.15);
+    width: 100%;
+    max-width: 700px;
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+
+.quiz-placeholder-content p {
+    font-size: 1.1em;
+    color: #e0e0e0;
+    line-height: 1.6;
+}
+
+/* Responsywne dostosowania */
+@media (max-width: 991px) {
+    .quiz-category-title {
+        font-size: 2.8em;
+    }
+    .quiz-category-description {
+        font-size: 1.1em;
+        margin-bottom: 30px;
+    }
+    .quiz-placeholder-content {
+        padding: 30px;
+    }
+}
+
+@media (max-width: 767px) {
+    .quiz-category-page-container {
+        padding: 30px 15px;
+        margin-top: 60px;
+    }
+    .quiz-category-title {
+        font-size: 2.2em;
+    }
+    .quiz-category-description {
+        font-size: 1em;
+    }
+    .quiz-placeholder-content {
+        padding: 25px;
+        gap: 10px;
+    }
+    .quiz-placeholder-content p {
+        font-size: 0.95em;
+    }
+}
+
+@media (max-width: 480px) {
+    .quiz-category-page-container {
+        padding: 20px 10px;
+        margin-top: 50px;
+    }
+    .quiz-category-title {
+        font-size: 1.8em;
+    }
+    .quiz-placeholder-content {
+        padding: 20px;
+    }
+    .quiz-placeholder-content p {
+        font-size: 0.9em;
+    }
+}

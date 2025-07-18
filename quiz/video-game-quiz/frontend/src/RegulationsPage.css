@@ -1,0 +1,149 @@
+/* src/RegulationsPage.css */
+
+.regulations-page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 1200px;
+    width: 100%;
+    padding: 30px 20px;
+    box-sizing: border-box;
+    margin: 0 auto;
+    margin-top: 80px; /* Odstęp od navbaru */
+    min-height: calc(100vh - 80px - 60px); /* Wysokość minus navbar i footer */
+    text-align: center;
+    /* Usunięto: animation: fadeIn 1s ease-out; */
+}
+
+/* Usunięto:
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+*/
+
+.regulations-main-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3.5em;
+    color: #ffeb3b; /* Kolor pasujący do innych nagłówków */
+    text-shadow: 0 0 20px rgba(255, 235, 59, 0.7);
+    margin-bottom: 1.5rem;
+}
+
+.regulations-description {
+    font-size: 1.3em;
+    color: #c0c0c0;
+    max-width: 800px;
+    margin-bottom: 50px;
+    line-height: 1.6;
+}
+
+.regulations-content-wrapper {
+    width: 100%;
+    max-width: 900px;
+    background: rgba(255, 255, 255, 0.05); /* Lekko przezroczyste tło */
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 188, 212, 0.2); /* Delikatny niebieski blask */
+    border: 1px solid rgba(0, 188, 212, 0.1);
+    padding: 40px;
+    margin-bottom: 60px;
+    text-align: left; /* Tekst regulaminu wyrównany do lewej */
+}
+
+.regulations-section {
+    margin-bottom: 30px;
+}
+
+.regulations-section h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2em;
+    color: #00e0ff; /* Kolor nagłówków sekcji */
+    margin-bottom: 15px;
+    text-shadow: 0 0 10px rgba(0, 224, 255, 0.5);
+}
+
+.regulations-section p {
+    font-size: 1.1em;
+    color: #e0e0e0;
+    line-height: 1.7;
+    margin-bottom: 10px;
+}
+
+.regulations-footer-note {
+    font-size: 1em;
+    color: #a0a0a0;
+    margin-top: 40px;
+    text-align: center;
+    font-style: italic;
+}
+
+/* --- Responsywne dostosowania --- */
+@media (max-width: 991px) {
+    .regulations-main-title {
+        font-size: 2.8em;
+    }
+    .regulations-description {
+        font-size: 1.2em;
+        margin-bottom: 40px;
+    }
+    .regulations-content-wrapper {
+        padding: 30px;
+    }
+    .regulations-section h2 {
+        font-size: 1.8em;
+    }
+    .regulations-section p {
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 767px) {
+    .regulations-page-container {
+        padding: 25px 15px;
+        margin-top: 60px;
+    }
+    .regulations-main-title {
+        font-size: 2.2em;
+        margin-bottom: 1rem;
+    }
+    .regulations-description {
+        font-size: 1.1em;
+        margin-bottom: 30px;
+    }
+    .regulations-content-wrapper {
+        padding: 20px;
+    }
+    .regulations-section h2 {
+        font-size: 1.6em;
+    }
+    .regulations-section p {
+        font-size: 0.95em;
+    }
+    .regulations-footer-note {
+        font-size: 0.9em;
+        margin-top: 30px;
+    }
+}
+
+@media (max-width: 480px) {
+    .regulations-page-container {
+        padding: 20px 10px;
+        margin-top: 50px;
+    }
+    .regulations-main-title {
+        font-size: 1.8em;
+    }
+    .regulations-description {
+        font-size: 0.95em;
+        margin-bottom: 20px;
+    }
+    .regulations-content-wrapper {
+        padding: 15px;
+    }
+    .regulations-section h2 {
+        font-size: 1.4em;
+    }
+    .regulations-section p {
+        font-size: 0.9em;
+    }
+}

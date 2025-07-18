@@ -22,7 +22,7 @@ function LeaderboardPage() {
     { rank: 7, username: 'JoystickJedi', score: 8100, quizzesCompleted: 35 },
     { rank: 8, username: 'ConsoleChampion', score: 7500, quizzesCompleted: 32 },
     { rank: 9, username: 'LevelUpLegend', score: 6900, quizzesCompleted: 30 },
-    { rank: 10, username: 'HighScorer', score: 6300, quizzesCompleted: 28 },
+    { rank: 10, username: 'Klaudiusz Wieczorek', score: 6300, quizzesCompleted: 28 },
   ];
 
   return (
