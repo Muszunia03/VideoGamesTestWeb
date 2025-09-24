@@ -1,5 +1,3 @@
-/* src/LeaderboardPage.css */
-
 .leaderboard-page-container {
     display: flex;
     flex-direction: column;
@@ -9,21 +7,20 @@
     padding: 30px 20px;
     box-sizing: border-box;
     margin: 0 auto;
-    margin-top: 80px; /* Consistent with HomePage to clear Navbar */
-    min-height: calc(100vh - 80px - 60px); /* Adjust based on footer height if applicable */
-    animation: fadeIn 1s ease-out; /* Reusing existing animation */
+    margin-top: 80px; 
+    min-height: calc(100vh - 80px - 60px);
+    animation: fadeIn 1s ease-out; 
 }
 
-/* Reusing fadeIn from HomePage.css, ensure it's accessible or defined here if not global */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(15px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
 .leaderboard-main-title {
-    font-family: 'Orbitron', sans-serif; /* Using a consistent font for headings */
+    font-family: 'Orbitron', sans-serif;
     font-size: 3.8em;
-    color: #ffeb3b; /* Consistent highlight color */
+    color: #ffeb3b; 
     text-align: center;
     margin-bottom: 1.5rem;
     text-shadow: 0 0 20px rgba(255, 235, 59, 0.7), 0 0 35px rgba(255, 235, 59, 0.5);
@@ -41,25 +38,24 @@
 
 .leaderboard-grid-wrapper {
     width: 100%;
-    max-width: 900px; /* Max width for the leaderboard table */
-    background: rgba(255, 255, 255, 0.05); /* Slightly transparent background */
+    max-width: 900px;
+    background: rgba(255, 255, 255, 0.05); 
     border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 188, 212, 0.2); /* Soft blue glow */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 188, 212, 0.2);
     border: 1px solid rgba(0, 188, 212, 0.1);
-    overflow: hidden; /* Ensures rounded corners clip content */
+    overflow: hidden;
     margin-bottom: 60px;
 }
 
 .leaderboard-grid {
     display: grid;
-    /* Define columns for Rank, Player, Score, Quizzes */
     grid-template-columns: 0.8fr 2fr 1.2fr 1.2fr; 
-    gap: 1px; /* Small gap to create lines if background is darker */
-    background: rgba(0, 0, 0, 0.3); /* Background for the grid lines */
+    gap: 1px; 
+    background: rgba(0, 0, 0, 0.3); 
 }
 
 .leaderboard-header, .leaderboard-row {
-    display: contents; /* Allows grid items to be direct children of .leaderboard-grid */
+    display: contents;
 }
 
 .leaderboard-header span, .leaderboard-row span {
@@ -70,55 +66,50 @@
     justify-content: center;
     font-size: 1.1em;
     font-family: 'Orbitron', sans-serif;
-    white-space: nowrap; /* Prevent text wrapping */
+    white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis; /* Add ellipsis for overflow */
+    text-overflow: ellipsis;
 }
 
-/* Header specific styles */
 .leaderboard-header span {
     background: linear-gradient(90deg, rgba(0, 188, 212, 0.2), rgba(233, 30, 99, 0.2));
-    color: #ffeb3b; /* Yellow for headers */
+    color: #ffeb3b; 
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    border-bottom: 1px solid rgba(0, 188, 212, 0.3); /* Separator */
+    border-bottom: 1px solid rgba(0, 188, 212, 0.3); 
     text-shadow: 0 0 8px rgba(255, 235, 59, 0.4);
 }
 
-/* Row specific styles */
 .leaderboard-row span {
-    background: rgba(26, 26, 46, 0.7); /* Darker background for rows */
+    background: rgba(26, 26, 46, 0.7); 
     color: #e0e0e0;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.2); /* Subtle row separator */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2); 
 }
 
-/* Striped rows for better readability */
 .leaderboard-row:nth-child(odd) span {
-    background: rgba(26, 26, 46, 0.85); /* Slightly different shade for odd rows */
+    background: rgba(26, 26, 46, 0.85);
 }
 
-/* Highlight top players */
 .leaderboard-row.top-player .player-rank {
     font-size: 1.3em;
     font-weight: bold;
-    color: #00e0ff; /* Blue for top ranks */
+    color: #00e0ff;
     text-shadow: 0 0 10px rgba(0, 224, 255, 0.6);
 }
 
 .leaderboard-row.top-player .player-username {
-    color: #ffeb3b; /* Yellow for top usernames */
+    color: #ffeb3b; 
     font-weight: bold;
     text-shadow: 0 0 10px rgba(255, 235, 59, 0.6);
 }
 
 .leaderboard-row.top-player .player-score {
-    color: #e91e63; /* Pink for top scores */
+    color: #e91e63; 
     font-weight: bold;
     text-shadow: 0 0 10px rgba(233, 30, 99, 0.6);
 }
 
-/* Last row border fix */
 .leaderboard-row:last-child span {
     border-bottom: none;
 }
@@ -130,7 +121,6 @@
     text-align: center;
 }
 
-/* --- Responsive Adjustments for LeaderboardPage --- */
 @media (max-width: 991px) {
     .leaderboard-main-title {
         font-size: 3em;
@@ -162,14 +152,13 @@
         margin-bottom: 30px;
     }
     .leaderboard-grid-wrapper {
-        max-width: 100%; /* Allow grid to take full width on smaller screens */
+        max-width: 100%; 
         border-radius: 10px;
         box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
     }
     .leaderboard-grid {
-        /* Adjust column sizes for smaller screens or switch to fewer columns */
-        grid-template-columns: 0.7fr 1.8fr 1.2fr 1.2fr; /* Slightly adjust columns */
-        overflow-x: auto; /* Allow horizontal scroll if content overflows */
+        grid-template-columns: 0.7fr 1.8fr 1.2fr 1.2fr; 
+        overflow-x: auto; 
     }
     .leaderboard-header span, .leaderboard-row span {
         padding: 12px 15px;
@@ -194,8 +183,7 @@
         margin-bottom: 20px;
     }
     .leaderboard-grid {
-        /* Make columns flexible but perhaps not too small */
-        grid-template-columns: 0.6fr 1.5fr 1fr 1fr; /* Further adjust column sizes */
+        grid-template-columns: 0.6fr 1.5fr 1fr 1fr;
     }
     .leaderboard-header span, .leaderboard-row span {
         padding: 10px 12px;

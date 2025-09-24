@@ -1,20 +1,14 @@
-// QuizPage.js
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import './QuizPage.css'; // Ensure your CSS is linked
+import './QuizPage.css';
 
 function QuizPage() {
   const navigate = useNavigate();
   const location = useLocation();
-
-  // handleLogout zostało przeniesione do NavBar.js
-  // console.log("User logged out!"); zostało usunięte z NavBar.js
-
   const isActive = (path) => location.pathname === path;
 
   return (
-    <div className="page-wrapper quiz-page-with-navbar-spacing"> {/* Dodaj klasę do odstępu */}
-      {/* USUNIĘTO: Top Navigation Bar - teraz jest w NavBar.js */}
+    <div className="page-wrapper quiz-page-with-navbar-spacing"> 
 
       {/* Main content */}
       <div className="quiz-page">

@@ -1,48 +1,40 @@
-// src/HomePage.js
-import React, { useState, useEffect } from 'react'; // Dodaj useState i useEffect
+import React, { useState, useEffect } from 'react'; 
 import { useNavigate } from 'react-router-dom';
 import './HomePage.css';
 
 function HomePage() {
   const navigate = useNavigate();
   
-  // PRZYKŁADOWY SPOSÓB NA SPRAWDZENIE STATUSU LOGOWANIA
-  // W PRAWDZIWEJ APLIKACJI POBIERZESZ TEN STAN Z KONTEKSTU/REDUX LUB Z LOCALSTORAGE
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Domyślnie niezalogowany
+  const [isLoggedIn, setIsLoggedIn] = useState(false); 
 
   useEffect(() => {
-    // Tutaj możesz sprawdzić, czy użytkownik jest zalogowany
-    // Np. odczytać token z LocalStorage lub stan z Context API
-    const userToken = localStorage.getItem('authToken'); // Przykład
+    const userToken = localStorage.getItem('authToken'); 
     if (userToken) {
       setIsLoggedIn(true);
     } else {
       setIsLoggedIn(false);
     }
-    // Możesz też subskrybować zmiany w kontekście logowania
-    // const unsubscribe = authContext.onLoginStatusChange(status => setIsLoggedIn(status));
-    // return () => unsubscribe(); // Cleanup
-  }, []); // Pusta tablica zależności oznacza, że efekt uruchomi się raz po zamontowaniu komponentu
+  }, []); 
 
   return (
     <div className="home-page-container">
       <div className="home-hero-section">
-        <div className="hero-content" data-aos="fade-right"> {/* Animacja dla treści */}
+        <div className="hero-content" data-aos="fade-right">
           <h1 className="site-main-title">GameQuiz Central</h1>
           <p className="site-welcome-message">
             Welcome to the ultimate video game quiz! Test your knowledge across eras and genres.
             Challenge yourself, learn facts, and climb leaderboards to become the GameQuiz Master!
           </p>
         </div>
-        <div className="hero-image" data-aos="fade-left"> {/* Animacja dla obrazka */}
+        <div className="hero-image" data-aos="fade-left"> 
           <img src="/CentralLogo.png" alt="Gaming Setup" />
         </div>
       </div>
 
       <section className="features-section">
-        <h2 data-aos="fade-up">What We Offer</h2> {/* Animacja dla tytułu sekcji */}
+        <h2 data-aos="fade-up">What We Offer</h2> 
         <div className="features-grid">
-          <div className="feature-card" data-aos="fade-up" data-aos-delay="100"> {/* Opóźnienie dla kart */}
+          <div className="feature-card" data-aos="fade-up" data-aos-delay="100"> 
             <h3>Diverse Quizzes</h3>
             <p>From retro arcade classics to modern AAA blockbusters, explore quizzes on every gaming era.</p>
           </div>
@@ -60,7 +52,7 @@ function HomePage() {
       <section className="testimonials-section">
         <h2 data-aos="fade-up">What Our Players Say</h2>
         <div className="testimonial-grid">
-          <div className="testimonial-card" data-aos="zoom-in" data-aos-delay="100"> {/* Zoom in dla opinii */}
+          <div className="testimonial-card" data-aos="zoom-in" data-aos-delay="100">
             <p>"GameQuiz Central is addictive! I love challenging myself with new game trivia."</p>
             <p className="testimonial-author">- GamerPro_99</p>
           </div>
@@ -77,8 +69,7 @@ function HomePage() {
 
       <section className="call-to-action-section" data-aos="fade-up">
         <h2>Ready to Test Your Skills?</h2>
-        {/* Warunkowe renderowanie przycisku */}
-        {!isLoggedIn && ( // Przycisk renderuje się TYLKO, jeśli isLoggedIn jest false
+        {!isLoggedIn && ( 
           <button className="primary-btn" onClick={() => navigate('/signup')}>
             Join the Challenge!
           </button>

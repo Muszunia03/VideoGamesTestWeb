@@ -1,10 +1,8 @@
-// src/LoginForm.js
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import NotificationPopup from './NotificationPopup'; 
 import './LoginForm.css';
 
-// Przyjmij onLoginSuccess jako prop
 function LoginForm({ onLoginSuccess }) { 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -25,10 +23,7 @@ function LoginForm({ onLoginSuccess }) {
       });
 
       if (response.ok) {
-        // Pomyślne logowanie
         const data = await response.json(); 
-        // Zakładamy, że backend zwraca dane użytkownika, w tym username, np. { "message": "Login successful", "username": "testUser" }
-        // Jeśli backend nie zwraca username, możesz użyć po prostu wartości z formularza:
         const loggedInUsername = data.username || username; 
         
         setPopupMessage('Zalogowano pomyślnie!');
@@ -36,7 +31,6 @@ function LoginForm({ onLoginSuccess }) {
         setShowPopup(true);
         setRedirectAfterClose(true); 
 
-        // WYWOŁAJ FUNKCJĘ PRZEKAZANĄ Z APPA, PRZEKAZUJĄC NAZWĘ UŻYTKOWNIKA
         if (onLoginSuccess) {
           onLoginSuccess(loggedInUsername); 
         }
@@ -59,7 +53,7 @@ function LoginForm({ onLoginSuccess }) {
   const handleClosePopup = () => {
     setShowPopup(false);
     if (redirectAfterClose) {
-      navigate('/quiz'); // Po zalogowaniu przekieruj na stronę quizu (lub gdziekolwiek chcesz)
+      navigate('/quiz');
     }
     setPopupMessage('');
     setPopupType('');

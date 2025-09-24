@@ -1,6 +1,5 @@
-// src/Footer.jsx
 import React from 'react';
-import { Link } from 'react-router-dom'; // Importuj Link do nawigacji
+import { Link } from 'react-router-dom'; 
 import './Footer.css';
 
 function Footer() {
@@ -19,8 +18,7 @@ function Footer() {
             <li><Link to="/quiz">All Quizzes</Link></li>
             <li><Link to="/leaderboard">Leaderboard</Link></li>
             <li><Link to="/profile">My Profile</Link></li>
-            <li><Link to="/regulations">Regulations</Link></li> {/* Odwołanie do regulaminu */}
-            {/* Dodaj więcej linków, jeśli potrzebujesz (np. Contact Us, Privacy Policy) */}
+            <li><Link to="/regulations">Regulations</Link></li> 
           </ul>
         </div>
 

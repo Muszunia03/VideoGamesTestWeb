@@ -12,20 +12,19 @@ import LeaderboardPage from './LeaderboardPage';
 import UserProfilePage from './UserProfilePage';
 import Footer from './Footer';
 
-// Importy wszystkich stron quizów
 import RetroQuizPage from './RetroQuizPage';
 import LatestQuizPage from './LatestQuizPage';
 import ImagesQuizPage from './ImagesQuizPage';
 import GenreQuizPage from './GenreQuizPage';
 import DailyQuizPage from './DailyQuizPage';
-import SpeedrunQuizPage from './SpeedrunQuizPage';
+import SpeedrunQuizPage from './DailyQuizPage';
 import PlatformMatchQuizPage from './PlatformMatchQuizPage';
 import RatingQuizPage from './RatingQuizPage';
 import MultiFactQuizPage from './MultiFactQuizPage';
 
-// Importy pozostałych stron
 import RegulationsPage from './RegulationsPage';
-import NotFoundPage from './NotFoundPage'; // <-- Nowy import dla strony 404
+import NotFoundPage from './NotFoundPage';
+import AdminPanelPage from './AdminPanelPage';
 
 import './App.css';
 
@@ -85,7 +84,6 @@ function App() {
             <Route path="/signup" element={<SignUpForm />} />
             <Route path="/quiz" element={<QuizPage />} />
 
-            {/* Trasy dla stron quizów */}
             <Route path="/quiz/retro" element={<RetroQuizPage />} />
             <Route path="/quiz/latest" element={<LatestQuizPage />} />
             <Route path="/quiz/images" element={<ImagesQuizPage />} />
@@ -96,7 +94,6 @@ function App() {
             <Route path="/quiz/rating" element={<RatingQuizPage />} />
             <Route path="/quiz/multifact" element={<MultiFactQuizPage />} />
 
-            {/* Trasy dla profilu użytkownika */}
             <Route
               path="/profile/:username"
               element={isLoggedIn ? <UserProfilePage /> : <Navigate to="/login" />}
@@ -106,10 +103,9 @@ function App() {
               element={isLoggedIn ? <Navigate to={`/profile/${username}`} /> : <Navigate to="/login" />}
             />
 
-            {/* Inne stałe trasy */}
             <Route path="/regulations" element={<RegulationsPage />} />
+            <Route path="/admin" element={<AdminPanelPage />} />
 
-            {/* TRASA DLA STRONY 404 - MUSI BYĆ OSTATNIA NA LIŚCIE! */}
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </main>

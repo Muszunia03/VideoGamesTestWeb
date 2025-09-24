@@ -1,17 +1,14 @@
-// src/LeaderboardPage.js
 import React, { useEffect } from 'react';
-import './LeaderboardPage.css'; // Import the new CSS file
-import AOS from 'aos'; // Assuming you're using AOS for animations
+import './LeaderboardPage.css';
+import AOS from 'aos'; 
 import 'aos/dist/aos.css';
 
 function LeaderboardPage() {
-  // Initialize AOS when the component mounts, if not already done globally
   useEffect(() => {
     AOS.init({ duration: 1000, once: false });
-    AOS.refresh(); // Refresh AOS to ensure animations apply to new content
+    AOS.refresh(); 
   }, []);
 
-  // Placeholder data for the leaderboard
   const dummyLeaderboardData = [
     { rank: 1, username: 'GamerPro_99', score: 12500, quizzesCompleted: 50 },
     { rank: 2, username: 'PixelPioneer', score: 11800, quizzesCompleted: 48 },
@@ -34,7 +31,6 @@ function LeaderboardPage() {
 
       <div className="leaderboard-grid-wrapper">
         <div className="leaderboard-grid" data-aos="fade-in" data-aos-delay="400">
-          {/* Table Header */}
           <div className="leaderboard-header">
             <span className="header-rank">Rank</span>
             <span className="header-username">Player</span>
@@ -42,13 +38,12 @@ function LeaderboardPage() {
             <span className="header-quizzes">Quizzes</span>
           </div>
 
-          {/* Leaderboard Rows */}
           {dummyLeaderboardData.map((player) => (
             <div 
               key={player.rank} 
               className={`leaderboard-row ${player.rank <= 3 ? 'top-player' : ''}`}
-              data-aos="fade-up" // Animation for each row
-              data-aos-delay={400 + (player.rank * 50)} // Staggered animation
+              data-aos="fade-up" 
+              data-aos-delay={400 + (player.rank * 50)} 
             >
               <span className="player-rank">{player.rank}</span>
               <span className="player-username">{player.username}</span>
