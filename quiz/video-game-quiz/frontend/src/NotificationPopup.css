@@ -1,16 +1,15 @@
-/* Notification Popup Overlay */
 .notification-popup-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.7); /* Darker, more opaque overlay */
+    background: rgba(0, 0, 0, 0.7); 
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 10000; /* Ensure it's on top of everything */
-    backdrop-filter: blur(5px); /* Subtle blur for the background content */
+    z-index: 10000; 
+    backdrop-filter: blur(5px); 
     -webkit-backdrop-filter: blur(5px);
     animation: fadeInOverlay 0.3s ease-out;
 }
@@ -20,20 +19,19 @@
     to { opacity: 1; }
 }
 
-/* Notification Popup Content */
 .notification-popup-content {
-    background: rgba(22, 33, 62, 0.95); /* Matches your body background subtly */
-    padding: 35px; /* More padding */
-    border-radius: 20px; /* More rounded */
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 188, 212, 0.5); /* Stronger, glowing shadow */
+    background: rgba(22, 33, 62, 0.95); 
+    padding: 35px; 
+    border-radius: 20px; 
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 188, 212, 0.5); 
     text-align: center;
-    max-width: 450px; /* Max width */
+    max-width: 450px; 
     width: 90%;
     position: relative;
-    border: 2px solid; /* Border will be colored by type */
-    transform: scale(0.9); /* Start slightly smaller */
+    border: 2px solid; 
+    transform: scale(0.9);
     opacity: 0;
-    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; /* Bouncy pop-in animation */
+    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; 
 }
 
 @keyframes popIn {
@@ -47,78 +45,76 @@
     }
 }
 
-/* Specific styles for success/error types */
 .notification-popup-content.success {
-    border-color: #00e0ff; /* Neon blue border for success */
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 224, 255, 0.7); /* Stronger blue glow */
+    border-color: #00e0ff; 
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 224, 255, 0.7); 
 }
 
 .notification-popup-content.error {
-    border-color: #ff4d4d; /* Neon red border for error */
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8), 0 0 30px rgba(255, 77, 77, 0.7); /* Stronger red glow */
+    border-color: #ff4d4d;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8), 0 0 30px rgba(255, 77, 77, 0.7);
 }
 
 .popup-icon {
-    font-size: 4em; /* Larger icon */
+    font-size: 4em;
     margin-bottom: 20px;
-    filter: drop-shadow(0 0 10px rgba(255, 255, 0, 0.7)); /* Subtle glow on icons */
+    filter: drop-shadow(0 0 10px rgba(255, 255, 0, 0.7));
 }
 
 .popup-message {
-    font-size: 1.5em; /* Larger message text */
+    font-size: 1.5em;
     color: #e0e0e0;
-    margin-bottom: 30px; /* More space below message */
+    margin-bottom: 30px; 
     line-height: 1.4;
     text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
 }
 
 .notification-popup-content.success .popup-message {
-    color: #a7f3d0; /* Greenish tint for success message */
+    color: #a7f3d0; 
 }
 
 .notification-popup-content.error .popup-message {
-    color: #fca5a5; /* Reddish tint for error message */
+    color: #fca5a5; 
 }
 
 .popup-close-btn {
-    padding: 12px 30px; /* Larger button */
+    padding: 12px 30px; 
     border: none;
-    border-radius: 12px; /* More rounded */
+    border-radius: 12px;
     cursor: pointer;
-    font-size: 1.1em; /* Larger font */
+    font-size: 1.1em; 
     font-weight: bold;
     transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-    font-family: 'Orbitron', sans-serif; /* Futuristic font */
+    font-family: 'Orbitron', sans-serif; 
     letter-spacing: 0.5px;
 }
 
 /* Success button style */
 .notification-popup-content.success .popup-close-btn {
-    background: linear-gradient(45deg, #00bcd4, #00e0ff); /* Blue gradient */
+    background: linear-gradient(45deg, #00bcd4, #00e0ff);
     color: #1a1a2e;
     box-shadow: 0 5px 15px rgba(0, 188, 212, 0.5);
 }
 
 .notification-popup-content.success .popup-close-btn:hover {
-    background: linear-gradient(45deg, #00e0ff, #00ffff); /* Brighter blue gradient */
+    background: linear-gradient(45deg, #00e0ff, #00ffff); 
     transform: translateY(-3px);
     box-shadow: 0 8px 20px rgba(0, 188, 212, 0.7);
 }
 
 /* Error button style */
 .notification-popup-content.error .popup-close-btn {
-    background: linear-gradient(45deg, #e91e63, #d81b60); /* Red gradient */
+    background: linear-gradient(45deg, #e91e63, #d81b60);
     color: white;
     box-shadow: 0 5px 15px rgba(233, 30, 99, 0.5);
 }
 
 .notification-popup-content.error .popup-close-btn:hover {
-    background: linear-gradient(45deg, #d81b60, #c2185b); /* Darker red gradient */
+    background: linear-gradient(45deg, #d81b60, #c2185b); 
     transform: translateY(-3px);
     box-shadow: 0 8px 20px rgba(233, 30, 99, 0.7);
 }
 
-/* Responsive adjustments for popup */
 @media (max-width: 600px) {
     .notification-popup-content {
         padding: 25px;

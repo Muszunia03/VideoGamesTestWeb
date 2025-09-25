@@ -1,6 +1,4 @@
-/* src/App.css */
 body {
-    /* Upewnij się, że masz tu podstawowe style ciała, takie jak font-family, background itp. */
     margin: 0;
     padding: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -10,22 +8,13 @@ body {
 }
 
 .content-wrapper {
-    padding-top: 70px; /* Odstęp od navbara (wysokość navbara to ok. 70px) */
-    /* Jeśli masz tu inne style (np. display: flex), upewnij się, że pasują */
+    padding-top: 70px;
 }
 
-/* src/QuizPage.css - Upewnij się, że nie ma tu już styli navbara! */
-/* Dodaj ten odstęp do głównego wrappera strony quizu */
 .quiz-page-with-navbar-spacing {
-    padding-top: 20px; /* Dodatkowy odstęp, jeśli potrzebny w komponencie */
-    /* ... reszta twoich styli dla .page-wrapper i .quiz-page */
+    padding-top: 20px; 
 }
 
-/* W QuizPage.css możesz też usunąć wszelkie style dotyczące .navbar,
-   .navbar-brand, .navbar-nav, .navbar-nav-item, .navbar-actions, .logout-btn
-   ponieważ są one teraz w NavBar.css */
-
-/* Przykładowe style dla quiz-page, jeśli jeszcze ich nie masz */
 .quiz-page {
     text-align: center;
     padding: 20px;
@@ -123,7 +112,6 @@ body {
     transform: scale(1.2);
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
     .quiz-page h1 {
         font-size: 2em;

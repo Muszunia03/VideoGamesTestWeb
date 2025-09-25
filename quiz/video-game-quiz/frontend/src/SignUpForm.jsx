@@ -1,7 +1,6 @@
-// src/SignUpForm.js
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import NotificationPopup from './NotificationPopup'; // Upewnij się, że masz ten komponent
+import NotificationPopup from './NotificationPopup';
 import './SignUpForm.css'; 
 
 function SignUpForm() {
@@ -29,7 +28,6 @@ function SignUpForm() {
   const validateForm = () => {
     let isValid = true;
 
-    // Reset błędów
     setUsernameError('');
     setEmailError('');
 
@@ -39,7 +37,6 @@ function SignUpForm() {
       isValid = false;
     }
 
-    // Walidacja adresu e-mail
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setEmailError('Wprowadź prawidłowy adres e-mail.');
@@ -60,7 +57,7 @@ function SignUpForm() {
   const handleClosePopup = () => {
     setShowPopup(false);
     if (redirectAfterClose) {
-      navigate('/login'); // Przekieruj na stronę logowania po pomyślnym utworzeniu konta
+      navigate('/login');
     }
     setPopupMessage('');
     setPopupType('');
@@ -88,7 +85,7 @@ function SignUpForm() {
         setPopupMessage('Konto zostało pomyślnie utworzone! Możesz się teraz zalogować.');
         setPopupType('success');
         setShowPopup(true);
-        setRedirectAfterClose(true); // Ustaw flagę do przekierowania
+        setRedirectAfterClose(true); 
       } else {
         const data = await response.json();
         setPopupMessage(data.detail || 'Rejestracja nie powiodła się. Spróbuj ponownie.');
@@ -135,7 +132,6 @@ function SignUpForm() {
           {usernameError && <p className="error-message">{usernameError}</p>}
         </div>
 
-        {/* Pole hasła z przełącznikiem widoczności */}
         <div className="input-group password-input-group">
           <input
             type={showPassword ? 'text' : 'password'} 
@@ -151,11 +147,10 @@ function SignUpForm() {
             role="button" 
             aria-label={showPassword ? 'Ukryj hasło' : 'Pokaż hasło'}
           >
-            {showPassword ? '👁️' : '👁️‍🗨️'} {/* Ikony oczka (otwarte/zamknięte) */}
+            {showPassword ? '👁️' : '👁️‍🗨️'}
           </span>
         </div>
 
-        {/* Pole potwierdzenia hasła z przełącznikiem widoczności */}
         <div className="input-group password-input-group">
           <input
             type={showConfirmPassword ? 'text' : 'password'} 
@@ -171,7 +166,7 @@ function SignUpForm() {
             role="button" 
             aria-label={showConfirmPassword ? 'Ukryj potwierdzone hasło' : 'Pokaż potwierdzone hasło'}
           >
-            {showConfirmPassword ? '👁️' : '👁️‍🗨️'} {/* Ikony oczka (otwarte/zamknięte) */}
+            {showConfirmPassword ? '👁️' : '👁️‍🗨️'}
           </span>
         </div>
         

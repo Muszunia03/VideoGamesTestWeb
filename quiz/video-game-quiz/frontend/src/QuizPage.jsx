@@ -9,8 +9,6 @@ function QuizPage() {
 
   return (
     <div className="page-wrapper quiz-page-with-navbar-spacing"> 
-
-      {/* Main content */}
       <div className="quiz-page">
         <h1>Test Your Video Game Knowledge!</h1>
         <p>Dive into different eras and genres, and see how well you know the gaming world. Select a quiz type to begin your challenge!</p>
