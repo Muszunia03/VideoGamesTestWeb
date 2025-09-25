@@ -8,8 +8,8 @@ function Footer() {
       <div className="footer-content">
         <div className="footer-section footer-info">
           <h3 className="footer-heading">GameQuiz Central</h3>
-          <p>&copy; {new Date().getFullYear()} GameQuiz Central. All rights reserved.</p>
-          <p>Test your gaming knowledge and challenge your friends!</p>
+          <p>&copy; {new Date().getFullYear()} GameQuiz Central.</p>
+          <p>Test your gaming knowledge</p>
         </div>
 
         <div className="footer-section footer-links">
@@ -35,7 +35,7 @@ function Footer() {
               <span className="icon">📸</span>
             </a>
           </div>
-          <p className="footer-email">support@gamequizcentral.com</p>
+          <p className="footer-email">email@gamequiz.com</p>
         </div>
       </div>
     </footer>
