@@ -89,7 +89,6 @@
     letter-spacing: 0.5px;
 }
 
-/* Success button style */
 .notification-popup-content.success .popup-close-btn {
     background: linear-gradient(45deg, #00bcd4, #00e0ff);
     color: #1a1a2e;

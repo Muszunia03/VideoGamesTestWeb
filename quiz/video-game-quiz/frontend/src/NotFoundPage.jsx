@@ -1,7 +1,6 @@
-// src/NotFoundPage.jsx
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './NotFoundPage.css'; // Osobny plik CSS do stylizacji
+import './NotFoundPage.css';
 
 function NotFoundPage() {
   return (

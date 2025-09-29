@@ -199,11 +199,10 @@ html, body {
 
 .primary-btn:hover {
     background: linear-gradient(45deg, #d81b60, #c2185b);
-    transform: translateY(-7px); /* Zwiększamy uniesienie na hover */
-    box-shadow: 0 10px 35px rgba(233, 30, 99, 0.9); /* Mocniejszy cień na hover */
+    transform: translateY(-7px); 
+    box-shadow: 0 10px 35px rgba(233, 30, 99, 0.9); 
 }
 
-/* --- Responsywne dostosowania dla całej HomePage --- */
 @media (min-width: 992px) {
     .home-hero-section {
         flex-direction: row;

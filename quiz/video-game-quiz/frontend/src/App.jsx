@@ -24,7 +24,6 @@ import MultiFactQuizPage from './MultiFactQuizPage';
 
 import RegulationsPage from './RegulationsPage';
 import NotFoundPage from './NotFoundPage';
-import AdminPanelPage from './AdminPanelPage';
 
 import './App.css';
 
@@ -104,7 +103,6 @@ function App() {
             />
 
             <Route path="/regulations" element={<RegulationsPage />} />
-            <Route path="/admin" element={<AdminPanelPage />} />
 
             <Route path="*" element={<NotFoundPage />} />
           </Routes>

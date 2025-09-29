@@ -275,7 +275,7 @@
     font-size: 1.8em;
     color: #00e0ff;
     text-decoration: none;
-    margin-right: auto; /* Push other items to the right */
+    margin-right: auto; 
     transition: color 0.3s ease;
     text-shadow: 0 0 10px rgba(0, 224, 255, 0.7);
 }
@@ -304,7 +304,7 @@
     transition: color 0.3s ease, text-shadow 0.3s ease;
     display: flex;
     align-items: center;
-    gap: 8px; /* Spacing between icon and text */
+    gap: 8px; 
 }
 
 .navbar-nav-item a:hover {
@@ -326,24 +326,24 @@
 }
 
 .username-display {
-    color: #00e0ff; /* Domyślny kolor nicku */
+    color: #00e0ff;
     font-size: 1.1em;
     font-weight: bold;
     font-family: 'Orbitron', sans-serif;
     display: flex;
     align-items: center;
     gap: 8px;
-    cursor: pointer; /* Kursor, aby pokazać, że jest klikalny */
-    text-decoration: none; /* Usuń podkreślenie dla linku */
+    cursor: pointer; 
+    text-decoration: none; 
     transition: color 0.3s ease, text-shadow 0.3s ease;
 }
 
 .username-display:hover {
-    color: #ffeb3b; /* Zmiana koloru na najazd myszką */
+    color: #ffeb3b; 
     text-shadow: 0 0 15px rgba(255, 235, 59, 0.7);
 }
 
-.username-display.active { /* Styl dla aktywnego linku (gdy jesteś na stronie profilu) */
+.username-display.active { 
     color: #ffeb3b;
     text-shadow: 0 0 15px rgba(255, 235, 59, 0.9);
     border-bottom: 2px solid #ffeb3b;

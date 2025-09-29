@@ -36,10 +36,9 @@ function NavBar({ isLoggedIn, username, onLogout }) {
             </Link>
           </li>
 
-          {/* NOWY LINK DO REGULAMINU */}
           <li className="navbar-nav-item">
             <Link to="/regulations" className={isActive('/regulations') ? 'active' : ''}>
-              <span className="icon">📜</span> {/* Ikona dla regulaminu */}
+              <span className="icon">📜</span> 
               <span>Regulations</span>
             </Link>
           </li>

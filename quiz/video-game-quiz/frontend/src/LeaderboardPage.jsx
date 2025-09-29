@@ -1,26 +1,22 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './LeaderboardPage.css';
 import AOS from 'aos'; 
 import 'aos/dist/aos.css';
 
 function LeaderboardPage() {
+  const [leaderboardData, setLeaderboardData] = useState([]);
+
   useEffect(() => {
     AOS.init({ duration: 1000, once: false });
     AOS.refresh(); 
-  }, []);
 
-  const dummyLeaderboardData = [
-    { rank: 1, username: 'GamerPro_99', score: 12500, quizzesCompleted: 50 },
-    { rank: 2, username: 'PixelPioneer', score: 11800, quizzesCompleted: 48 },
-    { rank: 3, username: 'RetroKing', score: 10500, quizzesCompleted: 45 },
-    { rank: 4, username: 'QuizMasterX', score: 9800, quizzesCompleted: 42 },
-    { rank: 5, username: 'ArcadeAce', score: 9200, quizzesCompleted: 39 },
-    { rank: 6, username: 'ElitePlayer', score: 8750, quizzesCompleted: 37 },
-    { rank: 7, username: 'JoystickJedi', score: 8100, quizzesCompleted: 35 },
-    { rank: 8, username: 'ConsoleChampion', score: 7500, quizzesCompleted: 32 },
-    { rank: 9, username: 'LevelUpLegend', score: 6900, quizzesCompleted: 30 },
-    { rank: 10, username: 'Klaudiusz Wieczorek', score: 6300, quizzesCompleted: 28 },
-  ];
+    fetch("http://localhost:8080/leaderboard") 
+      .then((res) => res.json())
+      .then((data) => {
+        setLeaderboardData(data);
+      })
+      .catch((err) => console.error("Error fetching leaderboard:", err));
+  }, []);
 
   return (
     <div className="leaderboard-page-container">
@@ -38,14 +34,14 @@ function LeaderboardPage() {
             <span className="header-quizzes">Quizzes</span>
           </div>
 
-          {dummyLeaderboardData.map((player) => (
+          {leaderboardData.map((player, index) => (
             <div 
-              key={player.rank} 
-              className={`leaderboard-row ${player.rank <= 3 ? 'top-player' : ''}`}
+              key={index} 
+              className={`leaderboard-row ${index < 3 ? 'top-player' : ''}`}
               data-aos="fade-up" 
-              data-aos-delay={400 + (player.rank * 50)} 
+              data-aos-delay={400 + (index * 50)} 
             >
-              <span className="player-rank">{player.rank}</span>
+              <span className="player-rank">{index + 1}</span>
               <span className="player-username">{player.username}</span>
               <span className="player-score">{player.score}</span>
               <span className="player-quizzes">{player.quizzesCompleted}</span>
