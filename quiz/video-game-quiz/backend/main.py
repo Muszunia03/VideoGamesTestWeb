@@ -9,25 +9,21 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session, relationship
 from datetime import datetime
 
-# FastAPI app setup
 app = FastAPI()
 
-# CORS: allow frontend to talk to backend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],  # Update this to match your frontend URL
+    allow_origins=["http://localhost:5173"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# PostgreSQL DB connection setup (SQLAlchemy)
-DATABASE_URL = "postgresql://postgres:admin@localhost:5432/postgres"  # <- dostosuj dane logowania
+DATABASE_URL = "postgresql://postgres:admin@localhost:5432/postgres"
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
-# Password hashing setup
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 # ---------- MODELE BAZY ----------
@@ -54,7 +50,6 @@ class Result(Base):
 
     user = relationship("User", back_populates="results")
 
-# ---------- Pydantic MODELE ----------
 class LoginRequest(BaseModel):
     username: str
     password: str

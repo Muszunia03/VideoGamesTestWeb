@@ -9,15 +9,12 @@ function SignUpForm() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   
-  // Stany dla widoczności haseł
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  // Stany dla walidacji
   const [usernameError, setUsernameError] = useState('');
   const [emailError, setEmailError] = useState('');
   
-  // Stany dla NotificationPopup
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState('');
   const [popupType, setPopupType] = useState('');
@@ -31,7 +28,6 @@ function SignUpForm() {
     setUsernameError('');
     setEmailError('');
 
-    // Walidacja nazwy użytkownika
     if (username.length < 3) {
       setUsernameError('Nazwa użytkownika musi mieć co najmniej 3 znaki.');
       isValid = false;
@@ -43,7 +39,6 @@ function SignUpForm() {
       isValid = false;
     }
 
-    // Walidacja haseł
     if (password !== confirmPassword) {
       setPopupMessage('Hasła muszą być identyczne.');
       setPopupType('error');
