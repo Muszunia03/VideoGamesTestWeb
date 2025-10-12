@@ -10,7 +10,7 @@ function LeaderboardPage() {
     AOS.init({ duration: 1000, once: false });
     AOS.refresh(); 
 
-    fetch("http://localhost:8080/leaderboard") 
+    fetch("http://localhost:8090/leaderboard") 
       .then((res) => res.json())
       .then((data) => {
         setLeaderboardData(data);
