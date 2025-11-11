@@ -4,7 +4,7 @@ import NotificationPopup from './NotificationPopup';
 import './LoginForm.css';
 
 function LoginForm({ onLoginSuccess }) { 
-  const [username, setUsername] = useState('');
+  const [login, setLogin] = useState(''); // login może być email lub username
   const [password, setPassword] = useState('');
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState('');
@@ -16,48 +16,38 @@ function LoginForm({ onLoginSuccess }) {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:8090/login', {
+      const response = await fetch('http://localhost:8080/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ login, password }),
       });
 
-      if (response.ok) {
-        const data = await response.json(); 
-        const loggedInUsername = data.username || username; 
-        
-        setPopupMessage('Zalogowano pomyślnie!');
+      const data = await response.json();
+
+      if (data.status === 'success') {
+        setPopupMessage('✅ Zalogowano pomyślnie!');
         setPopupType('success');
         setShowPopup(true);
-        setRedirectAfterClose(true); 
+        setRedirectAfterClose(true);
 
         if (onLoginSuccess) {
-          onLoginSuccess(loggedInUsername); 
+          onLoginSuccess(login);
         }
-
       } else {
-        const data = await response.json();
-        setPopupMessage(data.detail || 'Błąd logowania. Spróbuj ponownie.');
+        setPopupMessage(data.message || '❌ Błędne dane logowania.');
         setPopupType('error');
         setShowPopup(true);
-        setRedirectAfterClose(false);
       }
     } catch (error) {
-      setPopupMessage('Błąd sieci lub serwer jest offline. Spróbuj ponownie później.');
+      setPopupMessage('⚠️ Błąd sieci. Spróbuj ponownie później.');
       setPopupType('error');
       setShowPopup(true);
-      setRedirectAfterClose(false);
     }
   };
 
   const handleClosePopup = () => {
     setShowPopup(false);
-    if (redirectAfterClose) {
-      navigate('/quiz');
-    }
-    setPopupMessage('');
-    setPopupType('');
-    setRedirectAfterClose(false);
+    if (redirectAfterClose) navigate('/quiz');
   };
 
   return (
@@ -68,9 +58,9 @@ function LoginForm({ onLoginSuccess }) {
         <div className="input-group">
           <input
             type="text"
-            placeholder="Nazwa użytkownika"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Email lub nazwa użytkownika"
+            value={login}
+            onChange={(e) => setLogin(e.target.value)}
             required
           />
         </div>

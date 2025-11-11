@@ -2,13 +2,14 @@ package com.quizapp.quiz.backend.controller;
 
 import com.quizapp.quiz.backend.model.Question;
 import com.quizapp.quiz.backend.service.RetroQuizService;
+import com.quizapp.quiz.backend.model.ResultRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/retro-quiz")
-@CrossOrigin(origins = "http://localhost:3000") // pozwala Reactowi na fetch
+@CrossOrigin(origins = "http://localhost:5173") // pozwala Reactowi się łączyć
 public class RetroQuizController {
 
     private final RetroQuizService retroQuizService;
@@ -17,9 +18,19 @@ public class RetroQuizController {
         this.retroQuizService = retroQuizService;
     }
 
-    // Zmiana na "/start", bo React robi fetch pod ten URL
     @GetMapping("/start")
-    public List<Question> getRetroQuestions() {
+    public List<Question> startQuiz() {
         return retroQuizService.getRetroQuestions();
+    }
+
+    @PostMapping("/save")
+    public String saveResult(@RequestBody ResultRequest result) {
+        retroQuizService.saveResult(
+                result.getUserId(),
+                result.getGameId(),
+                result.getScore(),
+                result.getTimeTakenSeconds()
+        );
+        return "Wynik został zapisany pomyślnie.";
     }
 }

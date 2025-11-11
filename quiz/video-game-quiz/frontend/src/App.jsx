@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
-import NavBar from './NavBar';
 import LoginForm from './LoginForm';
 import SignUpForm from './SignUpForm';
 import QuizPage from './QuizPage';
@@ -17,10 +16,12 @@ import LatestQuizPage from './LatestQuizPage';
 import ImagesQuizPage from './ImagesQuizPage';
 import GenreQuizPage from './GenreQuizPage';
 import DailyQuizPage from './DailyQuizPage';
-import SpeedrunQuizPage from './DailyQuizPage';
+import SpeedrunQuizPage from './SpeedrunQuizPage';
 import PlatformMatchQuizPage from './PlatformMatchQuizPage';
 import RatingQuizPage from './RatingQuizPage';
 import MultiFactQuizPage from './MultiFactQuizPage';
+import NavBar from './NavBar';
+
 
 import RegulationsPage from './RegulationsPage';
 import NotFoundPage from './NotFoundPage';

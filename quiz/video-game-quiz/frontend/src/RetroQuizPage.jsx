@@ -12,13 +12,13 @@ function RetroQuizPage() {
   useEffect(() => {
     AOS.init({ duration: 1000 });
 
-    fetch("http://localhost:8080/api/retro-quiz/start") // <- zmienione na /start
+    fetch("http://localhost:8080/api/retro-quiz/start") 
       .then(res => {
         if (!res.ok) throw new Error("Błąd HTTP: " + res.status);
         return res.json();
       })
       .then(data => {
-        console.log("Dane z backendu:", data); // debug w konsoli
+        console.log("Dane z backendu:", data); 
         setQuestions(data);
       })
       .catch(err => console.error("Błąd API:", err));
@@ -36,14 +36,16 @@ function RetroQuizPage() {
     }
   };
 
-  if (finished) {
-    return (
+    if (finished) {
+      return (
       <div className="quiz-category-page-container">
-        <h1>Twój wynik: {score}/{questions.length}</h1>
-        <button className="primary-btn" onClick={() => window.location.reload()}>Zagraj ponownie</button>
-      </div>
+      <h1 className="quiz-category-title">Twój wynik: {score}/{questions.length}</h1>
+    <button className="primary-btn" onClick={() => window.location.reload()}>
+      Zagraj ponownie
+     </button>
+     </div>
     );
-  }
+   }
 
   if (questions.length === 0) {
     return <p>Ładowanie pytania...</p>;

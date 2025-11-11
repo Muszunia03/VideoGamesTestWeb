@@ -21,12 +21,13 @@ public class QuizBackendApplication {
         SpringApplication.run(QuizBackendApplication.class, args);
     }
 
+    //http://localhost:8080/api/retro-quiz/start
+    
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                // pozwalamy Reactowi na fetch
                 registry.addMapping("/**").allowedOrigins("http://localhost:5173");
             }
         };

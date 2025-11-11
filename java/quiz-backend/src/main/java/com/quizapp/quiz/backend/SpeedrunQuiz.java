@@ -17,7 +17,7 @@ public class SpeedrunQuiz {
 
         try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS)) {
             for (int i = 0; i < count; i++) {
-                int type = i % 9; // teraz 9 typów pytań (bo usunęliśmy studio)
+                int type = i % 9;
                 Map<String, Object> question;
 
                 switch (type) {

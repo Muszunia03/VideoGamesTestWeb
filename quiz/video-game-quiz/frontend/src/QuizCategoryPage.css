@@ -7,8 +7,8 @@
     padding: 40px 20px;
     box-sizing: border-box;
     margin: 0 auto;
-    margin-top: 80px; 
-    min-height: calc(100vh - 80px - 60px); 
+    margin-top: 80px;
+    min-height: calc(100vh - 80px - 60px);
     text-align: center;
     animation: fadeIn 1s ease-out;
 }
@@ -24,6 +24,27 @@
     color: #ffeb3b;
     text-shadow: 0 0 20px rgba(255, 235, 59, 0.7);
     margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.lives-counter-and-score {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    width: 380px;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.score-display {
+    color: #ffeb3b; 
+    text-shadow: 0 0 8px rgba(255, 235, 59, 0.5);
+}
+
+.lives-display {
+    color: #e74c3c; 
+    text-shadow: 0 0 8px rgba(231, 76, 60, 0.5);
 }
 
 .quiz-category-description {
@@ -49,10 +70,85 @@
     align-items: center;
 }
 
+.quiz-placeholder-content h2 {
+    font-size: 1.6em;
+    font-weight: 500;
+    color: #FAFAFA;
+    line-height: 1.4;
+    margin: 0 0 15px 0;
+}
+
 .quiz-placeholder-content p {
     font-size: 1.1em;
     color: #e0e0e0;
     line-height: 1.6;
+    margin: 0;
+}
+
+.quiz-question-options {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+    margin-top: 0;
+}
+
+.primary-btn {
+    padding: 14px 25px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    border: 2px solid #00E0FF;
+    background-color: rgba(0, 224, 255, 0.1);
+    color: #FFFFFF;
+    border-radius: 8px;
+    transition: all 0.3s ease, box-shadow 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 0 5px rgba(0, 224, 255, 0.3);
+    width: 100%;
+    max-width: 400px;
+}
+
+.primary-btn:hover {
+    background-color: #00E0FF;
+    color: #121212;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 224, 255, 0.8), 0 0 30px rgba(0, 224, 255, 0.6);
+}
+
+.primary-btn:active {
+    transform: translateY(0);
+}
+
+.quiz-question-options input[type="text"],
+.quiz-question-options input[type="number"] {
+    width: 100%;
+    max-width: 400px;
+    padding: 15px 20px;
+    font-size: 1.1em;
+    border: 2px solid #555;
+    border-radius: 8px;
+    background-color: #1a1a1a;
+    color: #ffeb3b;
+    box-sizing: border-box;
+    text-align: center;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.quiz-question-options input[type="text"]:focus,
+.quiz-question-options input[type="number"]:focus {
+    border-color: #ffeb3b;
+    outline: none;
+    box-shadow: 0 0 15px rgba(255, 235, 59, 0.8);
+}
+
+.question-counter {
+    font-size: 1.1em;
+    color: #c0c0c0;
+    margin-top: 10px;
+    text-shadow: 0 0 5px rgba(0, 224, 255, 0.1);
 }
 
 @media (max-width: 991px) {
@@ -102,4 +198,94 @@
     .quiz-placeholder-content p {
         font-size: 0.9em;
     }
+}
+
+.games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.game-card {
+    background-color: #1e1e2f;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.game-card:hover {
+    background-color: #29294a;
+    transform: scale(1.05);
+}
+
+.quiz-image {
+    width: 100%; 
+    height: auto; 
+    max-width: 450px; 
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+.quiz-feedback {
+    margin: 10px 0;
+    font-weight: 600;
+}
+
+.image-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.guess-box {
+    position: relative;
+    width: 320px;
+    margin: 0 auto;
+}
+
+.guess-input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px solid #444;
+    background: #222;
+    color: white;
+}
+
+.suggestions-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    background: #333;
+    border: 1px solid #444;
+    position: absolute;
+    width: 100%;
+    max-height: 150px;
+    overflow-y: auto;
+    z-index: 10;
+    top: 100%;
+}
+
+.suggestions-list li {
+    padding: 8px;
+    cursor: pointer;
+    text-align: left;
+    color: #fff;
+    border-bottom: 1px solid #444;
+}
+
+.suggestions-list li:hover {
+    background: #555;
+}
+
+.result-message {
+    font-size: 1.2em;
+    margin-top: 15px;
+    color: #ffda79;
+    text-align: center;
 }

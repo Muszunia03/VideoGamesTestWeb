@@ -41,7 +41,7 @@ public class DailyGuessQuiz {
                     List<String> genres = toList(rs.getArray("genres"));
                     List<String> platforms = toList(rs.getArray("platforms"));
 
-                    System.out.println("🎮 Daily Guess - Gra dnia: " + title);
+                    System.out.println("Daily Guess - Gra dnia: " + title);
                     boolean keepPlaying = true;
 
                     while (keepPlaying) {
@@ -57,10 +57,10 @@ public class DailyGuessQuiz {
                         }
 
                         if (correct) {
-                            System.out.println("✅ Dobrze!\n");
+                            System.out.println("Dobrze!\n");
                             score++;
                         } else {
-                            System.out.println("❌ Błąd! Koniec gry.");
+                            System.out.println("Błąd! Koniec gry.");
                             keepPlaying = false;
                         }
                     }

@@ -1,6 +1,5 @@
-// src/RegulationsPage.jsx
 import React from 'react';
-import './RegulationsPage.css'; // <-- DZIĘKI TEJ LINII CSS BĘDZIE DZIAŁAĆ!
+import './RegulationsPage.css';
 
 function RegulationsPage() {
   return (
@@ -53,17 +52,6 @@ function RegulationsPage() {
           <h2>6. Responsibility and Downtime</h2>
           <p>6.1. The admin is not responsible for service interruptions caused by force majeure, technical errors, or maintenance.</p>
           <p>6.2. You use the service at your own risk.</p>
-        </section>
-
-        <section className="regulations-section">
-          <h2>7. Penalties</h2>
-          <p>7.1. Violating the rules may result in:</p>
-          <ul>
-            <li>- Warning</li>
-            <li>- Temporary account block</li>
-            <li>- Permanent account ban</li>
-          </ul>
-          <p>7.2. Final decisions are made by GameQuiz Central administrators and are non-negotiable.</p>
         </section>
 
         <section className="regulations-section">

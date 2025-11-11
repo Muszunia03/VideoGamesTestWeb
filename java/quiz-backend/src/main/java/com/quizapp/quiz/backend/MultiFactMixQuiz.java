@@ -18,7 +18,7 @@ public class MultiFactMixQuiz {
                 WHERE release_date IS NOT NULL AND rating IS NOT NULL 
                       AND array_length(platforms, 1) > 0 
                 ORDER BY RANDOM() 
-                LIMIT 5
+                LIMIT 10
             """;
 
             try (PreparedStatement stmt = conn.prepareStatement(query);

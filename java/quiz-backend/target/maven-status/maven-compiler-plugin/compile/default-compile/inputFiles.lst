@@ -1,5 +1,6 @@
 C:\Users\machm\OneDrive - Politechnika Śląska\Documents\sem4\CP\VideoGamesTestWeb\java\quiz-backend\src\main\java\com\quizapp\quiz\backend\SpeedrunQuiz.java
 C:\Users\machm\OneDrive - Politechnika Śląska\Documents\sem4\CP\VideoGamesTestWeb\java\quiz-backend\src\main\java\com\quizapp\quiz\backend\AuthService.java
+C:\Users\machm\OneDrive - Politechnika Śląska\Documents\sem4\CP\VideoGamesTestWeb\java\quiz-backend\src\main\java\com\quizapp\quiz\backend\controller\NewReleasesController.java
 C:\Users\machm\OneDrive - Politechnika Śląska\Documents\sem4\CP\VideoGamesTestWeb\java\quiz-backend\src\main\java\com\quizapp\quiz\backend\PlatformMatchQuiz.java
 C:\Users\machm\OneDrive - Politechnika Śląska\Documents\sem4\CP\VideoGamesTestWeb\java\quiz-backend\src\main\java\com\quizapp\quiz\backend\controller\TestController.java
 C:\Users\machm\OneDrive - Politechnika Śląska\Documents\sem4\CP\VideoGamesTestWeb\java\quiz-backend\src\main\java\com\quizapp\quiz\backend\DailyGuessQuiz.java
@@ -8,8 +9,10 @@ C:\Users\machm\OneDrive - Politechnika Śląska\Documents\sem4\CP\VideoGamesTest
 C:\Users\machm\OneDrive - Politechnika Śląska\Documents\sem4\CP\VideoGamesTestWeb\java\quiz-backend\src\main\java\com\quizapp\quiz\backend\QuizBackendApplication.java
 C:\Users\machm\OneDrive - Politechnika Śląska\Documents\sem4\CP\VideoGamesTestWeb\java\quiz-backend\src\main\java\com\quizapp\quiz\backend\model\Question.java
 C:\Users\machm\OneDrive - Politechnika Śląska\Documents\sem4\CP\VideoGamesTestWeb\java\quiz-backend\src\main\java\com\quizapp\quiz\backend\NewReleasesQuiz.java
+C:\Users\machm\OneDrive - Politechnika Śląska\Documents\sem4\CP\VideoGamesTestWeb\java\quiz-backend\src\main\java\com\quizapp\quiz\backend\service\NewReleasesService.java
 C:\Users\machm\OneDrive - Politechnika Śląska\Documents\sem4\CP\VideoGamesTestWeb\java\quiz-backend\src\main\java\com\quizapp\quiz\backend\service\RetroQuizService.java
 C:\Users\machm\OneDrive - Politechnika Śląska\Documents\sem4\CP\VideoGamesTestWeb\java\quiz-backend\src\main\java\com\quizapp\quiz\backend\controller\RetroQuizController.java
 C:\Users\machm\OneDrive - Politechnika Śląska\Documents\sem4\CP\VideoGamesTestWeb\java\quiz-backend\src\main\java\com\quizapp\quiz\backend\LoginTest.java
 C:\Users\machm\OneDrive - Politechnika Śląska\Documents\sem4\CP\VideoGamesTestWeb\java\quiz-backend\src\main\java\com\quizapp\quiz\backend\RetroQuizWithTemplates.java
 C:\Users\machm\OneDrive - Politechnika Śląska\Documents\sem4\CP\VideoGamesTestWeb\java\quiz-backend\src\main\java\com\quizapp\quiz\backend\MultiFactMixQuiz.java
+C:\Users\machm\OneDrive - Politechnika Śląska\Documents\sem4\CP\VideoGamesTestWeb\java\quiz-backend\src\main\java\com\quizapp\quiz\backend\model\ResultRequest.java

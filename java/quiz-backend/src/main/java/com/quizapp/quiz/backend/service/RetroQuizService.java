@@ -31,7 +31,7 @@ public class RetroQuizService {
             WHERE release_date < '2010-01-01'
             AND array_length(platforms, 1) > 0
             ORDER BY RANDOM()
-            LIMIT 5
+            LIMIT 10
         """;
 
         try (Connection conn = DriverManager.getConnection(url, dbUser, dbPassword);
