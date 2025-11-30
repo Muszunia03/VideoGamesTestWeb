@@ -14,56 +14,40 @@ public class GenreChallengeService {
             "Simulation", "Puzzle", "Platformer", "Sports", "Racing"
     );
 
-    private final String dbUrl;
-    private final String dbUser;
-    private final String dbPassword;
+    private final String dbUrl = "jdbc:postgresql://localhost:5432/postgres";
+    private final String dbUser = "postgres";
+    private final String dbPassword = "admin";
 
-    public GenreChallengeService() {
-        // Ideally, load from application.properties
-        this.dbUrl = "jdbc:postgresql://localhost:5432/postgres";
-        this.dbUser = "postgres";
-        this.dbPassword = "admin";
-    }
+    private final Random random = new Random();
 
     /**
-     * Generate a list of quiz questions for a user.
-     * @param limit number of questions to generate
+     * Returns a single random question for Genre Challenge.
      */
-    public List<Question> generateQuestions(int limit) throws SQLException {
-        List<Question> questions = new ArrayList<>();
-        String query = """
-            SELECT id, title, genres 
-            FROM games 
-            WHERE array_length(genres, 1) > 0
-            ORDER BY RANDOM() 
-            LIMIT ?
-            """;
+    public Question getRandomQuestion() {
+        String query = "SELECT id, title, genres FROM games WHERE array_length(genres, 1) > 0 ORDER BY RANDOM() LIMIT 1";
 
         try (Connection conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
-             PreparedStatement stmt = conn.prepareStatement(query)) {
+             PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
 
-            stmt.setInt(1, limit);
-            try (ResultSet rs = stmt.executeQuery()) {
-                int questionId = 1;
-                Random random = new Random();
+            if (rs.next()) {
+                int gameId = rs.getInt("id");
+                String title = rs.getString("title");
+                Array genresArray = rs.getArray("genres");
+                List<String> genres = genresArray != null ? Arrays.asList((String[]) genresArray.getArray()) : List.of();
 
-                while (rs.next()) {
-                    int gameId = rs.getInt("id");
-                    String title = rs.getString("title");
-                    Array genresArray = rs.getArray("genres");
-                    @SuppressWarnings("unchecked")
-                    List<String> genres = Arrays.asList((String[]) genresArray.getArray());
-
-                    questions.add(createQuestionFromGame(gameId, title, genres, questionId++, random));
-                }
+                return createQuestionFromGame(gameId, title, genres);
             }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return questions;
+
+        return null;
     }
 
-    private Question createQuestionFromGame(int gameId, String title, List<String> genres, int id, Random random) {
+    private Question createQuestionFromGame(int gameId, String title, List<String> genres) {
         Question q = new Question();
-        q.setId(id);
         q.setGameId(gameId);
         q.setTitle(title);
 
@@ -80,7 +64,7 @@ public class GenreChallengeService {
             case 1 -> {
                 q.setQuestionText("Name one genre for the game: '" + title + "'");
                 q.setOptions(Collections.emptyList());
-                q.setCorrectAnswer(genres.get(0));
+                q.setCorrectAnswer(genres.isEmpty() ? "" : genres.get(0));
             }
             case 2 -> {
                 q.setQuestionText("How many primary genres does '" + title + "' have?");
@@ -97,32 +81,12 @@ public class GenreChallengeService {
                 q.setCorrectAnswer((genres.contains(g1) && genres.contains(g2)) ? "Yes" : "No");
             }
             case 4 -> {
-                String mainGenre = genres.get(0);
+                String mainGenre = genres.isEmpty() ? "" : genres.get(0);
                 q.setQuestionText("Is '" + mainGenre + "' the primary genre for '" + title + "'?");
                 q.setOptions(Arrays.asList("Yes", "No"));
                 q.setCorrectAnswer("Yes");
             }
         }
         return q;
-    }
-
-    /**
-     * Save quiz result for a user.
-     */
-    public void saveResult(int userId, int lastGameId, int score, int durationSeconds) {
-        String sql = "INSERT INTO results (user_id, game_id, score, time_taken_seconds) VALUES (?, ?, ?, ?)";
-        try (Connection conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setInt(1, userId);
-            if (lastGameId != -1) stmt.setInt(2, lastGameId); else stmt.setNull(2, Types.INTEGER);
-            stmt.setInt(3, score);
-            stmt.setInt(4, durationSeconds);
-            stmt.executeUpdate();
-
-            System.out.println("Result saved successfully.");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 }

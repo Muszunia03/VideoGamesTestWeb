@@ -1,37 +1,29 @@
 package com.quizapp.quiz.backend.controller;
 
 import com.quizapp.quiz.backend.model.Question;
-import com.quizapp.quiz.backend.model.ResultRequest;
 import com.quizapp.quiz.backend.service.NewReleasesService;
-import com.quizapp.quiz.backend.service.RetroQuizService;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/new-releases")
+@CrossOrigin(origins = "http://localhost:5173") // React frontend
 public class NewReleasesController {
 
     private final NewReleasesService newReleasesService;
-    private final RetroQuizService retroQuizService;
 
-    public NewReleasesController(NewReleasesService newReleasesService, RetroQuizService retroQuizService) {
+    public NewReleasesController(NewReleasesService newReleasesService) {
         this.newReleasesService = newReleasesService;
-        this.retroQuizService = retroQuizService;
     }
 
+    // Start endpoint (optional, could load first question)
     @GetMapping("/start")
-    public List<Question> startQuiz() {
-        return newReleasesService.getNewReleaseQuestions();
+    public Question startQuiz() {
+        return newReleasesService.getRandomQuestion();
     }
 
-    @PostMapping("/save-result")
-    public void saveResult(@RequestBody ResultRequest resultRequest) {
-        retroQuizService.saveResult(
-                resultRequest.getUserId(),
-                resultRequest.getGameId(),
-                resultRequest.getScore(),
-                resultRequest.getTimeTakenSeconds()
-        );
+    // Next question endpoint
+    @GetMapping("/next")
+    public Question nextQuestion() {
+        return newReleasesService.getRandomQuestion();
     }
 }

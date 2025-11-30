@@ -11,63 +11,122 @@ function ImagesQuizPage() {
   const [lives, setLives] = useState(5);
   const [isGameOver, setIsGameOver] = useState(false);
   const [score, setScore] = useState(0);
+  const [comparison, setComparison] = useState(null);
 
   useEffect(() => {
-    AOS.init({ duration: 1000, once: false });
-    AOS.refresh();
+    AOS.init({ duration: 800, once: false });
     fetchRandomImage();
   }, []);
 
   const fetchRandomImage = async () => {
+    setComparison(null);
+    setMessage("");
+    setGuess("");
+    setSuggestions([]);
+    setIsGameOver(false);
+    setLives(5);
+
     const res = await fetch("http://localhost:8080/api/imagequiz/random");
     if (!res.ok) return;
     const data = await res.json();
-    setCurrentImage(data);
-    setMessage("");
-    setLives(5);
-    setIsGameOver(false);
+    const fixed = { ...data, imageUrl: data.imageUrl || data.backgroundImage || data.background_image };
+    setCurrentImage(fixed);
   };
 
   const handleSearch = async (value) => {
     setGuess(value);
-    if (value.length > 0) {
-      const res = await fetch(`http://localhost:8080/api/imagequiz/search?query=${value}`);
-      const data = await res.json();
-      setSuggestions(data);
-    } else {
+    if (!value || value.length === 0) {
       setSuggestions([]);
+      return;
     }
+    const res = await fetch(`http://localhost:8080/api/imagequiz/search?query=${encodeURIComponent(value)}`);
+    if (!res.ok) return;
+    const data = await res.json();
+    setSuggestions(data || []);
   };
 
   const handleGuess = async (title) => {
-    if (isGameOver) return;
+    if (isGameOver || !currentImage) return;
 
-    const res = await fetch("http://localhost:8080/api/imagequiz/check", {
+    const payload = { guess: title, correct: currentImage.title };
+    const res = await fetch("http://localhost:8080/api/imagequiz/compare", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ guess: title, correct: currentImage.title })
+      body: JSON.stringify(payload)
     });
-    const result = await res.json();
-
+    if (!res.ok) {
+      setMessage("Server error");
+      return;
+    }
+    const comp = await res.json();
+    setComparison(comp);
     setGuess("");
     setSuggestions([]);
 
-    if (result.correct) {
-      setMessage("✅ Correct Answer! Proceed to the next game.");
-      setIsGameOver(true);
-      setScore(prevScore => prevScore + 1);
-    } else {
-      const newLives = lives - 1;
-      setLives(newLives);
-
-      if (newLives <= 0) {
-        setMessage(`❌ Out of attempts! The correct answer was: ${currentImage.title}`);
-        setIsGameOver(true);
-        setScore(0);
-      } else {
-        setMessage(`❌ Wrong guess! You have ${newLives} attempts left.`);
-      }
+    if (comp.titleStatus === "unknown") {
+      setMessage("That title is not in the database.");
+      return;
     }
+
+    if (comp.titleStatus === "green") {
+      setMessage("✅ Correct! Proceed to next image.");
+      setScore(prev => prev + 1);
+      setIsGameOver(true);
+      return;
+    }
+
+    const newLives = lives - 1;
+    setLives(newLives);
+
+    if (newLives <= 0) {
+      setMessage(`❌ Out of attempts! Correct answer: ${currentImage.title}`);
+      setIsGameOver(true);
+
+      // TU dodajemy zapis wyniku do bazy po utracie wszystkich żyć
+      const username = localStorage.getItem("username");
+      if (username) {
+        try {
+          await fetch("http://localhost:8080/api/results/save", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              username,
+              score,
+              quizType: "Guess the Image"
+            }),
+          });
+          console.log("Wynik zapisany do bazy!");
+        } catch (err) {
+          console.error("Błąd zapisu wyniku:", err);
+        }
+      }
+
+    } else {
+      setMessage(`❌ Wrong guess. ${newLives} attempts left.`);
+    }
+  };
+
+  const renderBox = (label, status, value, extraClass) => {
+    let cls = "red";
+    let desc = "";
+
+    switch(status) {
+      case "green": cls = "green"; desc = "✅ Correct"; break;
+      case "yellow": cls = "yellow"; desc = "⚠️ Partially correct"; break;
+      case "red": cls = "red"; desc = "❌ Wrong"; break;
+      case "lower": cls = "red"; desc = "⬇ Your guess is lower"; break;
+      case "higher": cls = "red"; desc = "⬆ Your guess is higher"; break;
+      default: cls = ""; desc = "";
+    }
+
+    return (
+      <div className={`comp-box ${cls} ${extraClass || ""}`}>
+        <div className="comp-label">{label}</div>
+        <div className="comp-value">{Array.isArray(value) ? (value || []).join(", ") : (value ?? "-")}</div>
+        {(status === "lower" || status === "higher") && <div className="comp-arrow">{status === "lower" ? "⬇" : "⬆"}</div>}
+        {desc && <div className="comp-desc">{desc}</div>}
+      </div>
+    );
   };
 
   return (
@@ -85,6 +144,7 @@ function ImagesQuizPage() {
             src={currentImage.imageUrl}
             alt="Game"
             className="quiz-image"
+            onError={(e) => { e.target.src = "/fallback.png"; }}
           />
         </div>
       )}
@@ -102,9 +162,7 @@ function ImagesQuizPage() {
         {suggestions.length > 0 && !isGameOver && (
           <ul className="suggestions-list">
             {suggestions.map((title, idx) => (
-              <li key={idx} onClick={() => handleGuess(title)}>
-                {title}
-              </li>
+              <li key={idx} onClick={() => handleGuess(title)}>{title}</li>
             ))}
           </ul>
         )}
@@ -112,9 +170,19 @@ function ImagesQuizPage() {
 
       {message && <p className="result-message">{message}</p>}
 
+      {comparison && comparison.titleStatus && comparison.titleStatus !== "unknown" && (
+        <div className="comparison-grid" data-aos="fade-up">
+          {renderBox("Title", comparison.titleStatus, comparison.guessedGame?.title)}
+          {renderBox("Genres", comparison.genresStatus, comparison.guessedGame?.genres)}
+          {renderBox("Platforms", comparison.platformsStatus, comparison.guessedGame?.platforms)}
+          {renderBox("Rating", comparison.ratingStatus, comparison.guessedGame?.rating)}
+          {renderBox("Release year", comparison.yearStatus, comparison.guessedGame?.releaseYear)}
+        </div>
+      )}
+
       {(isGameOver || lives <= 0) && (
         <button
-          className="primary-btn mt-4" 
+          className="primary-btn mt-4"
           onClick={fetchRandomImage}
           data-aos="fade-up"
           data-aos-delay="400"
@@ -122,7 +190,6 @@ function ImagesQuizPage() {
           Next Image
         </button>
       )}
-
     </div>
   );
 }

@@ -20,8 +20,6 @@ public class QuizBackendApplication {
     public static void main(String[] args) {
         SpringApplication.run(QuizBackendApplication.class, args);
     }
-
-    //http://localhost:8080/api/retro-quiz/start
     
     @Bean
     public WebMvcConfigurer corsConfigurer() {

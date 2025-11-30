@@ -2,9 +2,12 @@ package com.quizapp.quiz.backend.controller;
 
 import com.quizapp.quiz.backend.model.Game;
 import com.quizapp.quiz.backend.service.ImageQuizService;
+import com.quizapp.quiz.backend.service.ImageQuizService.ComparisonResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/imagequiz")
@@ -30,6 +33,17 @@ public class ImageQuizController {
         return ResponseEntity.ok(imageQuizService.searchGamesByTitle(query));
     }
 
+    @PostMapping("/compare")
+    public ResponseEntity<ComparisonResponse> compare(@RequestBody Map<String, String> body) {
+        String guess = body.get("guess");
+        String correct = body.get("correct");
+        if (guess == null || correct == null) return ResponseEntity.badRequest().build();
+
+        ComparisonResponse resp = imageQuizService.compareGames(guess, correct);
+        return ResponseEntity.ok(resp);
+    }
+
+    // legacy check (kept for compatibility)
     @PostMapping("/check")
     public ResponseEntity<?> checkAnswer(@RequestBody GuessRequest request) {
         boolean correct = request.getGuess().equalsIgnoreCase(request.getCorrect());

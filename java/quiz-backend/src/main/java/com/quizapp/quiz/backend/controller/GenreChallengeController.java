@@ -1,12 +1,10 @@
 package com.quizapp.quiz.backend.controller;
 
 import com.quizapp.quiz.backend.model.Question;
-import com.quizapp.quiz.backend.model.ResultRequest;
 import com.quizapp.quiz.backend.service.GenreChallengeService;
-import org.springframework.web.bind.annotation.*;
-
-import java.sql.SQLException;
-import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/genre-challenge")
@@ -19,30 +17,10 @@ public class GenreChallengeController {
     }
 
     /**
-     * Endpoint to start the Genre Challenge quiz.
-     * GET /api/genre-challenge/start?limit=5
+     * Returns a single random question for the Genre Challenge quiz.
      */
-    @GetMapping("/start")
-    public List<Question> startQuiz(@RequestParam(name = "limit", defaultValue = "10") int limit) {
-        try {
-            return genreChallengeService.generateQuestions(limit);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Failed to generate quiz questions.");
-        }
-    }
-
-    /**
-     * Endpoint to save the result of the Genre Challenge quiz.
-     * POST /api/genre-challenge/save-result
-     */
-    @PostMapping("/save-result")
-    public void saveResult(@RequestBody ResultRequest resultRequest) {
-        genreChallengeService.saveResult(
-                resultRequest.getUserId(),
-                resultRequest.getGameId(),
-                resultRequest.getScore(),
-                resultRequest.getTimeTakenSeconds()
-        );
+    @GetMapping("/next")
+    public Question getNextQuestion() {
+        return genreChallengeService.getRandomQuestion();
     }
 }

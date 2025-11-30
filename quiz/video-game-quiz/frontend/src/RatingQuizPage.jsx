@@ -4,70 +4,69 @@ import "aos/dist/aos.css";
 import "./QuizCategoryPage.css";
 
 function RatingQuizPage() {
-  const [questions, setQuestions] = useState([]);
-  const [current, setCurrent] = useState(0);
+  const [question, setQuestion] = useState(null);
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [inputValue, setInputValue] = useState(""); // dla input box
 
   useEffect(() => {
     AOS.init({ duration: 1000 });
-
-    fetch("http://localhost:8080/api/rating-estimator/start")
-      .then((res) => {
-        if (!res.ok) throw new Error("Błąd HTTP: " + res.status);
-        return res.json();
-      })
-      .then((data) => {
-        console.log("Dane z backendu:", data);
-        setQuestions(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Błąd API:", err);
-        setLoading(false);
-      });
+    loadNextQuestion();
   }, []);
 
-  const handleAnswer = (answer) => {
-    if (answer === questions[current].correctAnswer) {
-      setScore((prev) => prev + 1);
-    }
+  const loadNextQuestion = () => {
+    fetch("http://localhost:8080/api/rating-estimator/next")
+      .then((res) => res.json())
+      .then((data) => {
+        setQuestion(data);
+        setInputValue(""); // reset inputu przy nowym pytaniu
+      })
+      .catch((err) => console.error("API error:", err));
+  };
 
-    if (current + 1 < questions.length) {
-      setCurrent((prev) => prev + 1);
-    } else {
+  const handleAnswer = async (answer) => {
+    if (!question) return;
+
+    const isCorrect =
+      answer.trim().toLowerCase() === question.correctAnswer.trim().toLowerCase();
+
+    if (!isCorrect) {
       setFinished(true);
-      saveResult();
+      const username = localStorage.getItem("username");
+
+      if (username) {
+        try {
+          await fetch("http://localhost:8080/api/results/save", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              username,
+              score,
+              quizType: "Rating Estimator",
+            }),
+          });
+        } catch (err) {
+          console.error("Błąd zapisu:", err);
+        }
+      }
+
+      return;
     }
+
+    setScore((prev) => prev + 1);
+    loadNextQuestion();
   };
 
-  const saveResult = () => {
-    const result = {
-      userId: 1, // na razie testowo
-      gameId: questions[current]?.gameId || -1,
-      score: score,
-      timeTakenSeconds: 0,
-    };
-
-    fetch("http://localhost:8080/api/rating-estimator/save", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(result),
-    })
-      .then((res) => res.text())
-      .then((msg) => console.log("Zapis wyniku:", msg))
-      .catch((err) => console.error("Błąd zapisu:", err));
+  const handleInputSubmit = () => {
+    handleAnswer(inputValue);
   };
 
-  if (loading) {
-    return <p>Ładowanie pytań...</p>;
-  }
+  if (!question && !finished) return <p>Ładowanie pytania...</p>;
 
   if (finished) {
     return (
       <div className="quiz-category-page-container">
-        <h1 className="quiz-category-title" >Twój wynik: {score}/{questions.length}</h1>
+        <h1 className="quiz-category-title">Twój wynik: {score}</h1>
         <button
           className="primary-btn"
           onClick={() => window.location.reload()}
@@ -75,15 +74,17 @@ function RatingQuizPage() {
         >
           Zagraj ponownie
         </button>
+
+        <div
+          className="quiz-description"
+          style={{ marginTop: "40px", fontStyle: "italic", color: "#555" }}
+        >
+          In this quiz you estimate the rating of different games.
+          The quiz continues as long as your answers are correct — how far can you go?
+        </div>
       </div>
     );
   }
-
-  if (questions.length === 0) {
-    return <p>Brak pytań do wyświetlenia.</p>;
-  }
-
-  const q = questions[current];
 
   return (
     <div className="quiz-category-page-container">
@@ -91,23 +92,50 @@ function RatingQuizPage() {
         Rating Estimator Quiz
       </h1>
 
-      <h2 data-aos="fade-up">{q.questionText}</h2>
+      <h2 data-aos="fade-up">{question.questionText}</h2>
 
-      <div className="quiz-options" data-aos="fade-in">
-        {q.options.map((opt, i) => (
+      {question.options.length > 0 ? (
+        <div className="quiz-options" data-aos="fade-in">
+          {question.options.map((opt, i) => (
+            <button
+              key={i}
+              className="primary-btn"
+              onClick={() => handleAnswer(opt)}
+            >
+              {opt}
+            </button>
+          ))}
+        </div>
+      ) : (
+        <div className="quiz-options" data-aos="fade-in">
+          <input
+            type="text"
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            placeholder="Wpisz odpowiedź..."
+            className="input-box"
+          />
           <button
-            key={i}
             className="primary-btn"
-            onClick={() => handleAnswer(opt)}
+            onClick={handleInputSubmit}
+            style={{ marginLeft: "10px" }}
           >
-            {opt}
+            Submit
           </button>
-        ))}
-      </div>
+        </div>
+      )}
 
       <p data-aos="fade-up" data-aos-delay="300">
-        Pytanie {current + 1} z {questions.length}
+        Current score: {score}
       </p>
+
+      <div
+        className="quiz-description"
+        style={{ marginTop: "40px", fontStyle: "italic", color: "#555" }}
+      >
+        Try to guess the rating category or score for each game.
+        One mistake and it’s over — good luck!
+      </div>
     </div>
   );
 }

@@ -1,9 +1,11 @@
 package com.quizapp.quiz.backend.controller;
 
 import com.quizapp.quiz.backend.model.Question;
-import com.quizapp.quiz.backend.model.ResultRequest;
 import com.quizapp.quiz.backend.service.RatingEstimatorQuizService;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -18,19 +20,9 @@ public class RatingEstimatorQuizController {
         this.ratingEstimatorQuizService = ratingEstimatorQuizService;
     }
 
-    @GetMapping("/start")
-    public List<Question> startQuiz() {
-        return ratingEstimatorQuizService.getRatingEstimatorQuestions();
-    }
-
-    @PostMapping("/save")
-    public String saveResult(@RequestBody ResultRequest result) {
-        ratingEstimatorQuizService.saveResult(
-                result.getUserId(),
-                result.getGameId(),
-                result.getScore(),
-                result.getTimeTakenSeconds()
-        );
-        return "Wynik zapisany pomyślnie.";
+    @GetMapping("/next")
+    public Question getNextQuestion() {
+        return ratingEstimatorQuizService.getSingleRatingQuestion();
     }
 }
+

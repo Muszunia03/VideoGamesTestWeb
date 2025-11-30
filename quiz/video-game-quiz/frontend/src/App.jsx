@@ -15,13 +15,10 @@ import RetroQuizPage from './RetroQuizPage';
 import LatestQuizPage from './LatestQuizPage';
 import ImagesQuizPage from './ImagesQuizPage';
 import GenreQuizPage from './GenreQuizPage';
-import DailyQuizPage from './DailyQuizPage';
-import SpeedrunQuizPage from './SpeedrunQuizPage';
 import PlatformMatchQuizPage from './PlatformMatchQuizPage';
 import RatingQuizPage from './RatingQuizPage';
 import MultiFactQuizPage from './MultiFactQuizPage';
 import NavBar from './NavBar';
-
 
 import RegulationsPage from './RegulationsPage';
 import NotFoundPage from './NotFoundPage';
@@ -88,8 +85,6 @@ function App() {
             <Route path="/quiz/latest" element={<LatestQuizPage />} />
             <Route path="/quiz/images" element={<ImagesQuizPage />} />
             <Route path="/quiz/genre" element={<GenreQuizPage />} />
-            <Route path="/quiz/daily" element={<DailyQuizPage />} />
-            <Route path="/quiz/speedrun" element={<SpeedrunQuizPage />} />
             <Route path="/quiz/platformmatch" element={<PlatformMatchQuizPage />} />
             <Route path="/quiz/rating" element={<RatingQuizPage />} />
             <Route path="/quiz/multifact" element={<MultiFactQuizPage />} />
