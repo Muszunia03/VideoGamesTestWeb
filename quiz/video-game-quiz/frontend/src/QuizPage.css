@@ -113,8 +113,8 @@ body {
 }
 
 .featured-quiz-card:hover {
-    transform: none; /* USUNIĘCIE POWIĘKSZENIA */
-    box-shadow: 0 15px 45px rgba(255, 69, 0, 0.6); /* WZMOCNIONY CIEŃ */
+    transform: none;
+    box-shadow: 0 15px 45px rgba(255, 69, 0, 0.6);
 }
 
 .featured-quiz-image {
@@ -166,12 +166,13 @@ body {
 
 .carousel-section {
     margin: 50px auto; 
-    padding: 30px 20px; 
+    padding: 30px 50px 30px 50px;
     background: rgba(2, 8, 20, 0.9);
     border: 3px solid #00ffff; 
     box-shadow: 0 0 25px rgba(0, 255, 255, 0.5); 
     border-radius: 15px;
     max-width: 1200px;
+    position: relative;
 }
 
 .carousel-section h2 {
@@ -181,6 +182,11 @@ body {
     text-align: center;
     padding-left: 0;
     text-shadow: 0 0 10px #00ffff;
+}
+
+.carousel-wrapper {
+    position: relative;
+    padding: 0 10px;
 }
 
 .carousel-container {
@@ -213,6 +219,129 @@ body {
     scroll-snap-align: start; 
 }
 
+.carousel-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 255, 255, 0.8);
+    color: #041225;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 2em;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 5;
+    transition: background-color 0.3s, transform 0.3s;
+    line-height: 0;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    padding: 0;
+}
+
+.carousel-arrow.left {
+    left: -20px;
+}
+
+.carousel-arrow.right {
+    right: -20px;
+}
+
+.carousel-arrow:not(.disabled):hover {
+    background-color: #ffeb3b;
+    color: #041225;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-arrow.disabled {
+    background: rgba(100, 100, 100, 0.5);
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.carousel-indicators {
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+}
+
+.indicator-dot {
+    width: 10px;
+    height: 10px;
+    margin: 0 5px;
+    background-color: rgba(0, 255, 255, 0.3);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    padding: 0;
+    flex-shrink: 0;
+}
+
+.indicator-dot.active {
+    background-color: #00ffff;
+    transform: scale(1.3);
+}
+
+.scroll-hint-overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 50px; 
+    pointer-events: none; 
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.scroll-hint-overlay.right-hint {
+    right: 0;
+    background: linear-gradient(to left, rgba(2, 8, 20, 1) 0%, rgba(2, 8, 20, 0.8) 50%, rgba(2, 8, 20, 0) 100%);
+}
+
+.scroll-hint-overlay.left-hint {
+    left: 0;
+    background: linear-gradient(to right, rgba(2, 8, 20, 1) 0%, rgba(2, 8, 20, 0.8) 50%, rgba(2, 8, 20, 0) 100%);
+}
+
+.scroll-hint-arrow {
+    color: #00ffff;
+    font-size: 2.5em;
+    font-weight: 300;
+    animation: bounceRight 1.5s infinite; 
+    text-shadow: 0 0 10px #00ffff;
+}
+
+.scroll-hint-overlay.left-hint .scroll-hint-arrow {
+    animation: bounceLeft 1.5s infinite;
+}
+
+@keyframes bounceRight {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateX(0);
+    }
+    40% {
+        transform: translateX(5px);
+    }
+    60% {
+        transform: translateX(3px);
+    }
+}
+
+@keyframes bounceLeft {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateX(0);
+    }
+    40% {
+        transform: translateX(-5px);
+    }
+    60% {
+        transform: translateX(-3px);
+    }
+}
+
+
 .quiz-options {
     display: flex;
     flex-direction: column;
@@ -235,7 +364,8 @@ body {
 }
 
 .quiz-card:hover {
-    transform: none; /* USUNIĘCIE POWIĘKSZENIA */
+    /* USUNIĘTO SCALE(1.05) */
+    transform: none; 
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8), 0 0 35px rgba(255, 235, 59, 0.8);
 }
 
@@ -291,6 +421,14 @@ body {
 }
 
 @media (max-width: 900px) {
+    .carousel-arrow {
+        display: none;
+    }
+
+    .carousel-section {
+        padding-left: 20px; 
+        padding-right: 20px;
+    }
 }
 
 @media (max-width: 768px) {
@@ -318,6 +456,10 @@ body {
     
     .carousel-item {
         min-width: 250px; 
+    }
+    
+    .scroll-hint-overlay {
+        width: 30px; 
     }
 }
 

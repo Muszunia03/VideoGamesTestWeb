@@ -1,14 +1,111 @@
-import React from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './QuizPage.css';
 
-const Carousel = ({ children }) => (
-    <div className="carousel-container">
-        <div className="carousel-content">
-            {children}
+const Carousel = ({ children }) => {
+    const scrollRef = useRef(null);
+    const [canScrollLeft, setCanScrollLeft] = useState(false);
+    const [canScrollRight, setCanScrollRight] = useState(true);
+    const [activeIndex, setActiveIndex] = useState(0);
+    
+    const itemWidth = 375; 
+
+    const updateScrollState = () => {
+        if (scrollRef.current) {
+            const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+            
+            setCanScrollLeft(scrollLeft > 1);
+            setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 1);
+
+            const index = Math.round(scrollLeft / itemWidth);
+            setActiveIndex(index);
+        }
+    };
+
+    useEffect(() => {
+        if (scrollRef.current) {
+            updateScrollState(); 
+            const currentRef = scrollRef.current;
+            currentRef.addEventListener('scroll', updateScrollState);
+            
+            setTimeout(updateScrollState, 100); 
+
+            return () => {
+                currentRef.removeEventListener('scroll', updateScrollState);
+            };
+        }
+    }, [children]); 
+
+    const scroll = (direction) => {
+        if (scrollRef.current) {
+            const currentScroll = scrollRef.current.scrollLeft;
+            let newScroll = direction === 'left' 
+                ? currentScroll - itemWidth * 2 
+                : currentScroll + itemWidth * 2;
+            
+            scrollRef.current.scrollTo({
+                left: newScroll,
+                behavior: 'smooth',
+            });
+        }
+    };
+
+    const goToSlide = (index) => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollTo({
+                left: index * itemWidth,
+                behavior: 'smooth',
+            });
+        }
+    }
+
+    return (
+        <div className="carousel-wrapper">
+            <button 
+                className={`carousel-arrow left ${canScrollLeft ? '' : 'disabled'}`} 
+                onClick={() => scroll('left')}
+                disabled={!canScrollLeft}
+            >
+                &lsaquo;
+            </button>
+            
+            <div className="carousel-container">
+                {canScrollRight && (
+                    <div className="scroll-hint-overlay right-hint">
+                        <span className="scroll-hint-arrow">&rsaquo;</span>
+                    </div>
+                )}
+                {canScrollLeft && (
+                    <div className="scroll-hint-overlay left-hint">
+                        <span className="scroll-hint-arrow">&lsaquo;</span>
+                    </div>
+                )}
+
+                <div className="carousel-content" ref={scrollRef}>
+                    {children}
+                </div>
+            </div>
+            
+            <button 
+                className={`carousel-arrow right ${canScrollRight ? '' : 'disabled'}`} 
+                onClick={() => scroll('right')}
+                disabled={!canScrollRight}
+            >
+                &rsaquo;
+            </button>
+            
+            <div className="carousel-indicators">
+                {children && children.map((_, index) => (
+                    <button 
+                        key={index}
+                        className={`indicator-dot ${index === activeIndex ? 'active' : ''}`}
+                        onClick={() => goToSlide(index)}
+                    />
+                ))}
+            </div>
         </div>
-    </div>
-);
+    );
+};
 
 const VideoPlayer = ({ videoSrc, title }) => {
     
@@ -63,7 +160,6 @@ function QuizPage() {
     const location = useLocation();
     const isActive = (path) => location.pathname === path;
 
-      //    <div className="quiz-card" onClick={() => navigate('/quiz/retro')}></div>
     const quizData = [
         { path: '/quiz/retro', title: 'Retro Classics', description: 'Explore the golden age of gaming with pixelated challenges!', imgSrc: '/RetroLogo.png' },
         { path: '/quiz/latest', title: 'Latest Releases', description: 'Stay current! Quizzes on the hottest games hitting the market now.', imgSrc: '/NewRealeseLogo.png' },
@@ -94,7 +190,7 @@ function QuizPage() {
                 />
                 
                 <div className="featured-quiz-section">
-                    <h2>🏆 Featured Quiz of the Day!</h2>
+                    <h2>Featured Quiz of the Day!</h2>
                     <FeaturedQuizCard
                         title={featuredQuiz.title}
                         description={featuredQuiz.description}
@@ -104,7 +200,7 @@ function QuizPage() {
                 </div>
 
                 <div className="carousel-section">
-                    <h2>🕹️ Explore All Quizzes </h2>
+                    <h2>Explore All Quizzes </h2>
                     <Carousel>
                         {quizData.map((quiz, index) => (
                             <div 

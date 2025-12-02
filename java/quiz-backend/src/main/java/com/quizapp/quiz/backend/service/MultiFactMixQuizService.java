@@ -7,6 +7,14 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.*;
 
+/**
+ * Service class dedicated to generating questions for the "Multi-Fact Mix" quiz.
+ * <p>
+ * This quiz type fetches comprehensive game data (release date, rating, genres, platforms)
+ * and generates diverse questions based on multiple attributes simultaneously.
+ *
+ * @author machm
+ */
 @Service
 public class MultiFactMixQuizService {
 
@@ -14,7 +22,12 @@ public class MultiFactMixQuizService {
     private final String dbUser = "postgres";
     private final String dbPassword = "admin";
 
-    // Zwraca jedno losowe pytanie
+    /**
+     * Retrieves one random game that meets the criteria (has release date, rating, and platforms defined)
+     * and generates a question based on a random template (0-6).
+     *
+     * @return A fully populated {@link Question} object, or null if no suitable game is found.
+     */
     public Question getNextQuestion() {
         String query = """
             SELECT id, title, release_date, rating, genres, platforms
@@ -109,6 +122,16 @@ public class MultiFactMixQuizService {
         return null;
     }
 
+    /**
+     * Saves the final result of the MultiFactMix quiz to the database.
+     * <p>
+     * Note: This method currently uses direct JDBC connection for saving results.
+     *
+     * @param userId The ID of the user who completed the quiz.
+     * @param lastGameId The ID of the last game questioned in the quiz (or -1 if not applicable).
+     * @param score The final score achieved.
+     * @param timeTakenSeconds The total time taken to complete the quiz.
+     */
     public void saveResult(int userId, int lastGameId, int score, int timeTakenSeconds) {
         String insertQuery = """
             INSERT INTO results (user_id, game_id, score, time_taken_seconds)

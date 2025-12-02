@@ -55,9 +55,9 @@ function RegulationsPage() {
         </section>
 
         <section className="regulations-section">
-          <h2>8. Final Provisions</h2>
-          <p>8.1. The administrator may change these regulations at any time. Updates will be announced on the homepage.</p>
-          <p>8.2. Continuing to use the platform after changes means you agree to them.</p>
+          <h2>7. Final Provisions</h2>
+          <p>7.1. The administrator may change these regulations at any time. Updates will be announced on the homepage.</p>
+          <p>7.2. Continuing to use the platform after changes means you agree to them.</p>
         </section>
 
         <p className="regulations-footer-note">

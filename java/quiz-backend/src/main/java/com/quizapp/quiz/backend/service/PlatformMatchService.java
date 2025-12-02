@@ -6,6 +6,13 @@ import org.springframework.stereotype.Service;
 import java.sql.*;
 import java.util.*;
 
+/**
+ * Service class dedicated to generating questions for the "Platform Match" quiz.
+ * <p>
+ * This quiz type focuses on game releases across different platforms and console generations.
+ *
+ * @author machm
+ */
 @Service
 public class PlatformMatchService {
 
@@ -13,6 +20,7 @@ public class PlatformMatchService {
     private final String dbUser = "postgres";
     private final String dbPassword = "admin";
 
+    /** A comprehensive list of all possible platforms used for question generation. */
     private static final List<String> ALL_PLATFORMS = Arrays.asList(
             "PC", "PlayStation", "PlayStation 2", "PlayStation 3", "PlayStation 4",
             "Xbox", "Xbox 360", "Xbox One",
@@ -20,6 +28,7 @@ public class PlatformMatchService {
             "Sega Genesis", "Dreamcast", "Mobile", "PSP", "PS Vita"
     );
 
+    /** Mapping platforms to their approximate console generation number (used for ordering/comparison). */
     private static final Map<String, Integer> PLATFORM_GENERATION = Map.ofEntries(
             Map.entry("Sega Genesis", 4),
             Map.entry("PlayStation", 5),
@@ -39,6 +48,11 @@ public class PlatformMatchService {
             Map.entry("Nintendo DS", 7)
     );
 
+    /**
+     * Retrieves one random game with platform data and generates a question based on a random template (0-10).
+     *
+     * @return A fully populated {@link Question} object, or null if no suitable game is found.
+     */
     public Question getSinglePlatformQuestion() {
 
         String query = """

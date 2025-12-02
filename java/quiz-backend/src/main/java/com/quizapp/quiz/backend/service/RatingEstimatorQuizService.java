@@ -7,6 +7,14 @@ import java.sql.*;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * Service class dedicated to generating questions for the "Rating Estimator" quiz.
+ * <p>
+ * This quiz type focuses on challenging users to guess or estimate the critic rating (e.g., Metacritic score) of a game.
+ * Uses various question templates (0-4) for variety.
+ *
+ * @author machm
+ */
 @Service
 public class RatingEstimatorQuizService {
 
@@ -14,6 +22,11 @@ public class RatingEstimatorQuizService {
     private final String dbUser = "postgres";
     private final String dbPassword = "admin";
 
+    /**
+     * Retrieves one random game that has a rating defined and generates a question based on a random template (0-4).
+     *
+     * @return A fully populated {@link Question} object, or null if no suitable game is found.
+     */
     public Question getSingleRatingQuestion() {
 
         String query = """
@@ -136,12 +149,23 @@ public class RatingEstimatorQuizService {
         return null;
     }
 
-    // helper: losowy float
+    /**
+     * Helper method to generate a random float within a specified range [min, max).
+     *
+     * @param min The minimum value (inclusive).
+     * @param max The maximum value (exclusive).
+     * @return A random float.
+     */
     private float randomFloat(float min, float max) {
         return ThreadLocalRandom.current().nextFloat() * (max - min) + min;
     }
 
-    // helper: zaokrąglenie
+    /**
+     * Helper method to round a float value to one decimal place.
+     *
+     * @param x The float value to round.
+     * @return The float rounded to one decimal place.
+     */
     private float round1(float x) {
         return Math.round(x * 10f) / 10f;
     }

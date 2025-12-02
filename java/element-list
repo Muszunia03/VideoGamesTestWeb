@@ -1,0 +1,5 @@
+com.quizapp.quiz.backend
+com.quizapp.quiz.backend.controller
+com.quizapp.quiz.backend.model
+com.quizapp.quiz.backend.resources
+com.quizapp.quiz.backend.service

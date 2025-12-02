@@ -7,6 +7,14 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.*;
 
+/**
+ * Service class dedicated to generating questions for the "Retro Quiz" game mode.
+ * <p>
+ * Focuses on games released before 2010-01-01 and generates simple True/False or multiple-choice questions
+ * based on their core attributes.
+ *
+ * @author machm
+ */
 @Service
 public class RetroQuizService {
 
@@ -14,7 +22,11 @@ public class RetroQuizService {
     private final String dbUser = "postgres";
     private final String dbPassword = "admin";
 
-    // Return a single random retro question
+    /**
+     * Retrieves one random game released before 2010 and generates a question based on a random template (0-3).
+     *
+     * @return A {@link Question} object containing a retro game challenge, or null if no suitable game is found.
+     */
     public Question getNextRetroQuestion() {
         Question q = null;
         String query = """

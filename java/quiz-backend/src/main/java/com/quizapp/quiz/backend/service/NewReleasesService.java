@@ -7,6 +7,14 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.*;
 
+/**
+ * Service class dedicated to generating questions for the "New Releases" quiz.
+ * <p>
+ * Focuses on games released recently (after '2020-01-01') and constructs simple True/False or multiple-choice questions
+ * based on their core attributes like release date, rating, genre, and platform.
+ *
+ * @author machm
+ */
 @Service
 public class NewReleasesService {
 
@@ -14,7 +22,11 @@ public class NewReleasesService {
     private final String user = "postgres";
     private final String password = "admin";
 
-    // Return **one random question** from new releases
+    /**
+     * Retrieves one random game released after 2020-01-01 and generates a question based on a random template (0-3).
+     *
+     * @return A fully populated {@link Question} object, or null if no suitable game is found.
+     */
     public Question getRandomQuestion() {
         String query = """
             SELECT id, title, release_date, rating, genres, platforms
@@ -74,6 +86,13 @@ public class NewReleasesService {
         return null;
     }
 
+    /**
+     * Helper method to safely convert a PostgreSQL SQL Array into a Java List of Strings.
+     *
+     * @param array The SQL Array object retrieved from the database.
+     * @return A List of Strings, or an empty list if the input array is null.
+     * @throws SQLException If a database access error occurs during array conversion.
+     */
     private List<String> toList(Array array) throws SQLException {
         if (array == null) return List.of();
         return Arrays.asList((String[]) array.getArray());

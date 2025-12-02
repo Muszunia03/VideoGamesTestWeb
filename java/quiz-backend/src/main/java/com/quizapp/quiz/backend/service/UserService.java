@@ -5,15 +5,33 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service class for handling user-specific data retrieval and profile management.
+ * <p>
+ * Uses {@link JdbcTemplate} for database interactions to fetch user IDs and profile details.
+ *
+ * @author machm
+ */
 @Service
 public class UserService {
 
     private final JdbcTemplate jdbc;
 
+    /**
+     * Constructs the UserService, injecting the Spring {@link JdbcTemplate}.
+     *
+     * @param jdbc The configured JdbcTemplate instance for database access.
+     */
     public UserService(JdbcTemplate jdbc) {
         this.jdbc = jdbc;
     }
 
+    /**
+     * Retrieves the internal user ID based on the provided username (case-insensitive).
+     *
+     * @param username The username to look up.
+     * @return The unique user ID (Integer), or null if the user is not found.
+     */
     public Integer getUserIdByUsername(String username) {
         try {
             return jdbc.queryForObject(
@@ -27,6 +45,14 @@ public class UserService {
         }
     }
 
+    /**
+     * Retrieves a detailed profile DTO for a specific user (case-insensitive username).
+     * <p>
+     * Aggregates basic user info (username, email, creation date) with calculated data (total score).
+     *
+     * @param username The username of the profile to retrieve.
+     * @return A {@link UserProfileDto} containing the user's profile and aggregated score, or null if the user is not found.
+     */
     public UserProfileDto getUserProfile(String username) {
         try {
             return jdbc.queryForObject(

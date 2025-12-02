@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.quizapp.quiz.backend"},{"l":"com.quizapp.quiz.backend.controller"},{"l":"com.quizapp.quiz.backend.model"},{"l":"com.quizapp.quiz.backend.resources"},{"l":"com.quizapp.quiz.backend.service"}];updateSearchResults();

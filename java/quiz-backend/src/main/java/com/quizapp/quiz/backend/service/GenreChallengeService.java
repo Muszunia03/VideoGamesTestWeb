@@ -6,9 +6,18 @@ import org.springframework.stereotype.Service;
 import java.sql.*;
 import java.util.*;
 
+/**
+ * Service class dedicated to generating questions for the "Genre Challenge" quiz.
+ * <p>
+ * Fetches game data from the database and constructs different types of questions
+ * based on the game's genres.
+ *
+ * @author machm
+ */
 @Service
 public class GenreChallengeService {
 
+    /** A comprehensive list of all possible genres used for question generation. */
     private static final List<String> ALL_GENRES = Arrays.asList(
             "RPG", "FPS", "Action", "Adventure", "Strategy",
             "Simulation", "Puzzle", "Platformer", "Sports", "Racing"
@@ -21,7 +30,9 @@ public class GenreChallengeService {
     private final Random random = new Random();
 
     /**
-     * Returns a single random question for Genre Challenge.
+     * Retrieves a single random game with genre information and converts it into a quiz question.
+     *
+     * @return A {@link Question} object ready to be displayed to the user, or null if no suitable game is found.
      */
     public Question getRandomQuestion() {
         String query = "SELECT id, title, genres FROM games WHERE array_length(genres, 1) > 0 ORDER BY RANDOM() LIMIT 1";
@@ -46,6 +57,14 @@ public class GenreChallengeService {
         return null;
     }
 
+    /**
+     * Creates a specific type of question based on a randomly selected template (0-4).
+     *
+     * @param gameId The ID of the game the question is about.
+     * @param title The title of the game.
+     * @param genres The list of genres associated with the game.
+     * @return A fully populated {@link Question} object.
+     */
     private Question createQuestionFromGame(int gameId, String title, List<String> genres) {
         Question q = new Question();
         q.setGameId(gameId);

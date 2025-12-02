@@ -10,6 +10,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Controller responsible for saving and retrieving user quiz results.
+ * <p>
+ * Accessible via /api/results.
+ *
+ * @author machm
+ */
 @RestController
 @RequestMapping("/api/results")
 @CrossOrigin(origins = "*")
@@ -18,11 +25,28 @@ public class ResultController {
     private final UserService userService;
     private final ResultService resultService;
 
+    /**
+     * Constructs the controller with user and result services.
+     *
+     * @param userService   Service for user lookup (e.g., finding ID by username).
+     * @param resultService Service for persisting game results.
+     */
     public ResultController(UserService userService, ResultService resultService) {
         this.userService = userService;
         this.resultService = resultService;
     }
 
+    /**
+     * Saves the result of a completed quiz.
+     *
+     * @param request A map containing the result details:
+     * <ul>
+     * <li>"username" (String): The player's username.</li>
+     * <li>"quizType" (String): The category of the quiz played.</li>
+     * <li>"score" (Number): The final score achieved.</li>
+     * </ul>
+     * @return A String message "OK" on success, or an error message if validation fails.
+     */
     @PostMapping("/save")
     public String saveResult(@RequestBody Map<String, Object> request) {
         String username = (String) request.get("username");
@@ -48,7 +72,15 @@ public class ResultController {
         return "OK";
     }
 
-
+    /**
+     * Retrieves the quiz history for a specific user.
+     * <p>
+     * Note: This method currently uses direct JDBC connection for retrieval.
+     *
+     * @param username The username of the player whose results are requested.
+     * @return A list of maps, where each map represents a result entry (score, quizType, createdAt).
+     * Returns an empty list if the user does not exist.
+     */
     @GetMapping("/user/{username}")
     public List<Map<String, Object>> getResultsByUsername(@PathVariable String username) {
 
@@ -62,6 +94,7 @@ public class ResultController {
 
         List<Map<String, Object>> results = new ArrayList<>();
 
+        // Using direct JDBC here (Legacy approach, consider moving to Repository/JPA later)
         try (Connection conn = DriverManager.getConnection(
                 "jdbc:postgresql://localhost:5432/postgres",
                 "postgres",
