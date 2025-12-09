@@ -94,7 +94,6 @@ public class ResultController {
 
         List<Map<String, Object>> results = new ArrayList<>();
 
-        // Using direct JDBC here (Legacy approach, consider moving to Repository/JPA later)
         try (Connection conn = DriverManager.getConnection(
                 "jdbc:postgresql://localhost:5432/postgres",
                 "postgres",

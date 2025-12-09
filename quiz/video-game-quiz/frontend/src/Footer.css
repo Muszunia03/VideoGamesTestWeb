@@ -1,11 +1,11 @@
 .footer {
+    width: 100vw; 
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
     background-color: #0d0d1a; 
     color: #e0e0e0; 
     padding: 30px 20px; 
-    text-align: center;
-    font-size: 0.95em;
     border-top: 1px solid rgba(0, 224, 255, 0.1);
-    width: 100%;
     box-sizing: border-box; 
     margin-top: auto;
 }
@@ -21,7 +21,7 @@
 
 .footer-section {
     flex: 1; 
-    min-width: 200px; 
+    min-width: 300px; 
     text-align: left;
 }
 

@@ -22,6 +22,8 @@ public class UserProfileDto {
     /** The sum of scores from all played quizzes. */
     private Integer totalScore;
 
+    /** The banned user tag. */
+    private Boolean isBanned;
     /**
      * Constructs a new UserProfileDto.
      *
@@ -29,12 +31,15 @@ public class UserProfileDto {
      * @param email      The user's email.
      * @param createdAt  Formatted creation date string.
      * @param totalScore Total accumulated score.
+     * @param isBanned   Tag if user is banned
      */
-    public UserProfileDto(String username, String email, String createdAt, Integer totalScore) {
+    public UserProfileDto(String username, String email, String createdAt, Integer totalScore, Boolean isBanned) {
         this.username = username;
         this.email = email;
         this.createdAt = createdAt;
         this.totalScore = totalScore;
+        this.isBanned = isBanned;
+
     }
 
     /**
@@ -64,4 +69,11 @@ public class UserProfileDto {
      * @return The total accumulated score as an Integer.
      */
     public Integer getTotalScore() { return totalScore; }
+
+    /**
+     * Returns the Banned Tag
+     *
+     * @return the Banned Tag
+     */
+    public Boolean getIsBanned() { return isBanned; }
 }

@@ -28,13 +28,19 @@ public class AuthService {
      */
     public boolean login(String login, String plainPassword) {
         try (Connection conn = DriverManager.getConnection(url, dbUser, dbPassword)) {
-            String sql = "SELECT password_hash FROM users WHERE email = ? OR username = ?";
+            String sql = "SELECT password_hash, is_banned FROM users WHERE email = ? OR username = ?";
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.setString(1, login);
                 stmt.setString(2, login);
 
                 try (ResultSet rs = stmt.executeQuery()) {
                     if (rs.next()) {
+                        boolean isBanned = rs.getBoolean("is_banned");
+                        if (isBanned) {
+                            System.out.println("Banned Account.");
+                            return false;
+                        }
+
                         String storedHash = rs.getString("password_hash");
                         return BCrypt.checkpw(plainPassword, storedHash);
                     }
@@ -45,6 +51,7 @@ public class AuthService {
         }
         return false;
     }
+
 
     /**
      * Registers a new user account after hashing the password.

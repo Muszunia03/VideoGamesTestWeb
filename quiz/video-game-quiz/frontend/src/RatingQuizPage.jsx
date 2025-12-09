@@ -133,8 +133,10 @@ function RatingQuizPage() {
         className="quiz-description"
         style={{ marginTop: "40px", fontStyle: "italic", color: "#555" }}
       >
-        Try to guess the rating category or score for each game.
-        One mistake and it’s over — good luck!
+      <div className="quiz-description" style={{ marginTop: '40px', fontStyle: 'italic', color: '#555' }}>
+        In this quiz, you answer questions about video games quiz ratings.
+        The quiz continues as long as you answer correctly — try to score as many points as possible!
+      </div>
       </div>
     </div>
   );

@@ -15,10 +15,10 @@ function MultiFactQuizPage() {
   }, []);
 
   const loadNextQuestion = () => {
-    fetch("http://localhost:8080/api/multifactmix-quiz/next") // <-- zmiana endpointa
+    fetch("http://localhost:8080/api/multifactmix-quiz/next")
       .then(res => res.json())
       .then(data => {
-        setQuestion(data); // teraz backend zwraca jedno pytanie, nie listę
+        setQuestion(data);
         setInputValue("");
       })
       .catch(err => console.error("API error:", err));
@@ -52,7 +52,7 @@ function MultiFactQuizPage() {
     }
 
     setScore(prev => prev + 1);
-    loadNextQuestion(); // pobieramy kolejne pytanie
+    loadNextQuestion();
   };
 
   const handleInputSubmit = () => {
@@ -93,21 +93,25 @@ function MultiFactQuizPage() {
           ))}
         </div>
       ) : (
-        <div className="quiz-options">
+        <div className="input-answer-container">
           <input
             type="text"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             placeholder="Wpisz odpowiedź..."
-            className="input-box"
+            className="input-field"
+            autoFocus
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') handleInputSubmit();
+            }}
           />
-          <button className="primary-btn" onClick={handleInputSubmit} style={{ marginLeft: "10px" }}>
+          <button className="primary-btn submit-btn" onClick={handleInputSubmit}>
             Submit
           </button>
         </div>
       )}
 
-      <p>Current score: {score}</p>
+      <p className="question-counter">Current score: {score}</p>
     </div>
   );
 }

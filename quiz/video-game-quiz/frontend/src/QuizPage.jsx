@@ -162,7 +162,7 @@ function QuizPage() {
 
     const quizData = [
         { path: '/quiz/retro', title: 'Retro Classics', description: 'Explore the golden age of gaming with pixelated challenges!', imgSrc: '/RetroLogo.png' },
-        { path: '/quiz/latest', title: 'Latest Releases', description: 'Stay current! Quizzes on the hottest games hitting the market now.', imgSrc: '/NewRealeseLogo.png' },
+        { path: '/quiz/latest', title: 'New Releases', description: 'Stay current! Quizzes on the hottest games hitting the market now.', imgSrc: '/NewRealeseLogo.png' },
         { path: '/quiz/images', title: 'Guess the Game from Image', description: 'Can you identify the game just from a screenshot or character?', imgSrc: '/GuessGameLogo.png' },
         { path: '/quiz/genre', title: 'Genre Challenge', description: 'From RPGs to FPS, master quizzes across diverse game genres.', imgSrc: '/GenreLogo.png' },
         { path: '/quiz/platformmatch', title: 'Platform Match', description: 'Match the platforms for the given game', imgSrc: '/PlatformLogo.png' },

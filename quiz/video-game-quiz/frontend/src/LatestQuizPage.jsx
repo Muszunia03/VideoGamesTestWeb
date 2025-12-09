@@ -67,7 +67,7 @@ function LatestQuizPage() {
   return (
     <div className="quiz-category-page-container">
       <h1 className="quiz-category-title" data-aos="fade-down">
-        Latest Releases Quiz
+        New Releases Quiz
       </h1>
       <h2 data-aos="fade-up">{question.questionText}</h2>
 

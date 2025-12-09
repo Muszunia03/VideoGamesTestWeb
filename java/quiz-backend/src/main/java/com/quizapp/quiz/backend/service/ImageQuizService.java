@@ -1,11 +1,12 @@
 package com.quizapp.quiz.backend.service;
 
 import com.quizapp.quiz.backend.model.Game;
+import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.*;
-import java.math.BigDecimal;
 /**
  * Service class for the "Image Quiz" game mode (Guess the Game from an image).
  * <p>
@@ -14,6 +15,7 @@ import java.math.BigDecimal;
  *
  * @author machm
  */
+@Service
 public class ImageQuizService {
     private final String url = "jdbc:postgresql://localhost:5432/postgres";
     private final String dbUser = "postgres";
@@ -102,7 +104,7 @@ public class ImageQuizService {
     }
 
     /**
-     * Retrieves a single game by its exact title.
+     * Retrieves a single game by its exact title. Retrieves the data about the correct game and the guessed game
      *
      * @param title The exact title of the game.
      * @return The {@link Game} object, or null if not found.
@@ -127,36 +129,6 @@ public class ImageQuizService {
         return null;
     }
 
-    /**
-     * Retrieves a single game by its internal ID.
-     *
-     * @param id The internal ID of the game.
-     * @return The {@link Game} object, or null if not found.
-     */
-    public Game getGameById(int id) {
-        String sql = """
-            SELECT id, external_id, title, description, release_date, background_image, rating, genres, platforms, created_at
-            FROM games
-            WHERE id = ?
-            LIMIT 1
-        """;
-        try (Connection conn = DriverManager.getConnection(url, dbUser, dbPassword);
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setInt(1, id);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) return mapRowToGame(rs);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    /**
-     * Response DTO used to detail the comparison between the guessed game and the correct game.
-     * Status codes ("green", "yellow", "red", "lower", "higher") indicate match level.
-     */
     /**
      * Represents a Data Transfer Object (DTO) used to convey the results of a comparison
      * (e.g., in a guessing game where a user's guess is validated against a target).
@@ -303,9 +275,9 @@ public class ImageQuizService {
             resp.titleStatus = "red";
         }
 
-        resp.genresStatus = compareListsStatus(correct.getGenres(), guessed.getGenres());
-        resp.platformsStatus = compareListsStatus(correct.getPlatforms(), guessed.getPlatforms());
-        resp.ratingStatus = compareNumericStatus(correct.getRating(), guessed.getRating());
+        resp.genresStatus = compareListsGenresStatus(correct.getGenres(), guessed.getGenres());
+        resp.platformsStatus = compareListsGenresStatus(correct.getPlatforms(), guessed.getPlatforms());
+        resp.ratingStatus = compareNumericRatingStatus(correct.getRating(), guessed.getRating());
         resp.yearStatus = compareYearStatus(correct.getReleaseYear(), guessed.getReleaseYear());
 
         Map<String,Object> g = new HashMap<>();
@@ -326,7 +298,7 @@ public class ImageQuizService {
      * @param correct The correct game title (lowercase).
      * @return true if there is at least one common word, false otherwise.
      */
-    private boolean hasCommonWords(String guessed, String correct) {
+    public boolean hasCommonWords(String guessed, String correct) {
         Set<String> guessedWords = new HashSet<>(Arrays.asList(guessed.split("\\s+")));
         Set<String> correctWords = new HashSet<>(Arrays.asList(correct.split("\\s+")));
         guessedWords.retainAll(correctWords);
@@ -345,7 +317,7 @@ public class ImageQuizService {
      * @param guessed The user's list of items (from the guessed game).
      * @return The status string.
      */
-    private String compareListsStatus(List<String> actual, List<String> guessed) {
+    public String compareListsGenresStatus(List<String> actual, List<String> guessed) {
         if (actual == null || actual.isEmpty()) return "red";
         if (guessed == null || guessed.isEmpty()) return "red";
 
@@ -374,7 +346,7 @@ public class ImageQuizService {
      * @param guessed The guessed game's rating.
      * @return The status string.
      */
-    private String compareNumericStatus(Double actual, Double guessed) {
+    public String compareNumericRatingStatus(Double actual, Double guessed) {
         if (actual == null || guessed == null) return "red";
         double diff = Math.abs(actual - guessed);
         if (diff < 0.5) return "green";
@@ -396,7 +368,7 @@ public class ImageQuizService {
      * @param guessedYear The guessed game's release year.
      * @return The status string.
      */
-    private String compareYearStatus(Integer actualYear, Integer guessedYear) {
+    public String compareYearStatus(Integer actualYear, Integer guessedYear) {
         if (actualYear == null || guessedYear == null) return "red";
         if (actualYear.equals(guessedYear)) return "green";
         if (Math.abs(actualYear - guessedYear) <= 1) return "yellow";

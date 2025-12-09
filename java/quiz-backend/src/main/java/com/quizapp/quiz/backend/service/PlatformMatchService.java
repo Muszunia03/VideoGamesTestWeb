@@ -272,6 +272,10 @@ public class PlatformMatchService {
                 }
             }
 
+            if (q.getOptions() == null || q.getOptions().size() <= 1) {
+                return null;
+            }
+
             return q;
 
         } catch (SQLException e) {

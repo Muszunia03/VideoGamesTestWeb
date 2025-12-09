@@ -20,17 +20,16 @@ function RetroQuizPage() {
         return res.json();
       })
       .then(data => {
-        console.log("Pobrane pytanie:", data);
         if (data) {
           setQuestion(data);
         } else {
-          setFinished(true); // brak kolejnych pytań
+          setFinished(true);
         }
       })
       .catch(err => console.error("Błąd API:", err));
   };
 
-  const handleAnswer = (answer) => {
+  const handleAnswer = async (answer) => {
     if (!question) return;
 
     const userAnswer = String(answer).trim();
@@ -40,6 +39,24 @@ function RetroQuizPage() {
       setScore(prev => prev + 1);
       loadNextQuestion();
     } else {
+      const username = localStorage.getItem("username");
+
+      if (username) {
+        try {
+          await fetch("http://localhost:8080/api/results/save", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              username: username,
+              score: score,
+              quizType: "Retro Classics"
+            }),
+          });
+        } catch (err) {
+          console.error(err);
+        }
+      }
+
       setFinished(true);
     }
   };
@@ -61,15 +78,23 @@ function RetroQuizPage() {
 
   return (
     <div className="quiz-category-page-container">
-      <h1 className="quiz-category-title">Retro Classics Quiz</h1>
-      <h2>{question.questionText}</h2>
+      <h1 className="quiz-category-title" data-aos="fade-down">Retro Classics Quiz</h1>
+      <h2 data-aos="fade-up">{question.questionText}</h2>
 
-      <div className="quiz-options">
+      <div className="quiz-options" data-aos="zoom-in" data-aos-delay="200">
         {question.options.map((opt, i) => (
           <button key={i} className="primary-btn" onClick={() => handleAnswer(opt)}>
             {opt}
           </button>
         ))}
+      </div>
+
+      <p data-aos="fade-up" data-aos-delay="300" style={{ marginTop: '20px' }}>
+         Obecny wynik: {score}
+      </p>
+      <div className="quiz-description" style={{ marginTop: '40px', fontStyle: 'italic', color: '#555' }}>
+        In this quiz, you answer questions about video games released before 2000.
+        The quiz continues as long as you answer correctly — try to score as many points as possible!
       </div>
     </div>
   );

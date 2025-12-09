@@ -52,7 +52,7 @@ public class RatingEstimatorQuizService {
             q.setGameId(id);
             q.setTitle(title);
 
-            int template = ThreadLocalRandom.current().nextInt(5); // 0–4
+            int template = ThreadLocalRandom.current().nextInt(9); // 0–8
             q.setTemplateType(template);
 
             switch (template) {
@@ -138,6 +138,192 @@ public class RatingEstimatorQuizService {
                     q.setOptions(Collections.emptyList()); // input mode
                     q.setCorrectAnswer(String.format("%.1f", correct));
                 }
+
+                // TEMPLATE 5 — Czy gra X ma wyższą ocenę niż Y?
+                case 5 -> {
+                    String dualQuery = """
+                        SELECT id, title, rating
+                        FROM games
+                        WHERE rating IS NOT NULL
+                        ORDER BY RANDOM()
+                        LIMIT 2
+                    """;
+
+                    try (PreparedStatement stmt2 = conn.prepareStatement(dualQuery);
+                         ResultSet rs2 = stmt2.executeQuery()) {
+
+                        List<Map<String, Object>> games = new ArrayList<>();
+
+                        while (rs2.next()) {
+                            Map<String, Object> g = new HashMap<>();
+                            g.put("id", rs2.getInt("id"));
+                            g.put("title", rs2.getString("title"));
+                            g.put("rating", rs2.getFloat("rating"));
+                            games.add(g);
+                        }
+
+                        if (games.size() < 2) {
+                            return null;
+                        }
+
+                        Map<String, Object> g1 = games.get(0);
+                        Map<String, Object> g2 = games.get(1);
+
+                        String title1 = (String) g1.get("title");
+                        String title2 = (String) g2.get("title");
+
+                        float r1 = (float) g1.get("rating");
+                        float r2 = (float) g2.get("rating");
+
+                        String correct = (r1 > r2) ? "tak" : "nie";
+
+                        q.setQuestionText(String.format(
+                                "Czy gra '%s' ma wyższą ocenę niż '%s'?",
+                                title1, title2
+                        ));
+
+                        q.setOptions(List.of("tak", "nie"));
+                        q.setCorrectAnswer(correct);
+                    }
+                }
+
+                // TEMPLATE 6 — Która gra ma niższą ocenę?
+                case 6 -> {
+                    String dualQuery = """
+                        SELECT id, title, rating
+                        FROM games
+                        WHERE rating IS NOT NULL
+                        ORDER BY RANDOM()
+                        LIMIT 2
+                    """;
+
+                    try (PreparedStatement stmt2 = conn.prepareStatement(dualQuery);
+                         ResultSet rs2 = stmt2.executeQuery()) {
+
+                        List<Map<String, Object>> games = new ArrayList<>();
+
+                        while (rs2.next()) {
+                            Map<String, Object> g = new HashMap<>();
+                            g.put("title", rs2.getString("title"));
+                            g.put("rating", rs2.getFloat("rating"));
+                            games.add(g);
+                        }
+
+                        if (games.size() < 2) return null;
+
+                        var g1 = games.get(0);
+                        var g2 = games.get(1);
+
+                        String title1 = (String) g1.get("title");
+                        String title2 = (String) g2.get("title");
+                        float r1 = (float) g1.get("rating");
+                        float r2 = (float) g2.get("rating");
+
+                        String correct = r1 < r2 ? title1 : title2;
+
+                        q.setQuestionText(String.format(
+                                "Która gra ma niższą ocenę?\nA: %s\nB: %s",
+                                title1, title2
+                        ));
+
+                        q.setOptions(List.of(title1, title2));
+                        q.setCorrectAnswer(correct);
+                    }
+                }
+
+                // TEMPLATE 7 — Która z trzech gier ma najwyższą ocenę?
+                case 7 -> {
+                    String tripleQuery = """
+                        SELECT title, rating
+                        FROM games
+                        WHERE rating IS NOT NULL
+                        ORDER BY RANDOM()
+                        LIMIT 3
+                    """;
+
+                    try (PreparedStatement stmt3 = conn.prepareStatement(tripleQuery);
+                         ResultSet rs3 = stmt3.executeQuery()) {
+
+                        List<Map<String, Object>> games = new ArrayList<>();
+
+                        while (rs3.next()) {
+                            Map<String, Object> g = new HashMap<>();
+                            g.put("title", rs3.getString("title"));
+                            g.put("rating", rs3.getFloat("rating"));
+                            games.add(g);
+                        }
+
+                        if (games.size() < 3) return null;
+
+                        Map<String, Object> best = Collections.max(
+                                games,
+                                Comparator.comparing(g -> (Float) g.get("rating"))
+                        );
+
+                        String correct = (String) best.get("title");
+
+                        List<String> options = games.stream()
+                                .map(g -> (String) g.get("title"))
+                                .toList();
+
+                        q.setQuestionText(
+                                "Która z tych trzech gier ma najwyższą ocenę?"
+                        );
+
+                        q.setOptions(options);
+                        q.setCorrectAnswer(correct);
+                    }
+                }
+
+                // TEMPLATE 8 — Ile punktów różnicy ma gra A i B? (INPUT)
+                case 8 -> {
+                    String dualQuery = """
+                        SELECT title, rating
+                        FROM games
+                        WHERE rating IS NOT NULL
+                        ORDER BY RANDOM()
+                        LIMIT 2
+                    """;
+
+                    try (PreparedStatement stmt2 = conn.prepareStatement(dualQuery);
+                         ResultSet rs2 = stmt2.executeQuery()) {
+
+                        List<Map<String, Object>> games = new ArrayList<>();
+
+                        while (rs2.next()) {
+                            Map<String, Object> g = new HashMap<>();
+                            g.put("title", rs2.getString("title"));
+                            g.put("rating", rs2.getFloat("rating"));
+                            games.add(g);
+                        }
+
+                        if (games.size() < 2) return null;
+
+                        var g1 = games.get(0);
+                        var g2 = games.get(1);
+
+                        String title1 = (String) g1.get("title");
+                        String title2 = (String) g2.get("title");
+                        float r1 = (float) g1.get("rating");
+                        float r2 = (float) g2.get("rating");
+
+                        float diff = round1(Math.abs(r1 - r2));
+
+                        q.setQuestionText(String.format(
+                                "Ile punktów różnicy ma ocena gry '%s' i '%s'? (zaokrąglij do 1 miejsca)",
+                                title1, title2
+                        ));
+
+                        q.setOptions(Collections.emptyList());
+                        q.setCorrectAnswer(String.format("%.1f", diff));
+                    }
+                }
+
+
+            }
+
+            if (q.getOptions() == null || q.getOptions().size() <= 1) {
+                return null;
             }
 
             return q;

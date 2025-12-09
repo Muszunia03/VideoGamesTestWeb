@@ -5,6 +5,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Service class for handling user-specific data retrieval and profile management.
  * <p>
@@ -27,6 +29,62 @@ public class UserService {
     }
 
     /**
+     * Blocks (bans) a user in the system.
+     * <p>
+     * The method updates the record in the user table, setting the {@code is_banned} flag to {@code true}.
+     * The user search is case-insensitive (using the {@code LOWER} function).
+     *
+     * @param username The username (login) to be blocked.
+     */
+    public void banUser(String username) {
+        jdbc.update("UPDATE users SET is_banned = TRUE WHERE LOWER(username) = LOWER(?)", username);
+    }
+
+    /**
+     * Unblocks (removes the ban) a user in the system.
+     * <p>
+     * The method updates the record in the user table by setting the {@code is_banned} flag to {@code false}.
+     * The user search is case-insensitive.
+     *
+     * @param username The username (login) to be unblocked.
+     */
+    public void unbanUser(String username) {
+        jdbc.update("UPDATE users SET is_banned = FALSE WHERE LOWER(username) = LOWER(?)", username);
+    }
+
+    /**
+     * Retrieves a list of all users registered in the system along with their statistics.
+     * <p>
+     * The method performs a query joining the user table with the results table (LEFT JOIN)
+     * to calculate the total score for each player.
+     * <p>
+     * The returned DTO object contains:
+     * <ul>
+     * <li>Username, email, and account creation date.</li>
+     * <li>Total score (if there are no results, 0 is returned thanks to {@code COALESCE}).</li>
+     * <li>Block status (whether the user is banned).</li>
+     * </ul>
+     * Results are sorted alphabetically by username.
+     *
+     * @return a list of {@link UserProfileDto} objects representing the profiles of all users.
+     */
+
+    public List<UserProfileDto> getAllUsers() {
+        return jdbc.query(
+                "SELECT username, email, created_at, COALESCE(SUM(r.score), 0) AS total_score, is_banned " +
+                        "FROM users u LEFT JOIN results r ON r.user_id = u.id " +
+                        "GROUP BY u.id ORDER BY username",
+                (rs, rowNum) -> new UserProfileDto(
+                        rs.getString("username"),
+                        rs.getString("email"),
+                        rs.getString("created_at"),
+                        rs.getInt("total_score"),
+                        rs.getBoolean("is_banned")
+                )
+        );
+    }
+
+    /**
      * Retrieves the internal user ID based on the provided username (case-insensitive).
      *
      * @param username The username to look up.
@@ -46,17 +104,19 @@ public class UserService {
     }
 
     /**
-     * Retrieves a detailed profile DTO for a specific user (case-insensitive username).
+     * Retrieves a detailed user profile along with their total score.
      * <p>
-     * Aggregates basic user info (username, email, creation date) with calculated data (total score).
+     * The method performs a query joining the user table with the results table (LEFT JOIN)
+     * to calculate the total score for a given user. Additionally, it retrieves the account lock status.
      *
-     * @param username The username of the profile to retrieve.
-     * @return A {@link UserProfileDto} containing the user's profile and aggregated score, or null if the user is not found.
+     * @param username User name (case-insensitive).
+     * @return An {@link UserProfileDto} object containing the user profile, total points, and lock status,
+     *         or {@code null} if the user does not exist.
      */
     public UserProfileDto getUserProfile(String username) {
         try {
             return jdbc.queryForObject(
-                    "SELECT u.username, u.email, u.created_at, " +
+                    "SELECT u.username, u.email, u.created_at, u.is_banned, " +
                             "COALESCE(SUM(r.score), 0) AS total_score " +
                             "FROM users u " +
                             "LEFT JOIN results r ON r.user_id = u.id " +
@@ -66,7 +126,8 @@ public class UserService {
                             rs.getString("username"),
                             rs.getString("email"),
                             rs.getString("created_at"),
-                            rs.getInt("total_score")
+                            rs.getInt("total_score"),
+                            rs.getBoolean("is_banned")
                     ),
                     username
             );

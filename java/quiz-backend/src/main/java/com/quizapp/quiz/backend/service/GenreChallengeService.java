@@ -65,12 +65,12 @@ public class GenreChallengeService {
      * @param genres The list of genres associated with the game.
      * @return A fully populated {@link Question} object.
      */
-    private Question createQuestionFromGame(int gameId, String title, List<String> genres) {
+    Question createQuestionFromGame(int gameId, String title, List<String> genres) {
         Question q = new Question();
         q.setGameId(gameId);
         q.setTitle(title);
 
-        int template = random.nextInt(5);
+        int template = random.nextInt(9);
         q.setTemplateType(template);
 
         switch (template) {
@@ -105,7 +105,74 @@ public class GenreChallengeService {
                 q.setOptions(Arrays.asList("Yes", "No"));
                 q.setCorrectAnswer("Yes");
             }
+            case 5 -> {
+                String otherQuery = "SELECT id, title, genres " +
+                        "FROM games " +
+                        "WHERE array_length(genres,1) > 0 " +
+                        "AND id != ? ORDER BY RANDOM() LIMIT 1";
+                try (Connection conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+                     PreparedStatement stmt = conn.prepareStatement(otherQuery)) {
+                    stmt.setInt(1, gameId);
+                    ResultSet rs = stmt.executeQuery();
+                    if (!rs.next()) return null;
+                    String otherTitle = rs.getString("title");
+                    Array otherGenresArray = rs.getArray("genres");
+                    List<String> otherGenres = otherGenresArray != null ? Arrays.asList((String[]) otherGenresArray.getArray()) : List.of();
+
+                    q.setQuestionText("Do '" + title + "' and '" + otherTitle + "' share any genres?");
+                    q.setOptions(Arrays.asList("Yes", "No"));
+                    boolean share = genres.stream().anyMatch(otherGenres::contains);
+                    q.setCorrectAnswer(share ? "Yes" : "No");
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+            case 6 -> {
+                List<String> options = new ArrayList<>();
+                if (!genres.isEmpty()) options.add(genres.get(0));
+                while (options.size() < 4) {
+                    String g = ALL_GENRES.get(random.nextInt(ALL_GENRES.size()));
+                    if (!options.contains(g)) options.add(g);
+                }
+                Collections.shuffle(options);
+                q.setQuestionText("Which of the following is a genre of '" + title + "'?");
+                q.setOptions(options);
+                q.setCorrectAnswer(genres.isEmpty() ? "" : genres.get(0));
+            }
+            case 7 -> {
+                String otherQuery = "SELECT id, title, genres FROM games WHERE array_length(genres,1) > 0 AND id != ? ORDER BY RANDOM() LIMIT 1";
+                try (Connection conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+                     PreparedStatement stmt = conn.prepareStatement(otherQuery)) {
+                    stmt.setInt(1, gameId);
+                    ResultSet rs = stmt.executeQuery();
+                    if (!rs.next()) return null;
+                    String otherTitle = rs.getString("title");
+                    Array otherGenresArray = rs.getArray("genres");
+                    List<String> otherGenres = otherGenresArray != null ? Arrays.asList((String[]) otherGenresArray.getArray()) : List.of();
+
+                    q.setQuestionText("Which game belongs to more genres: '" + title + "' or '" + otherTitle + "'?");
+                    q.setOptions(Arrays.asList(title, otherTitle));
+                    q.setCorrectAnswer(genres.size() >= otherGenres.size() ? title : otherTitle);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    return null;
+                }
+
+            }
+            case 8 -> {
+                List<String> options = new ArrayList<>(ALL_GENRES);
+                Collections.shuffle(options);
+                q.setQuestionText("Select a genre that '" + title + "' belongs to.");
+                q.setOptions(options);
+                q.setCorrectAnswer(genres.isEmpty() ? "" : genres.get(0));
+            }
         }
+
+        if (q.getOptions() == null || q.getOptions().size() <= 1) {
+            return null;
+        }
+
         return q;
     }
 }

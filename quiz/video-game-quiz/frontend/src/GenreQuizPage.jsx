@@ -114,6 +114,10 @@ function GenreQuizPage() {
       <p data-aos="fade-up" data-aos-delay="300">
         Current score: {score}
       </p>
+      <div className="quiz-description" style={{ marginTop: '40px', fontStyle: 'italic', color: '#555' }}>
+        In this quiz, you answer questions about video games quiz genres.
+        The quiz continues as long as you answer correctly — try to score as many points as possible!
+      </div>
     </div>
   );
 }

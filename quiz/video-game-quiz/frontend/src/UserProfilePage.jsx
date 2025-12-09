@@ -1,12 +1,11 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import './UserProfilePage.css';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
 function UserProfilePage() {
   const { username } = useParams();
-
   const [profile, setProfile] = useState(null);
   const [results, setResults] = useState([]);
 
@@ -102,6 +101,25 @@ function UserProfilePage() {
             <h3>Games Played</h3>
             <p className="stat-value">{results.length}</p>
           </div>
+
+          {profile && (profile.username === "MachM" || profile.username === "Admin") && (
+            <div style={{ marginTop: '30px', textAlign: 'center' }}>
+              {/* 2. Zmieniono button na Link. Jest to pewniejsze rozwiązanie w React Router. */}
+              <Link 
+                to="/admin"
+                className="primary-btn"
+                style={{ 
+                  display: 'inline-block', 
+                  textDecoration: 'none', 
+                  color: 'white', 
+                  lineHeight: 'normal',
+                  padding: '10px 20px' // Dodano padding, aby wyglądał jak przycisk
+                }}
+              >
+                Admin Panel
+              </Link>
+            </div>
+          )}
 
         </div>
       </div>

@@ -10,6 +10,8 @@ import HomePage from './HomePage';
 import LeaderboardPage from './LeaderboardPage';
 import UserProfilePage from './UserProfilePage';
 import Footer from './Footer';
+import NavBar from './NavBar';
+import AdminPanelPage from './AdminPanelPage';
 
 import RetroQuizPage from './RetroQuizPage';
 import LatestQuizPage from './LatestQuizPage';
@@ -18,7 +20,6 @@ import GenreQuizPage from './GenreQuizPage';
 import PlatformMatchQuizPage from './PlatformMatchQuizPage';
 import RatingQuizPage from './RatingQuizPage';
 import MultiFactQuizPage from './MultiFactQuizPage';
-import NavBar from './NavBar';
 
 import RegulationsPage from './RegulationsPage';
 import NotFoundPage from './NotFoundPage';
@@ -62,48 +63,53 @@ function App() {
     localStorage.removeItem('isLoggedIn');
   };
 
-  return (
+return (
     <Router>
-      <div className="app-container">
+      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
         <NavBar
           isLoggedIn={isLoggedIn}
           username={username}
           onLogout={handleLogout}
         />
-        <main className="content-wrapper">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route
-              path="/login"
-              element={isLoggedIn ? <Navigate to="/profile" /> : <LoginForm onLoginSuccess={handleLoginSuccess} />}
-            />
-            <Route path="/leaderboard" element={<LeaderboardPage />} />
-            <Route path="/signup" element={<SignUpForm />} />
-            <Route path="/quiz" element={<QuizPage />} />
+        <div className="app-container" style={{ flex: 1, width: '100%' }}>
+          <main className="content-wrapper">
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route
+                path="/login"
+                element={isLoggedIn ? <Navigate to="/profile" /> : <LoginForm onLoginSuccess={handleLoginSuccess} />}
+              />
+              <Route path="/leaderboard" element={<LeaderboardPage />} />
+              <Route path="/signup" element={<SignUpForm />} />
+              <Route path="/quiz" element={<QuizPage />} />
+              <Route path="/admin" element={<AdminPanelPage />} />
 
-            <Route path="/quiz/retro" element={<RetroQuizPage />} />
-            <Route path="/quiz/latest" element={<LatestQuizPage />} />
-            <Route path="/quiz/images" element={<ImagesQuizPage />} />
-            <Route path="/quiz/genre" element={<GenreQuizPage />} />
-            <Route path="/quiz/platformmatch" element={<PlatformMatchQuizPage />} />
-            <Route path="/quiz/rating" element={<RatingQuizPage />} />
-            <Route path="/quiz/multifact" element={<MultiFactQuizPage />} />
+              <Route path="/quiz/retro" element={<RetroQuizPage />} />
+              <Route path="/quiz/latest" element={<LatestQuizPage />} />
+              <Route path="/quiz/images" element={<ImagesQuizPage />} />
+              <Route path="/quiz/genre" element={<GenreQuizPage />} />
+              <Route path="/quiz/platformmatch" element={<PlatformMatchQuizPage />} />
+              <Route path="/quiz/rating" element={<RatingQuizPage />} />
+              <Route path="/quiz/multifact" element={<MultiFactQuizPage />} />
 
-            <Route
-              path="/profile/:username"
-              element={isLoggedIn ? <UserProfilePage /> : <Navigate to="/login" />}
-            />
-            <Route
-              path="/profile"
-              element={isLoggedIn ? <Navigate to={`/profile/${username}`} /> : <Navigate to="/login" />}
-            />
+              <Route
+                path="/profile/:username"
+                element={isLoggedIn ? <UserProfilePage /> : <Navigate to="/login" />}
+              />
+              <Route
+                path="/profile"
+                element={isLoggedIn ? <Navigate to={`/profile/${username}`} /> : <Navigate to="/login" />}
+              />
 
-            <Route path="/regulations" element={<RegulationsPage />} />
+              <Route path="/regulations" element={<RegulationsPage />} />
 
-            <Route path="*" element={<NotFoundPage />} />
-          </Routes>
-        </main>
+              <Route path="*" element={<NotFoundPage />} />
+            </Routes>
+          </main>
+        </div>
+
         <Footer />
+        
       </div>
     </Router>
   );
