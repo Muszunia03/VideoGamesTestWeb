@@ -81,8 +81,6 @@ function ImagesQuizPage() {
     if (newLives <= 0) {
       setMessage(`❌ Out of attempts! Correct answer: ${currentImage.title}`);
       setIsGameOver(true);
-
-      // TU dodajemy zapis wyniku do bazy po utracie wszystkich żyć
       const username = localStorage.getItem("username");
       if (username) {
         try {
@@ -101,6 +99,7 @@ function ImagesQuizPage() {
         }
       }
 
+      setScore(0);
     } else {
       setMessage(`❌ Wrong guess. ${newLives} attempts left.`);
     }
@@ -184,7 +183,6 @@ function ImagesQuizPage() {
         <button
           className="primary-btn mt-4"
           onClick={fetchRandomImage}
-          data-aos="fade-up"
           data-aos-delay="400"
         >
           Next Image

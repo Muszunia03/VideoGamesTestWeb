@@ -63,6 +63,8 @@ function UserProfilePage() {
     };
   };
 
+  const isAdmin = profile && (profile.username === "MachM" || profile.username === "Admin");
+
   if (!profile) {
     return (
       <div className="profile-page-container">
@@ -72,15 +74,53 @@ function UserProfilePage() {
   }
 
   return (
-    <div className="profile-page-container">
+    <div className="profile-page-container" style={{ position: 'relative' }}>
+
+      {isAdmin && (
+        <Link 
+          to="/admin"
+          data-aos="fade-left"
+          style={{ 
+            position: 'absolute', 
+            top: '20px', 
+            right: '20px', 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: '8px',
+            textDecoration: 'none', 
+            color: '#00f7ffff', 
+            border: '1px solid rgba(7, 238, 255, 1)',
+            backgroundColor: 'rgba(0, 0, 0, 0.6)',
+            padding: '10px 15px',
+            borderRadius: '30px',
+            fontWeight: 'bold',
+            fontSize: '0.9em',
+            transition: 'all 0.3s ease',
+            cursor: 'pointer',
+            zIndex: 100, 
+            backdropFilter: 'blur(5px)'
+          }}
+          onMouseEnter={(e) => {
+             e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.47)';
+             e.currentTarget.style.boxShadow = '0 0 15px rgba(4, 0, 255, 0.4)';
+             e.currentTarget.style.transform = 'scale(1.05)';
+          }}
+          onMouseLeave={(e) => {
+             e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.6)';
+             e.currentTarget.style.boxShadow = 'none';
+             e.currentTarget.style.transform = 'scale(1)';
+          }}
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+          </svg>
+          ADMIN PANEL
+        </Link>
+      )}
 
       <h1 className="profile-main-title" data-aos="fade-down">
         {profile.username}'s Profile
       </h1>
-
-      <p className="profile-description" data-aos="fade-up" data-aos-delay="200">
-        User statistics and account details.
-      </p>
 
       <div className="profile-stats-grid-wrapper">
         <div className="profile-stats-grid">
@@ -101,25 +141,6 @@ function UserProfilePage() {
             <h3>Games Played</h3>
             <p className="stat-value">{results.length}</p>
           </div>
-
-          {profile && (profile.username === "MachM" || profile.username === "Admin") && (
-            <div style={{ marginTop: '30px', textAlign: 'center' }}>
-              {/* 2. Zmieniono button na Link. Jest to pewniejsze rozwiązanie w React Router. */}
-              <Link 
-                to="/admin"
-                className="primary-btn"
-                style={{ 
-                  display: 'inline-block', 
-                  textDecoration: 'none', 
-                  color: 'white', 
-                  lineHeight: 'normal',
-                  padding: '10px 20px' // Dodano padding, aby wyglądał jak przycisk
-                }}
-              >
-                Admin Panel
-              </Link>
-            </div>
-          )}
 
         </div>
       </div>
@@ -145,7 +166,7 @@ function UserProfilePage() {
             }}
           >
             <thead>
-              <tr style={{ backgroundColor: 'rgba(233, 30, 99, 0.4)', color: '#fff', fontWeight: 700, textTransform: 'uppercase' }}>
+              <tr style={{ backgroundColor: 'rgba(6, 193, 240, 0.4)', color: '#fff', fontWeight: 700, textTransform: 'uppercase' }}>
                 <th style={{ padding: '15px 20px', textAlign: 'left', width: '40%' }}>Quiz Type</th>
                 <th style={{ padding: '15px 20px', textAlign: 'center', width: '25%' }}>Score</th>
                 <th style={{ padding: '15px 20px', textAlign: 'right', width: '35%' }}>Date Completed</th>
@@ -188,10 +209,6 @@ function UserProfilePage() {
           </table>
         )}
       </div>
-
-      <p className="profile-footer-note" data-aos="fade-up" data-aos-delay="900">
-        Thank you for being a part of our community!
-      </p>
     </div>
   );
 }

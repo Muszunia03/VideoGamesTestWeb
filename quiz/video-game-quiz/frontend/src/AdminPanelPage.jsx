@@ -111,13 +111,13 @@ function AdminPanelPage() {
                       padding: '8px 16px',
                       fontSize: '0.9em',
                       minWidth: '100px',
-                      borderColor: u.isBanned ? '#1abc9c' : '#e74c3c',
+                      borderColor: u.isBanned ? '#1abc9c' : '#0b2ffcff',
                       backgroundColor: u.isBanned ? 'rgba(26, 188, 156, 0.1)' : 'rgba(231, 76, 60, 0.1)',
                       color: '#fff',
                       boxShadow: 'none'
                     }}
                     onMouseEnter={(e) => {
-                       e.currentTarget.style.backgroundColor = u.isBanned ? '#1abc9c' : '#e74c3c';
+                       e.currentTarget.style.backgroundColor = u.isBanned ? '#1abc9c' : '#0084ffff';
                        e.currentTarget.style.color = '#000';
                     }}
                     onMouseLeave={(e) => {
