@@ -98,7 +98,7 @@ public class UserService {
                     username
             );
         } catch (EmptyResultDataAccessException e) {
-            System.out.println("Nie znaleziono użytkownika: '" + username + "'");
+            System.out.println("User not found: '" + username + "'");
             return null;
         }
     }

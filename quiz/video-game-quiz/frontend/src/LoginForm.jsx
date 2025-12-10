@@ -4,7 +4,7 @@ import NotificationPopup from './NotificationPopup';
 import './LoginForm.css';
 
 function LoginForm({ onLoginSuccess }) { 
-  const [login, setLogin] = useState(''); // login może być email lub username
+  const [login, setLogin] = useState(''); 
   const [password, setPassword] = useState('');
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState('');
@@ -25,7 +25,7 @@ function LoginForm({ onLoginSuccess }) {
       const data = await response.json();
 
       if (data.status === 'success') {
-        setPopupMessage('✅ Zalogowano pomyślnie!');
+        setPopupMessage('✅ You have successfully logged in!');
         setPopupType('success');
         setShowPopup(true);
         setRedirectAfterClose(true);
@@ -34,12 +34,12 @@ function LoginForm({ onLoginSuccess }) {
           onLoginSuccess(login);
         }
       } else {
-        setPopupMessage(data.message || '❌ Błędne dane logowania.');
+        setPopupMessage(data.message || '❌ Incorrect login credentials.');
         setPopupType('error');
         setShowPopup(true);
       }
     } catch (error) {
-      setPopupMessage('⚠️ Błąd sieci. Spróbuj ponownie później.');
+      setPopupMessage('⚠️ Network error. Please try again later.');
       setPopupType('error');
       setShowPopup(true);
     }
@@ -53,12 +53,12 @@ function LoginForm({ onLoginSuccess }) {
   return (
     <div className="form-page-wrapper">
       <form className="login-form" onSubmit={handleLogin}>
-        <h2>Zaloguj się</h2>
+        <h2>Log In</h2>
 
         <div className="input-group">
           <input
             type="text"
-            placeholder="Email lub nazwa użytkownika"
+            placeholder="Email or username"
             value={login}
             onChange={(e) => setLogin(e.target.value)}
             required
@@ -68,7 +68,7 @@ function LoginForm({ onLoginSuccess }) {
         <div className="input-group">
           <input
             type="password"
-            placeholder="Hasło"
+            placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -76,7 +76,7 @@ function LoginForm({ onLoginSuccess }) {
         </div>
 
         <div className="button-group">
-          <button type="submit" className="primary-btn">Zaloguj się</button>
+          <button type="submit" className="primary-btn">Log In</button>
         </div>
       </form>
 

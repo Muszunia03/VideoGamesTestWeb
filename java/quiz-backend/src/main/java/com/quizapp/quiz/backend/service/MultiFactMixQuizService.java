@@ -63,29 +63,29 @@ public class MultiFactMixQuizService {
 
                 switch (template) {
                     case 0 -> {
-                        q.setQuestionText("Czy gra '" + title + "' została wydana przed 2010 rokiem?");
-                        q.setOptions(List.of("tak", "nie"));
-                        q.setCorrectAnswer(releaseDate.isBefore(LocalDate.of(2010, 1, 1)) ? "tak" : "nie");
+                        q.setQuestionText("Was the game '" + title + "' released before 2010?");
+                        q.setOptions(List.of("yes", "no"));
+                        q.setCorrectAnswer(releaseDate.isBefore(LocalDate.of(2010, 1, 1)) ? "yes" : "no");
                     }
                     case 1 -> {
-                        q.setQuestionText("Czy gra '" + title + "' ma ocenę powyżej 4.0?");
-                        q.setOptions(List.of("tak", "nie"));
-                        q.setCorrectAnswer(rating > 4.0 ? "tak" : "nie");
+                        q.setQuestionText("Does the game '" + title + "' have a rating above 4.0?");
+                        q.setOptions(List.of("yes", "no"));
+                        q.setCorrectAnswer(rating > 4.0 ? "yes" : "no");
                     }
                     case 2 -> {
-                        q.setQuestionText("Czy gra '" + title + "' należy do gatunku Action?");
-                        q.setOptions(List.of("tak", "nie"));
+                        q.setQuestionText("Is the game '" + title + "' an Action game?");
+                        q.setOptions(List.of("yes", "no"));
                         boolean isAction = genres.stream().anyMatch(g -> g.equalsIgnoreCase("Action"));
-                        q.setCorrectAnswer(isAction ? "tak" : "nie");
+                        q.setCorrectAnswer(isAction ? "yes" : "no");
                     }
                     case 3 -> {
-                        q.setQuestionText("Na jakiej platformie zadebiutowała gra '" + title + "'?");
+                        q.setQuestionText("On which platform was the game originally released '" + title + "'?");
                         q.setOptions(platforms);
                         q.setCorrectAnswer(platforms.isEmpty() ? "" : platforms.get(0));
                     }
                     case 4 -> {
                         int year = releaseDate.getYear();
-                        q.setQuestionText("W której dekadzie wydano grę '" + title + "'?");
+                        q.setQuestionText("In which decade was this game released '" + title + "'?");
                         q.setOptions(List.of("2000-2009", "2010-2019", "2020-2029"));
                         String decade = (year < 2010) ? "2000-2009" : (year < 2020 ? "2010-2019" : "2020-2029");
                         q.setCorrectAnswer(decade);
@@ -93,32 +93,32 @@ public class MultiFactMixQuizService {
                     case 5 -> {
                         List<String> possibleGenres = List.of("Action", "RPG", "Shooter", "Puzzle", "Strategy", "Adventure");
                         String chosenGenre = possibleGenres.get(new Random().nextInt(possibleGenres.size()));
-                        q.setQuestionText("Czy gra '" + title + "' należy do gatunku " + chosenGenre + "?");
-                        q.setOptions(List.of("tak", "nie"));
+                        q.setQuestionText("Is the game '" + title + "' part of the " + chosenGenre + " genre?");
+                        q.setOptions(List.of("yes", "no"));
                         boolean hasGenre = genres.stream().anyMatch(g -> g.equalsIgnoreCase(chosenGenre));
-                        q.setCorrectAnswer(hasGenre ? "tak" : "nie");
+                        q.setCorrectAnswer(hasGenre ? "yes" : "no");
                     }
-                    case 6 -> { // Platforma losowa z dostępnych
+                    case 6 -> {
                         if (!platforms.isEmpty()) {
                             Collections.shuffle(platforms);
-                            q.setOptions(platforms); // frontend użyje input jeśli lista będzie pusta
+                            q.setOptions(platforms);
                             q.setCorrectAnswer(platforms.get(0));
-                            q.setQuestionText("Na której z poniższych platform wydano grę '" + title + "'?");
+                            q.setQuestionText("On which platform did this game came out '" + title + "'?");
                         } else {
-                            q.setQuestionText("Brak dostępnych platform dla gry '" + title + "'");
+                            q.setQuestionText("No platforms available for the game '" + title + "'");
                             q.setOptions(List.of());
                             q.setCorrectAnswer("");
                         }
                     }
                     case 7 -> {
                         int count = new Random().nextInt(1, 4); // 1–3
-                        q.setQuestionText("Czy gra '" + title + "' ma więcej niż " + count + " gatunków?");
-                        q.setOptions(List.of("tak", "nie"));
-                        q.setCorrectAnswer(genres.size() > count ? "tak" : "nie");
+                        q.setQuestionText("Does the game  '" + title + "' have more than " + count + "  genres?");
+                        q.setOptions(List.of("yes", "no"));
+                        q.setCorrectAnswer(genres.size() > count ? "yes" : "no");
                     }
                     case 8 -> {
                         int age = LocalDate.now().getYear() - releaseDate.getYear();
-                        q.setQuestionText("Ile lat ma gra '" + title + "'?");
+                        q.setQuestionText("How old is '" + title + "'?");
                         q.setOptions(List.of());
                         q.setCorrectAnswer(String.valueOf(age));
                     }
@@ -129,7 +129,7 @@ public class MultiFactMixQuizService {
                                         (rating < 3) ? "2–3" :
                                                 (rating < 4) ? "3–4" : "4–5";
 
-                        q.setQuestionText("W jakim zakresie znajduje się ocena gry '" + title + "'?");
+                        q.setQuestionText("In which range does the game ration fit in '" + title + "'?");
                         q.setOptions(ranges);
                         q.setCorrectAnswer(correctRange);
                     }
@@ -150,9 +150,9 @@ public class MultiFactMixQuizService {
                             String otherTitle = r2.getString("title");
                             LocalDate otherDate = r2.getDate("release_date").toLocalDate();
 
-                            q.setQuestionText("Czy gra '" + title + "' wyszła wcześniej niż '" + otherTitle + "'?");
-                            q.setOptions(List.of("tak", "nie"));
-                            q.setCorrectAnswer(releaseDate.isBefore(otherDate) ? "tak" : "nie");
+                            q.setQuestionText("Did this game '" + title + "' or this game '" + otherTitle + "' came out earlier?");
+                            q.setOptions(List.of("yes", "no"));
+                            q.setCorrectAnswer(releaseDate.isBefore(otherDate) ? "yes" : "no");
                         }
                     }
                     case 11 -> {
@@ -167,14 +167,14 @@ public class MultiFactMixQuizService {
                         try (PreparedStatement s2 = conn.prepareStatement(otherQuery);
                              ResultSet r2 = s2.executeQuery()) {
 
-                            if (!r2.next()) return null; // <-- zamiast break
+                            if (!r2.next()) return null;
 
                             String otherTitle = r2.getString("title");
                             LocalDate otherDate = r2.getDate("release_date").toLocalDate();
 
                             int diff = Math.abs(releaseDate.getYear() - otherDate.getYear());
 
-                            q.setQuestionText("Ile lat różnicy dzieli premiery gier '" + title + "' i '" + otherTitle + "'?");
+                            q.setQuestionText("How many years separate game releases '" + title + "' and '" + otherTitle + "'?");
                             q.setOptions(List.of());
                             q.setCorrectAnswer(String.valueOf(diff));
                         }
@@ -197,7 +197,7 @@ public class MultiFactMixQuizService {
                             String otherTitle = r2.getString("title");
                             LocalDate otherDate = r2.getDate("release_date").toLocalDate();
 
-                            q.setQuestionText("Która gra ukazała się wcześniej?");
+                            q.setQuestionText("Which game was released earlier?");
                             q.setOptions(List.of(title, otherTitle));
 
                             String correct =
@@ -223,7 +223,7 @@ public class MultiFactMixQuizService {
                             String otherTitle = r2.getString("title");
                             float otherRating = r2.getFloat("rating");
 
-                            q.setQuestionText("Która z tych gier ma wyższą ocenę?");
+                            q.setQuestionText("Which of these games has a higher rating?");
                             q.setOptions(List.of(title, otherTitle));
 
                             String correct = (rating > otherRating) ? title : otherTitle;
@@ -250,7 +250,7 @@ public class MultiFactMixQuizService {
 
                             int diff = Math.abs(releaseDate.getYear() - otherDate.getYear());
 
-                            q.setQuestionText("Ile lat różnicy jest między premierami '" + title + "' i '" + otherTitle + "'?");
+                            q.setQuestionText("How many years apart are the premieres '" + title + "' and '" + otherTitle + "'?");
                             q.setOptions(List.of());
                             q.setCorrectAnswer(String.valueOf(diff));
                         }
@@ -280,7 +280,7 @@ public class MultiFactMixQuizService {
 
                             if (titles.size() < 3) return null;
 
-                            q.setQuestionText("Która z tych gier ma najwyższą ocenę?");
+                            q.setQuestionText("Which of these games has the highest rating?");
                             q.setOptions(titles);
 
                             int maxIndex = 0;
@@ -313,9 +313,9 @@ public class MultiFactMixQuizService {
                                 ratings.add(r2.getFloat("rating"));
                             }
 
-                            if (titles.size() < 3) return null; // <-- zamiast break
+                            if (titles.size() < 3) return null;
 
-                            q.setQuestionText("Która z tych gier najbardziej odstaje oceną od pozostałych?");
+                            q.setQuestionText("Which of these games stands out the most in terms of rating?");
                             q.setOptions(titles);
 
                             float avg = (ratings.get(0) + ratings.get(1) + ratings.get(2)) / 3f;
@@ -372,7 +372,7 @@ public class MultiFactMixQuizService {
                             list.sort(Comparator.comparing(G::date));
                             String correct = list.get(0).title() + " → " + list.get(1).title() + " → " + list.get(2).title();
 
-                            q.setQuestionText("W jakiej kolejności ukazały się te gry?");
+                            q.setQuestionText("In what order were these games released?");
                             q.setOptions(options);
                             q.setCorrectAnswer(correct);
                         }
@@ -419,7 +419,7 @@ public class MultiFactMixQuizService {
             insertStmt.setInt(4, timeTakenSeconds);
 
             insertStmt.executeUpdate();
-            System.out.println("Wynik MultiFactMix zapisany w bazie.");
+            System.out.println("MultiFactMix result saved in the database.");
         } catch (SQLException e) {
             e.printStackTrace();
         }

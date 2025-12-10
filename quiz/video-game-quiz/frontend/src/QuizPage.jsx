@@ -108,41 +108,37 @@ const Carousel = ({ children }) => {
 };
 
 const VideoPlayer = ({ videoSrc, title }) => {
-    
-    const getEmbedUrl = (url) => {
-        try {
-            const urlObj = new URL(url);
-            const videoId = urlObj.searchParams.get('v');
-            if (videoId) {
-                return `https://www.youtube.com/embed/${videoId}`;
-            }
-        } catch (e) {
-            if (url.includes("youtube.com/embed/")) {
-                return url;
-            }
-        }
-        return url; 
-    };
 
-    const embedUrl = getEmbedUrl(videoSrc);
+    const isLocalVideo = videoSrc.endsWith(".mp4");
 
     return (
         <div className="video-player-container">
             <h2 className="video-title">{title}</h2>
             <div className="video-placeholder">
-                <iframe
-                    width="100%"
-                    height="400px"
-                    src={embedUrl}
-                    title={title}
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                ></iframe>
+                {isLocalVideo ? (
+                    <video 
+                        width="100%" 
+                        height="600" 
+                        controls 
+                        src={videoSrc}
+                        style={{ borderRadius: "10px" }}
+                    />
+                ) : (
+                    <iframe
+                        width="100%"
+                        height="400px"
+                        src={videoSrc}
+                        title={title}
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                    ></iframe>
+                )}
             </div>
         </div>
     );
 };
+
 
 const FeaturedQuizCard = ({ title, description, imageSrc, onClick }) => (
     <div className="featured-quiz-card" onClick={onClick}>
@@ -185,7 +181,7 @@ function QuizPage() {
                 <p>Dive into different eras and genres, and see how well you know the gaming world. Select a quiz type to begin your challenge!</p>
 
                 <VideoPlayer 
-                    videoSrc='https://www.youtube.com/watch?v=5mGuCdlCcNM' 
+                    videoSrc="/Gameplay Showcase.mp4"
                     title="Welcome to the Gaming Quiz Hub!"
                 />
                 

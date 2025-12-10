@@ -40,7 +40,7 @@ public class AuthController {
         if (success) {
             return new AuthResponse("success", "Logged in successfully!");
         } else {
-            return new AuthResponse("error", "Invalid username or password.");
+            return new AuthResponse("error", "Invalid username, password or account is banned!.");
         }
     }
 

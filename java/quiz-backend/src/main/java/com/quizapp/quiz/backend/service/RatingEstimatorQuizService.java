@@ -62,10 +62,10 @@ public class RatingEstimatorQuizService {
                     float threshold = randomFloat(2.0f, 4.5f);
 
                     q.setQuestionText(
-                            String.format("Czy ocena gry '%s' jest wyższa niż %.1f?", title, threshold)
+                            String.format("Is the rating of the game ‘%s’ higher than %.1f", title, threshold)
                     );
-                    q.setOptions(List.of("tak", "nie"));
-                    q.setCorrectAnswer(rating > threshold ? "tak" : "nie");
+                    q.setOptions(List.of("yes", "no"));
+                    q.setCorrectAnswer(rating > threshold ? "yes" : "no");
                 }
 
                 // TEMPLATE 1 — Czy ocena bliżej A czy B?
@@ -81,7 +81,7 @@ public class RatingEstimatorQuizService {
                     float distB = Math.abs(rating - b);
 
                     q.setQuestionText(
-                            String.format("Czy ocena '%s' jest bliżej %.1f czy %.1f?", title, a, b)
+                            String.format("Is the rating ‘%s’ closer to %.1f or %.1f?", title, a, b)
                     );
                     q.setOptions(List.of(String.format("%.1f", a), String.format("%.1f", b)));
                     q.setCorrectAnswer(distA < distB ? String.format("%.1f", a) : String.format("%.1f", b));
@@ -102,7 +102,7 @@ public class RatingEstimatorQuizService {
                     Collections.shuffle(options);
 
                     q.setQuestionText(
-                            String.format("Która wartość jest najbliżej prawdziwej oceny gry '%s'?", title)
+                            String.format("Which value is closest to the true rating of the game ‘%s’?", title)
                     );
                     q.setOptions(options);
                     q.setCorrectAnswer(String.format("%.1f", correct));
@@ -121,7 +121,7 @@ public class RatingEstimatorQuizService {
                     else correctRange = "4–5";
 
                     q.setQuestionText(
-                            String.format("W jakim zakresie znajduje się ocena gry '%s'?", title)
+                            String.format("What is the rating of the game ‘%s’?", title)
                     );
                     q.setOptions(ranges);
                     q.setCorrectAnswer(correctRange);
@@ -132,7 +132,7 @@ public class RatingEstimatorQuizService {
                     float correct = round1(rating);
 
                     q.setQuestionText(
-                            String.format("Podaj dokładną ocenę gry '%s' (zaokrąglona do 1 miejsca):", title)
+                            String.format("Give an exact rating for the game ‘%s’ (rounded to 1 decimal place):", title)
                     );
 
                     q.setOptions(Collections.emptyList()); // input mode
@@ -175,14 +175,14 @@ public class RatingEstimatorQuizService {
                         float r1 = (float) g1.get("rating");
                         float r2 = (float) g2.get("rating");
 
-                        String correct = (r1 > r2) ? "tak" : "nie";
+                        String correct = (r1 > r2) ? "yes" : "no";
 
                         q.setQuestionText(String.format(
-                                "Czy gra '%s' ma wyższą ocenę niż '%s'?",
+                                "Does the game ‘%s’ have a higher rating than ‘%s’?",
                                 title1, title2
                         ));
 
-                        q.setOptions(List.of("tak", "nie"));
+                        q.setOptions(List.of("yes", "no"));
                         q.setCorrectAnswer(correct);
                     }
                 }
@@ -222,7 +222,9 @@ public class RatingEstimatorQuizService {
                         String correct = r1 < r2 ? title1 : title2;
 
                         q.setQuestionText(String.format(
-                                "Która gra ma niższą ocenę?\nA: %s\nB: %s",
+                                "Which game has a lower rating?\n" +
+                                        "A: %s\n" +
+                                        "B: %s",
                                 title1, title2
                         ));
 
@@ -267,7 +269,7 @@ public class RatingEstimatorQuizService {
                                 .toList();
 
                         q.setQuestionText(
-                                "Która z tych trzech gier ma najwyższą ocenę?"
+                                "Which of these three games has the highest rating?"
                         );
 
                         q.setOptions(options);
@@ -310,7 +312,7 @@ public class RatingEstimatorQuizService {
                         float diff = round1(Math.abs(r1 - r2));
 
                         q.setQuestionText(String.format(
-                                "Ile punktów różnicy ma ocena gry '%s' i '%s'? (zaokrąglij do 1 miejsca)",
+                                "What is the difference in points between the ratings of ‘%s’ and ‘%s’? (round to 1 decimal place)",
                                 title1, title2
                         ));
 

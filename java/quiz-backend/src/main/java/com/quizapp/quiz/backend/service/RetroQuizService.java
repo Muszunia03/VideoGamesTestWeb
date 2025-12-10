@@ -224,6 +224,9 @@ public class RetroQuizService {
 
 
                 }
+                if (q.getOptions() == null || q.getOptions().size() <= 1) {
+                    return null;
+                }
             }
 
         } catch (SQLException e) {

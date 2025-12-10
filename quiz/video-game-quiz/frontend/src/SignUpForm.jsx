@@ -28,19 +28,19 @@ function SignUpForm() {
     setEmailError('');
 
     if (username.length < 3) {
-      setUsernameError('Nazwa użytkownika musi mieć co najmniej 3 znaki.');
+      setUsernameError('Username must be at least 3 characters long.');
       isValid = false;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailRegex.test(email)) {
-      setEmailError('Wprowadź prawidłowy adres e-mail.');
+      setEmailError('Please enter a valid email address.');
       isValid = false;
     }
 
     if (password !== confirmPassword) {
-      setPopupMessage('Hasła muszą być identyczne.');
+      setPopupMessage('Passwords must match.');
       setPopupType('error');
       setShowPopup(true);
       isValid = false;
@@ -64,17 +64,17 @@ function SignUpForm() {
       const data = await response.json();
 
       if (data.status === 'success') {
-        setPopupMessage('Konto zostało pomyślnie utworzone! Możesz się teraz zalogować.');
+        setPopupMessage('Your account has been successfully created! You can now log in.');
         setPopupType('success');
         setShowPopup(true);
         setRedirectAfterClose(true);
       } else {
-        setPopupMessage(data.message || 'Rejestracja nie powiodła się.');
+        setPopupMessage(data.message || 'Registration failed.');
         setPopupType('error');
         setShowPopup(true);
       }
     } catch (error) {
-      setPopupMessage('Błąd sieci. Spróbuj ponownie później.');
+      setPopupMessage('Network error. Please try again later.');
       setPopupType('error');
       setShowPopup(true);
     }
@@ -88,7 +88,7 @@ function SignUpForm() {
   return (
     <div className="form-page-wrapper">
       <form className="sign-up-form" onSubmit={handleSubmit}>
-        <h2>Stwórz swoje konto</h2>
+        <h2>Create your account</h2>
 
         <div className="input-group">
           <input
@@ -105,7 +105,7 @@ function SignUpForm() {
         <div className="input-group">
           <input
             type="text"
-            placeholder="Nazwa użytkownika"
+            placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
@@ -117,7 +117,7 @@ function SignUpForm() {
         <div className="input-group password-input-group">
           <input
             type={showPassword ? 'text' : 'password'}
-            placeholder="Hasło"
+            placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -133,7 +133,7 @@ function SignUpForm() {
         <div className="input-group password-input-group">
           <input
             type={showConfirmPassword ? 'text' : 'password'}
-            placeholder="Potwierdź hasło"
+            placeholder="Confirm Password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
@@ -147,9 +147,9 @@ function SignUpForm() {
         </div>
 
         <div className="button-group">
-          <button type="submit" className="primary-btn">Zarejestruj się</button>
+          <button type="submit" className="primary-btn">Sign Up</button>
           <button type="button" onClick={() => navigate('/login')} className="secondary-btn">
-            Masz już konto? Zaloguj się
+            Already have an account? Log in
           </button>
         </div>
       </form>

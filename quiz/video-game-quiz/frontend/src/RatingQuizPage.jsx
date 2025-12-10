@@ -7,7 +7,7 @@ function RatingQuizPage() {
   const [question, setQuestion] = useState(null);
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
-  const [inputValue, setInputValue] = useState(""); // dla input box
+  const [inputValue, setInputValue] = useState("");
 
   useEffect(() => {
     AOS.init({ duration: 1000 });
@@ -19,7 +19,7 @@ function RatingQuizPage() {
       .then((res) => res.json())
       .then((data) => {
         setQuestion(data);
-        setInputValue(""); // reset inputu przy nowym pytaniu
+        setInputValue(""); 
       })
       .catch((err) => console.error("API error:", err));
   };
@@ -61,18 +61,18 @@ function RatingQuizPage() {
     handleAnswer(inputValue);
   };
 
-  if (!question && !finished) return <p>Ładowanie pytania...</p>;
+  if (!question && !finished) return <p>Loading question...</p>;
 
   if (finished) {
     return (
       <div className="quiz-category-page-container">
-        <h1 className="quiz-category-title">Twój wynik: {score}</h1>
+        <h1 className="quiz-category-title">Your score: {score}</h1>
         <button
           className="primary-btn"
           onClick={() => window.location.reload()}
           data-aos="zoom-in"
         >
-          Zagraj ponownie
+          Play again
         </button>
 
         <div
@@ -89,7 +89,7 @@ function RatingQuizPage() {
   return (
     <div className="quiz-category-page-container">
       <h1 className="quiz-category-title" data-aos="fade-down">
-        Rating Estimator Quiz
+        Rating Quiz
       </h1>
 
       <h2 data-aos="fade-up">{question.questionText}</h2>

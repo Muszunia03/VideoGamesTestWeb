@@ -15,7 +15,7 @@ function LeaderboardPage() {
         const data = await res.json();
 
         if (!Array.isArray(data)) {
-          console.error("Otrzymane dane nie są tablicą:", data);
+          console.error("The data received is not an array:", data);
           setLeaderboardData([]);
           return;
         }

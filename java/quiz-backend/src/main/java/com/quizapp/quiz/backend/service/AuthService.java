@@ -47,7 +47,7 @@ public class AuthService {
                 }
             }
         } catch (SQLException e) {
-            System.out.println("Błąd SQL przy logowaniu: " + e.getMessage());
+            System.out.println("SQL error during login: " + e.getMessage());
         }
         return false;
     }
@@ -81,7 +81,7 @@ public class AuthService {
             } else if (e.getMessage().contains("users_email_key")) {
                 return "email_taken";
             } else {
-                System.out.println("Błąd SQL przy rejestracji: " + e.getMessage());
+                System.out.println("SQL error during registration: " + e.getMessage());
                 return "error";
             }
         }

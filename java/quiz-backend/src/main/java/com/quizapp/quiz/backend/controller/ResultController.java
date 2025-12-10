@@ -53,10 +53,10 @@ public class ResultController {
         String quizType = (String) request.get("quizType");
         Number scoreNum = (Number) request.get("score");
 
-        System.out.println("Otrzymano request: " + request);
+        System.out.println("Request received: " + request);
 
         if (username == null || quizType == null || scoreNum == null) {
-            return "Błąd: brakujące dane w request";
+            return "Error: missing data in request";
         }
 
         int score = scoreNum.intValue();
@@ -64,7 +64,7 @@ public class ResultController {
         Integer userId = userService.getUserIdByUsername(username);
 
         if (userId == null) {
-            return "Błąd: użytkownik nie istnieje";
+            return "Error: user does not exist";
         }
 
         resultService.saveResult(userId, score, quizType);

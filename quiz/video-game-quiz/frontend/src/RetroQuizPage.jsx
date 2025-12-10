@@ -65,16 +65,16 @@ function RetroQuizPage() {
     return (
       <div className="quiz-category-page-container">
         <h1 className="quiz-category-title">
-          Twój wynik: {score}
+          Your score: {score}
         </h1>
         <button className="primary-btn" onClick={() => window.location.reload()}>
-          Zagraj ponownie
+          Play again
         </button>
       </div>
     );
   }
 
-  if (!question) return <p>Ładowanie pytania...</p>;
+  if (!question) return <p>Loading question...</p>;
 
   return (
     <div className="quiz-category-page-container">
@@ -90,7 +90,7 @@ function RetroQuizPage() {
       </div>
 
       <p data-aos="fade-up" data-aos-delay="300" style={{ marginTop: '20px' }}>
-         Obecny wynik: {score}
+         Current score: {score}
       </p>
       <div className="quiz-description" style={{ marginTop: '40px', fontStyle: 'italic', color: '#555' }}>
         In this quiz, you answer questions about video games released before 2000.
