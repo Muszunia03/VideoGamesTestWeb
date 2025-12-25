@@ -49,9 +49,11 @@ public class PlatformMatchService {
     );
 
     /**
-     * Retrieves one random game with platform data and generates a question based on a random template (0-10).
+     * Retrieves one random game with platform data and generates a question
+     * based on a random template (0-10).
      *
-     * @return A fully populated {@link Question} object, or null if no suitable game is found.
+     * @return A fully populated {@link Question} object,
+     * or null if no suitable game is found.
      */
     public Question getSinglePlatformQuestion() {
 
@@ -73,10 +75,12 @@ public class PlatformMatchService {
             String title = rs.getString("title");
 
             Array platformsArray = rs.getArray("platforms");
-            List<String> platforms = Arrays.asList((String[]) platformsArray.getArray());
+            List<String> platforms = platformsArray != null
+                    ? Arrays.asList((String[]) platformsArray.getArray())
+                    : List.of();
 
             Random random = new Random();
-            int template = random.nextInt(11); // now 0–10
+            int template = random.nextInt(10); // 0–10
 
             Question q = new Question();
             q.setGameId(gameId);
@@ -85,10 +89,8 @@ public class PlatformMatchService {
 
             switch (template) {
 
-                // TEMPLATE 0 — Debut platform
                 case 0 -> {
                     String correct = platforms.get(0);
-
                     List<String> options = new ArrayList<>();
                     options.add(correct);
 
@@ -100,33 +102,31 @@ public class PlatformMatchService {
                     }
 
                     Collections.shuffle(options);
-
                     q.setQuestionText("On which platform did '" + title + "' debut?");
                     q.setOptions(options);
                     q.setCorrectAnswer(correct);
                 }
 
-                // TEMPLATE 1 — Yes/No: Did the game release on X?
                 case 1 -> {
-                    String randomPlatform = ALL_PLATFORMS.get(random.nextInt(ALL_PLATFORMS.size()));
+                    String randomPlatform =
+                            ALL_PLATFORMS.get(random.nextInt(ALL_PLATFORMS.size()));
                     boolean released = platforms.contains(randomPlatform);
 
-                    q.setQuestionText("Did '" + title + "' release on " + randomPlatform + "?");
+                    q.setQuestionText(
+                            "Did '" + title + "' release on " + randomPlatform + "?");
                     q.setOptions(Arrays.asList("Yes", "No"));
                     q.setCorrectAnswer(released ? "Yes" : "No");
                 }
 
-                // TEMPLATE 2 — Platform count
                 case 2 -> {
-                    q.setQuestionText("How many platforms did '" + title + "' release on?");
+                    q.setQuestionText(
+                            "How many platforms did '" + title + "' release on?");
                     q.setOptions(Collections.emptyList());
                     q.setCorrectAnswer(String.valueOf(platforms.size()));
                 }
 
-                // TEMPLATE 3 — Which platform is NOT supported?
                 case 3 -> {
                     String correct = null;
-
                     for (String p : ALL_PLATFORMS) {
                         if (!platforms.contains(p)) {
                             correct = p;
@@ -145,18 +145,16 @@ public class PlatformMatchService {
                     }
 
                     Collections.shuffle(options);
-
-                    q.setQuestionText("Which of these platforms did '" + title + "' NOT release on?");
+                    q.setQuestionText(
+                            "Which of these platforms did '" + title + "' NOT release on?");
                     q.setOptions(options);
                     q.setCorrectAnswer(correct);
                 }
 
-                // TEMPLATE 4 — What was the second platform?
                 case 4 -> {
                     if (platforms.size() < 2) return getSinglePlatformQuestion();
 
                     String correct = platforms.get(1);
-
                     List<String> options = new ArrayList<>();
                     options.add(correct);
 
@@ -167,13 +165,12 @@ public class PlatformMatchService {
                     }
 
                     Collections.shuffle(options);
-
-                    q.setQuestionText("What was the SECOND platform for '" + title + "'?");
+                    q.setQuestionText(
+                            "What was the SECOND platform for '" + title + "'?");
                     q.setOptions(options);
                     q.setCorrectAnswer(correct);
                 }
 
-                // TEMPLATE 5 — Which platform did it release on earlier?
                 case 5 -> {
                     if (platforms.size() < 2) return getSinglePlatformQuestion();
 
@@ -181,47 +178,51 @@ public class PlatformMatchService {
                     Collections.shuffle(twoPlatforms);
                     twoPlatforms = twoPlatforms.subList(0, 2);
 
-                    String correct = twoPlatforms.get(0);
-
-                    q.setQuestionText("Which platform did '" + title + "' release on earlier?");
+                    q.setQuestionText(
+                            "Which platform did '" + title + "' release on earlier?");
                     q.setOptions(twoPlatforms);
-                    q.setCorrectAnswer(correct);
+                    q.setCorrectAnswer(twoPlatforms.get(0));
                 }
 
-                // TEMPLATE 6 — True/False: It did NOT release on X
                 case 6 -> {
-                    String randomPlatform = ALL_PLATFORMS.get(random.nextInt(ALL_PLATFORMS.size()));
+                    String randomPlatform =
+                            ALL_PLATFORMS.get(random.nextInt(ALL_PLATFORMS.size()));
                     boolean notReleased = !platforms.contains(randomPlatform);
 
-                    q.setQuestionText("True or False: '" + title + "' did NOT release on " + randomPlatform + ".");
+                    q.setQuestionText(
+                            "True or False: '" + title +
+                                    "' did NOT release on " + randomPlatform + ".");
                     q.setOptions(Arrays.asList("True", "False"));
                     q.setCorrectAnswer(notReleased ? "True" : "False");
                 }
 
-                // TEMPLATE 7 — Console family match
                 case 7 -> {
-                    List<String> sony = List.of("PlayStation", "PlayStation 2", "PlayStation 3", "PlayStation 4", "PSP", "PS Vita");
-                    List<String> nintendo = List.of("Nintendo DS", "Nintendo Switch", "Wii", "GameCube");
-                    List<String> xbox = List.of("Xbox", "Xbox 360", "Xbox One");
+                    List<String> sony =
+                            List.of("PlayStation", "PlayStation 2", "PlayStation 3",
+                                    "PlayStation 4", "PSP", "PS Vita");
+                    List<String> nintendo =
+                            List.of("Nintendo DS", "Nintendo Switch", "Wii", "GameCube");
+                    List<String> xbox =
+                            List.of("Xbox", "Xbox 360", "Xbox One");
 
-                    List<String> correctGroup = null;
-
-                    if (!Collections.disjoint(platforms, sony)) correctGroup = sony;
-                    else if (!Collections.disjoint(platforms, nintendo)) correctGroup = nintendo;
-                    else if (!Collections.disjoint(platforms, xbox)) correctGroup = xbox;
-                    else correctGroup = sony;
+                    List<String> correctGroup =
+                            !Collections.disjoint(platforms, sony) ? sony :
+                                    !Collections.disjoint(platforms, nintendo) ? nintendo :
+                                            xbox;
 
                     List<String> options = new ArrayList<>(correctGroup);
                     Collections.shuffle(options);
 
-                    q.setQuestionText("Which platform belongs to the SAME console family as a platform of '" + title + "'?");
+                    q.setQuestionText(
+                            "Which platform belongs to the SAME console family " +
+                                    "as a platform of '" + title + "'?");
                     q.setOptions(options.subList(0, Math.min(4, options.size())));
                     q.setCorrectAnswer(options.get(0));
                 }
 
-                // TEMPLATE 8 — Handheld platforms only
                 case 8 -> {
-                    List<String> handheld = List.of("PSP", "PS Vita", "Nintendo DS");
+                    List<String> handheld =
+                            List.of("PSP", "PS Vita", "Nintendo DS");
 
                     List<String> valid = new ArrayList<>();
                     for (String p : platforms) {
@@ -231,48 +232,47 @@ public class PlatformMatchService {
                     if (valid.isEmpty()) return getSinglePlatformQuestion();
 
                     String correct = valid.get(0);
-
                     List<String> options = new ArrayList<>();
                     options.add(correct);
 
                     for (String p : handheld) {
-                        if (!valid.contains(p) && options.size() < 4) options.add(p);
+                        if (!valid.contains(p) && options.size() < 4) {
+                            options.add(p);
+                        }
                     }
 
                     Collections.shuffle(options);
-
-                    q.setQuestionText("On which handheld platform did '" + title + "' release?");
+                    q.setQuestionText(
+                            "On which handheld platform did '" + title + "' release?");
                     q.setOptions(options);
                     q.setCorrectAnswer(correct);
                 }
 
-                // TEMPLATE 9 — Order platforms (oldest → newest)
                 case 9 -> {
                     List<String> sorted = new ArrayList<>(platforms);
-                    sorted.sort(Comparator.comparing(p -> PLATFORM_GENERATION.getOrDefault(p, 99)));
+                    sorted.sort(Comparator.comparing(
+                            p -> PLATFORM_GENERATION.getOrDefault(p, 99)));
 
-                    String correct = sorted.get(0);
-
-                    List<String> options = new ArrayList<>(platforms);
-                    Collections.shuffle(options);
-
-                    q.setQuestionText("Which platform of '" + title + "' is the OLDEST?");
-                    q.setOptions(options.subList(0, Math.min(4, options.size())));
-                    q.setCorrectAnswer(correct);
+                    q.setQuestionText(
+                            "Which platform of '" + title + "' is the OLDEST?");
+                    q.setOptions(sorted.subList(0, Math.min(4, sorted.size())));
+                    q.setCorrectAnswer(sorted.get(0));
                 }
 
-                // TEMPLATE 10 — Platform generation number
-                case 10 -> {
-                    String platform = platforms.get(0);
-                    int generation = PLATFORM_GENERATION.getOrDefault(platform, 0);
-
-                    q.setQuestionText("What console generation does the platform '" + platform + "' belong to?");
-                    q.setOptions(Collections.emptyList());
-                    q.setCorrectAnswer(String.valueOf(generation));
-                }
             }
 
-            if (q.getOptions() == null || q.getOptions().size() <= 1) {
+            if (template == 2 || template == 10) {
+                if (q.getCorrectAnswer() == null || q.getCorrectAnswer().isBlank()) {
+                    return null;
+                }
+                return q;
+            }
+
+            if (q.getOptions() == null || q.getOptions().size() < 2) {
+                return null;
+            }
+
+            if (!q.getOptions().contains(q.getCorrectAnswer())) {
                 return null;
             }
 

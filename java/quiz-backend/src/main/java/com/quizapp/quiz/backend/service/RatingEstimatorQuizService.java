@@ -52,7 +52,7 @@ public class RatingEstimatorQuizService {
             q.setGameId(id);
             q.setTitle(title);
 
-            int template = ThreadLocalRandom.current().nextInt(9); // 0–8
+            int template = ThreadLocalRandom.current().nextInt(8); // 0–7
             q.setTemplateType(template);
 
             switch (template) {
@@ -139,56 +139,8 @@ public class RatingEstimatorQuizService {
                     q.setCorrectAnswer(String.format("%.1f", correct));
                 }
 
-                // TEMPLATE 5 — Czy gra X ma wyższą ocenę niż Y?
-                case 5 -> {
-                    String dualQuery = """
-                        SELECT id, title, rating
-                        FROM games
-                        WHERE rating IS NOT NULL
-                        ORDER BY RANDOM()
-                        LIMIT 2
-                    """;
-
-                    try (PreparedStatement stmt2 = conn.prepareStatement(dualQuery);
-                         ResultSet rs2 = stmt2.executeQuery()) {
-
-                        List<Map<String, Object>> games = new ArrayList<>();
-
-                        while (rs2.next()) {
-                            Map<String, Object> g = new HashMap<>();
-                            g.put("id", rs2.getInt("id"));
-                            g.put("title", rs2.getString("title"));
-                            g.put("rating", rs2.getFloat("rating"));
-                            games.add(g);
-                        }
-
-                        if (games.size() < 2) {
-                            return null;
-                        }
-
-                        Map<String, Object> g1 = games.get(0);
-                        Map<String, Object> g2 = games.get(1);
-
-                        String title1 = (String) g1.get("title");
-                        String title2 = (String) g2.get("title");
-
-                        float r1 = (float) g1.get("rating");
-                        float r2 = (float) g2.get("rating");
-
-                        String correct = (r1 > r2) ? "yes" : "no";
-
-                        q.setQuestionText(String.format(
-                                "Does the game ‘%s’ have a higher rating than ‘%s’?",
-                                title1, title2
-                        ));
-
-                        q.setOptions(List.of("yes", "no"));
-                        q.setCorrectAnswer(correct);
-                    }
-                }
-
                 // TEMPLATE 6 — Która gra ma niższą ocenę?
-                case 6 -> {
+                case 5 -> {
                     String dualQuery = """
                         SELECT id, title, rating
                         FROM games
@@ -234,7 +186,7 @@ public class RatingEstimatorQuizService {
                 }
 
                 // TEMPLATE 7 — Która z trzech gier ma najwyższą ocenę?
-                case 7 -> {
+                case 6 -> {
                     String tripleQuery = """
                         SELECT title, rating
                         FROM games
@@ -278,7 +230,7 @@ public class RatingEstimatorQuizService {
                 }
 
                 // TEMPLATE 8 — Ile punktów różnicy ma gra A i B? (INPUT)
-                case 8 -> {
+                case 7 -> {
                     String dualQuery = """
                         SELECT title, rating
                         FROM games
@@ -324,8 +276,14 @@ public class RatingEstimatorQuizService {
 
             }
 
-            if (q.getOptions() == null || q.getOptions().size() <= 1) {
+            if (q.getCorrectAnswer() == null || q.getCorrectAnswer().isBlank()) {
                 return null;
+            }
+
+            if (q.getOptions() != null && !q.getOptions().isEmpty()) {
+                if (q.getOptions().size() < 2) {
+                    return null;
+                }
             }
 
             return q;

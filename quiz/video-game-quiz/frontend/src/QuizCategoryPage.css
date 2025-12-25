@@ -122,28 +122,6 @@
     transform: translateY(0);
 }
 
-/* .quiz-question-options input[type="text"],
-.quiz-question-options input[type="number"] {
-    width: 100%;
-    max-width: 400px;
-    padding: 15px 20px;
-    font-size: 1.1em;
-    border: 2px solid #555;
-    border-radius: 8px;
-    background-color: #1a1a1a;
-    color: #ffeb3b;
-    box-sizing: border-box;
-    text-align: center;
-    transition: border-color 0.3s, box-shadow 0.3s;
-}
-
-.quiz-question-options input[type="text"]:focus,
-.quiz-question-options input[type="number"]:focus {
-    border-color: #ffeb3b;
-    outline: none;
-    box-shadow: 0 0 15px rgba(255, 235, 59, 0.8);
-} */
-
 .question-counter {
     font-size: 1.1em;
     color: #c0c0c0;

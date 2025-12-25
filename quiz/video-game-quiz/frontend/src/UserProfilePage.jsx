@@ -45,9 +45,9 @@ function UserProfilePage() {
 
   const getResultColor = (score) => {
     const scoreNum = parseInt(score, 10);
-    if (scoreNum >= 1000) {
+    if (scoreNum >= 10) {
       return '#1abc9c';
-    } else if (scoreNum >= 500) {
+    } else if (scoreNum >= 5) {
       return '#f39c12';
     } else if (scoreNum > 0) {
       return '#00E0FF';

@@ -24,7 +24,7 @@ import MultiFactQuizPage from './MultiFactQuizPage';
 import RegulationsPage from './RegulationsPage';
 import NotFoundPage from './NotFoundPage';
 
-import './App.css';
+import './QuizCategoryPage.css';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

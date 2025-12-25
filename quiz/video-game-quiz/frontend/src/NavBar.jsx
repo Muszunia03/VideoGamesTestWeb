@@ -51,7 +51,7 @@ function NavBar({ isLoggedIn, username, onLogout }) {
         {isLoggedIn ? (
           <>
             <Link to={`/profile/${username}`} className={`username-display ${isProfileActive() ? 'active' : ''}`}>
-              <span className="icon">👋</span> {username}
+              <span className="icon">👾</span> {username}
             </Link>
             <button className="logout-btn" onClick={handleLogout}>Logout</button>
           </>
